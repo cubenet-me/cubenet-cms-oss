@@ -2,7 +2,7 @@
 	let servers = $state<Array<{ id: string; name: string; slug: string; status: string; players: number; max_players: number }>>([]);
 
 	async function load() {
-		const res = await fetch('http://localhost:8080/api/v1/servers');
+		const res = await fetch('/api/v1/servers');
 		if (res.ok) servers = await res.json();
 	}
 
