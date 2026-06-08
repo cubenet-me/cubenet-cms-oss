@@ -5,3 +5,17 @@
 [data-theme='catppuccin'] {
 	--body-background-color-dark: oklch(18% 0.04 280deg);
 }
+
+.input {
+	background-color: oklch(14% 0.03 280deg) !important;
+	border: 1px solid oklch(30% 0.05 280deg) !important;
+	color: oklch(90% 0.02 280deg) !important;
+}
+.input:focus {
+	border-color: oklch(65% 0.2 300deg) !important;
+	box-shadow: 0 0 0 2px oklch(65% 0.2 300deg / 0.2) !important;
+	outline: none !important;
+}
+.input::placeholder {
+	color: oklch(40% 0.03 280deg) !important;
+}

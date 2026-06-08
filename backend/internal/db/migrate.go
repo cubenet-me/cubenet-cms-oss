@@ -2,13 +2,13 @@ package db
 
 import (
 	"context"
-	"embed"
 	"fmt"
+	"io/fs"
 
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
-func Migrate(pool *pgxpool.Pool, migrationsFS embed.FS, prefix string) error {
+func Migrate(pool *pgxpool.Pool, migrationsFS fs.FS, prefix string) error {
 	ctx := context.Background()
 
 	_, err := pool.Exec(ctx, `
@@ -21,7 +21,7 @@ func Migrate(pool *pgxpool.Pool, migrationsFS embed.FS, prefix string) error {
 		return fmt.Errorf("create migrations table: %w", err)
 	}
 
-	entries, err := migrationsFS.ReadDir(prefix)
+	entries, err := fs.ReadDir(migrationsFS, prefix)
 	if err != nil {
 		return fmt.Errorf("read migrations: %w", err)
 	}
@@ -40,7 +40,7 @@ func Migrate(pool *pgxpool.Pool, migrationsFS embed.FS, prefix string) error {
 			continue
 		}
 
-		content, err := migrationsFS.ReadFile(prefix + "/" + entry.Name())
+		content, err := fs.ReadFile(migrationsFS, prefix+"/"+entry.Name())
 		if err != nil {
 			return fmt.Errorf("read file %s: %w", entry.Name(), err)
 		}

@@ -1,4 +1,4 @@
-CREATE TABLE builds (
+CREATE TABLE IF NOT EXISTS builds (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     name TEXT NOT NULL,
     version TEXT NOT NULL,
@@ -11,4 +11,4 @@ CREATE TABLE builds (
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
-CREATE INDEX idx_builds_server_id ON builds(server_id);
+CREATE INDEX IF NOT EXISTS idx_builds_server_id ON builds(server_id);

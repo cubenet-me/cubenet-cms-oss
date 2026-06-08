@@ -1,4 +1,4 @@
-CREATE TABLE servers (
+CREATE TABLE IF NOT EXISTS servers (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     name TEXT NOT NULL,
     slug TEXT NOT NULL UNIQUE,
@@ -14,4 +14,4 @@ CREATE TABLE servers (
     updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
-CREATE INDEX idx_servers_slug ON servers(slug);
+CREATE INDEX IF NOT EXISTS idx_servers_slug ON servers(slug);
