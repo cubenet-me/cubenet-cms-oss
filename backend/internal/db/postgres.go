@@ -32,10 +32,15 @@ func Connect(databaseURL string) (*pgxpool.Pool, error) {
 	return pool, nil
 }
 
-func CreateDatabaseIfNotExists(rootURL, dbName string) error {
+func CreateDatabaseIfNotExists(targetURL, dbName string) (string, error) {
+	rootURL := targetURL
+	if dbName != "" {
+		rootURL = replaceDBName(targetURL, "postgres")
+	}
+
 	pool, err := Connect(rootURL)
 	if err != nil {
-		return fmt.Errorf("connect to root: %w", err)
+		return "", fmt.Errorf("connect to root: %w", err)
 	}
 	defer pool.Close()
 
@@ -45,15 +50,33 @@ func CreateDatabaseIfNotExists(rootURL, dbName string) error {
 	var exists bool
 	err = pool.QueryRow(ctx, "SELECT EXISTS(SELECT 1 FROM pg_database WHERE datname = $1)", dbName).Scan(&exists)
 	if err != nil {
-		return fmt.Errorf("check db exists: %w", err)
+		return "", fmt.Errorf("check db exists: %w", err)
 	}
 
 	if !exists {
 		_, err = pool.Exec(ctx, fmt.Sprintf("CREATE DATABASE %s", dbName))
 		if err != nil {
-			return fmt.Errorf("create database: %w", err)
+			return "", fmt.Errorf("create database: %w", err)
 		}
 	}
 
-	return nil
+	return targetURL, nil
+}
+
+func replaceDBName(url, newName string) string {
+	for i := 0; i < len(url); i++ {
+		if url[i] == '/' {
+			lastSlash := i
+			for j := i + 1; j < len(url); j++ {
+				if url[j] == '/' {
+					lastSlash = j
+				}
+				if url[j] == '?' || url[j] == ' ' {
+					break
+				}
+			}
+			return url[:lastSlash+1] + newName + url[len(url)-len(url[lastSlash+1:]):]
+		}
+	}
+	return url + "/" + newName
 }

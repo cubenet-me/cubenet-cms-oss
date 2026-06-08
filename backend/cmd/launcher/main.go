@@ -16,13 +16,13 @@ func main() {
 	cfg := config.Load()
 	slog.SetDefault(slog.New(slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{Level: cfg.LogLevel})))
 
-	rootURL := cfg.DatabaseURL
-	if err := db.CreateDatabaseIfNotExists(rootURL, cfg.DBName); err != nil {
+	connURL, err := db.CreateDatabaseIfNotExists(cfg.DatabaseURL, cfg.DBName)
+	if err != nil {
 		slog.Error("create database", "error", err)
 		os.Exit(1)
 	}
 
-	pool, err := db.Connect(cfg.DatabaseURL)
+	pool, err := db.Connect(connURL)
 	if err != nil {
 		slog.Error("connect", "error", err)
 		os.Exit(1)
