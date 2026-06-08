@@ -30,7 +30,9 @@
 
 	<footer class="py-8 border-t border-surface-800/50">
 		<div class="container mx-auto px-4 text-center text-sm text-surface-500">
-			<p>CubeNet CMS — Open Source</p>
+			<p class="mb-1">&copy; <a href="https://cubenet.me" class="text-primary-400 hover:text-primary-300">cubenet.me</a></p>
+			<p>Сделано на <a href="https://github.com/cubenet-me/cubenet-cms-oss" class="text-primary-400 hover:text-primary-300">CubeNet CMS OSS</a></p>
+			<p class="mt-2 text-xs text-surface-600">Использование в коммерческих целях без сохранения копирайта запрещено</p>
 		</div>
 	</footer>
 </div>
