@@ -19,5 +19,11 @@
 		"svelte-check": "^4.4.6",
 		"typescript": "^6.0.2",
 		"vite": "^8.0.7"
+	},
+	"dependencies": {
+		"@skeletonlabs/skeleton": "^4.15.2",
+		"@skeletonlabs/skeleton-svelte": "^5.0.0-next.10",
+		"@tailwindcss/vite": "^4.3.0",
+		"tailwindcss": "^4.3.0"
 	}
 }
