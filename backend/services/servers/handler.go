@@ -1,4 +1,4 @@
-package handler
+package serverssvc
 
 import (
 	"encoding/json"
@@ -8,15 +8,15 @@ import (
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
-type ServerHandler struct {
+type Handler struct {
 	pool *pgxpool.Pool
 }
 
-func NewServerHandler(pool *pgxpool.Pool) *ServerHandler {
-	return &ServerHandler{pool: pool}
+func NewHandler(pool *pgxpool.Pool) *Handler {
+	return &Handler{pool: pool}
 }
 
-func (h *ServerHandler) List(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) List(w http.ResponseWriter, r *http.Request) {
 	rows, err := h.pool.Query(r.Context(), `
 		SELECT id, name, slug, description, address, version,
 		       status, tps, players, max_players, mods
@@ -55,7 +55,7 @@ func (h *ServerHandler) List(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(servers)
 }
 
-func (h *ServerHandler) GetBySlug(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) GetBySlug(w http.ResponseWriter, r *http.Request) {
 	slug := chi.URLParam(r, "slug")
 
 	var s struct {

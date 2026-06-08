@@ -8,10 +8,7 @@ import (
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
-//go:embed migrations/*.sql
-var migrationsFS embed.FS
-
-func Migrate(pool *pgxpool.Pool) error {
+func Migrate(pool *pgxpool.Pool, migrationsFS embed.FS, prefix string) error {
 	ctx := context.Background()
 
 	_, err := pool.Exec(ctx, `
@@ -24,9 +21,9 @@ func Migrate(pool *pgxpool.Pool) error {
 		return fmt.Errorf("create migrations table: %w", err)
 	}
 
-	entries, err := migrationsFS.ReadDir("migrations")
+	entries, err := migrationsFS.ReadDir(prefix)
 	if err != nil {
-		return fmt.Errorf("read migrations dir: %w", err)
+		return fmt.Errorf("read migrations: %w", err)
 	}
 
 	for _, entry := range entries {
@@ -43,19 +40,19 @@ func Migrate(pool *pgxpool.Pool) error {
 			continue
 		}
 
-		content, err := migrationsFS.ReadFile("migrations/" + entry.Name())
+		content, err := migrationsFS.ReadFile(prefix + "/" + entry.Name())
 		if err != nil {
-			return fmt.Errorf("read migration file %s: %w", entry.Name(), err)
+			return fmt.Errorf("read file %s: %w", entry.Name(), err)
 		}
 
 		_, err = pool.Exec(ctx, string(content))
 		if err != nil {
-			return fmt.Errorf("apply migration %s: %w", entry.Name(), err)
+			return fmt.Errorf("apply %s: %w", entry.Name(), err)
 		}
 
 		_, err = pool.Exec(ctx, "INSERT INTO schema_migrations (filename) VALUES ($1)", entry.Name())
 		if err != nil {
-			return fmt.Errorf("record migration %s: %w", entry.Name(), err)
+			return fmt.Errorf("record %s: %w", entry.Name(), err)
 		}
 	}
 

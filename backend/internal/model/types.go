@@ -48,28 +48,3 @@ type News struct {
 	AuthorID  string    `json:"author_id"`
 	CreatedAt time.Time `json:"created_at"`
 }
-
-type LauncherManifest struct {
-	Version    string        `json:"version"`
-	DownloadURL string       `json:"download_url"`
-	Servers    []ServerShort `json:"servers"`
-	Builds     []BuildShort  `json:"builds"`
-}
-
-type ServerShort struct {
-	ID         string `json:"id"`
-	Name       string `json:"name"`
-	Slug       string `json:"slug"`
-	Version    string `json:"version"`
-	Status     string `json:"status"`
-	Players    int    `json:"players"`
-	MaxPlayers int    `json:"max_players"`
-}
-
-type BuildShort struct {
-	ID        string `json:"id"`
-	Name      string `json:"name"`
-	Version   string `json:"version"`
-	ModLoader string `json:"mod_loader"`
-	MCVersion string `json:"mc_version"`
-}

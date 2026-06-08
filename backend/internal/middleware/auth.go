@@ -1,4 +1,4 @@
-package handler
+package middleware
 
 import (
 	"context"
@@ -10,9 +10,9 @@ import (
 
 type contextKey string
 
-const claimsKey contextKey = "claims"
+const ClaimsKey contextKey = "claims"
 
-func AuthMiddleware(secret string) func(http.Handler) http.Handler {
+func Auth(secret string) func(http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			header := r.Header.Get("Authorization")
@@ -33,13 +33,13 @@ func AuthMiddleware(secret string) func(http.Handler) http.Handler {
 				return
 			}
 
-			ctx := context.WithValue(r.Context(), claimsKey, claims)
+			ctx := context.WithValue(r.Context(), ClaimsKey, claims)
 			next.ServeHTTP(w, r.WithContext(ctx))
 		})
 	}
 }
 
 func GetClaims(r *http.Request) *auth.Claims {
-	claims, _ := r.Context().Value(claimsKey).(*auth.Claims)
+	claims, _ := r.Context().Value(ClaimsKey).(*auth.Claims)
 	return claims
 }

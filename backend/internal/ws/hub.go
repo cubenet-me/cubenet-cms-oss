@@ -28,10 +28,6 @@ func NewHub() *Hub {
 	}
 }
 
-func (h *Hub) Run() {
-	// hub lifecycle — currently placeholder for cleanup logic
-}
-
 func (h *Hub) Register(c *Client) {
 	h.mu.Lock()
 	defer h.mu.Unlock()
@@ -56,7 +52,6 @@ func (h *Hub) Broadcast(msg Message) {
 		select {
 		case c.Send <- msg:
 		default:
-			slog.Warn("ws client send buffer full, dropping", "client_id", c.ID)
 		}
 	}
 }

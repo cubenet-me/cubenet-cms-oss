@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/cubenet-cms/backend/internal/config"
 	"github.com/minio/minio-go/v7"
 	"github.com/minio/minio-go/v7/pkg/credentials"
 )
@@ -15,7 +14,15 @@ type Storage struct {
 	bucket string
 }
 
-func New(cfg config.S3Config) (*Storage, error) {
+type Config struct {
+	Endpoint  string
+	AccessKey string
+	SecretKey string
+	Bucket    string
+	UseSSL    bool
+}
+
+func New(cfg Config) (*Storage, error) {
 	client, err := minio.New(cfg.Endpoint, &minio.Options{
 		Creds:  credentials.NewStaticV4(cfg.AccessKey, cfg.SecretKey, ""),
 		Secure: cfg.UseSSL,
@@ -53,5 +60,5 @@ func (s *Storage) Delete(ctx context.Context, name string) error {
 }
 
 func (s *Storage) URL(name string) string {
-	return fmt.Sprintf("/api/v1/files/%s", name)
+	return fmt.Sprintf("/api/v1/launcher/files/%s", name)
 }

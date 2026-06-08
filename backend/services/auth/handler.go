@@ -1,4 +1,4 @@
-package handler
+package authsvc
 
 import (
 	"encoding/json"
@@ -9,13 +9,13 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-type AuthHandler struct {
-	pool    *pgxpool.Pool
-	secret  string
+type Handler struct {
+	pool   *pgxpool.Pool
+	secret string
 }
 
-func NewAuthHandler(pool *pgxpool.Pool, secret string) *AuthHandler {
-	return &AuthHandler{pool: pool, secret: secret}
+func NewHandler(pool *pgxpool.Pool, secret string) *Handler {
+	return &Handler{pool: pool, secret: secret}
 }
 
 type loginRequest struct {
@@ -30,7 +30,7 @@ type authResponse struct {
 	Role     string `json:"role"`
 }
 
-func (h *AuthHandler) Login(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) Login(w http.ResponseWriter, r *http.Request) {
 	var req loginRequest
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
 		http.Error(w, `{"error":"invalid request"}`, http.StatusBadRequest)

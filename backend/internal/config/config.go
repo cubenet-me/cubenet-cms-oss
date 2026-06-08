@@ -11,24 +11,8 @@ type Config struct {
 	Addr        string
 	LogLevel    slog.Level
 	DatabaseURL string
+	DBName      string
 	JWTSecret   string
-	S3          S3Config
-	WS          WSConfig
-}
-
-type S3Config struct {
-	Endpoint  string
-	AccessKey string
-	SecretKey string
-	Bucket    string
-	UseSSL    bool
-}
-
-type WSConfig struct {
-	ReadTimeout  time.Duration
-	WriteTimeout time.Duration
-	PingInterval time.Duration
-	MaxMessageSz int64
 }
 
 func Load() *Config {
@@ -36,20 +20,8 @@ func Load() *Config {
 		Addr:        env("ADDR", ":8080"),
 		LogLevel:    parseLogLevel(env("LOG_LEVEL", "info")),
 		DatabaseURL: env("DATABASE_URL", "postgres://cubenet:cubenet@localhost:5432/cubenet?sslmode=disable"),
+		DBName:      env("DB_NAME", "cubenet"),
 		JWTSecret:   env("JWT_SECRET", "dev-secret-change-in-production"),
-		S3: S3Config{
-			Endpoint:  env("S3_ENDPOINT", "localhost:9000"),
-			AccessKey: env("S3_ACCESS_KEY", "minioadmin"),
-			SecretKey: env("S3_SECRET_KEY", "minioadmin"),
-			Bucket:    env("S3_BUCKET", "cubenet"),
-			UseSSL:    envBool("S3_USE_SSL", false),
-		},
-		WS: WSConfig{
-			ReadTimeout:  envDur("WS_READ_TIMEOUT", 10*time.Second),
-			WriteTimeout: envDur("WS_WRITE_TIMEOUT", 10*time.Second),
-			PingInterval: envDur("WS_PING_INTERVAL", 30*time.Second),
-			MaxMessageSz: envInt64("WS_MAX_MSG_SIZE", 4096),
-		},
 	}
 }
 
