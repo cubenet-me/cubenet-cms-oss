@@ -1,3 +1,7 @@
 @import "tailwindcss";
 @import "@skeletonlabs/skeleton";
-@import "@skeletonlabs/skeleton/themes/cerberus";
+@import "@skeletonlabs/skeleton/themes/catppuccin";
+
+[data-theme='catppuccin'] {
+	--body-background-color-dark: oklch(18% 0.04 280deg);
+}
