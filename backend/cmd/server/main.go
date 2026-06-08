@@ -15,8 +15,11 @@ import (
 	"github.com/cubenet-cms/backend/pkg/db"
 	"github.com/cubenet-cms/backend/pkg/s3"
 	"github.com/cubenet-cms/backend/pkg/ws"
+	"github.com/cubenet-cms/backend/plugin"
+	"github.com/cubenet-cms/backend/plugin/builtin"
 	"github.com/cubenet-cms/backend/service"
 	"github.com/cubenet-cms/backend/store"
+	"github.com/cubenet-cms/backend/web"
 	"github.com/go-chi/chi/v5"
 )
 
@@ -59,12 +62,19 @@ func main() {
 	newsH := v1news.NewNewsHandler(newsSvc)
 	wsH := v1ws.NewWSHandler(hub, 10*time.Second, 30*time.Second, 4096)
 
+	pipe := plugin.New()
+	pipe.Register(builtin.NewSessionPlugin(authSvc))
+	pipe.Register(builtin.NewFooterPlugin())
+
+	webH := web.NewHandler(authSvc, serverSvc, newsSvc, pipe)
+
 	r := chi.NewRouter()
 
 	r.Get("/health", func(w http.ResponseWriter, _ *http.Request) {
 		w.Write([]byte(`{"status":"ok"}`))
 	})
 
+	// API
 	r.Post("/api/v1/auth/register", authH.Register)
 	r.Post("/api/v1/auth/login", authH.Login)
 
@@ -78,6 +88,16 @@ func main() {
 	r.Get("/api/v1/news", newsH.List)
 
 	r.Handle("/api/v1/ws", wsH)
+
+	// Web (Templ + htmx)
+	r.Get("/static/*", webH.Static)
+	r.Get("/", webH.Home)
+	r.Get("/login", webH.LoginPage)
+	r.Post("/auth/login", webH.Login)
+	r.Get("/register", webH.RegisterPage)
+	r.Post("/auth/register", webH.Register)
+	r.Get("/servers", webH.Servers)
+	r.Get("/admin", webH.Admin)
 
 	slog.Info("server started", "addr", cfg.Addr)
 	if err := http.ListenAndServe(cfg.Addr, r); err != nil {

@@ -1,0 +1,42 @@
+package web
+
+templ registerPage(data BaseData, err string) {
+	@base(data) {
+		<div class="container mx-auto px-4 py-16">
+			<div class="card max-w-sm mx-auto p-8">
+				<h1 class="text-2xl font-bold text-center mb-2">Регистрация</h1>
+				<p class="text-sm text-surface-dimmed text-center mb-8">Создайте аккаунт</p>
+
+				if err != "" {
+					<div class="card mb-4" style="background: oklch(30% 0.1 20deg); border-color: oklch(50% 0.15 20deg);">
+						<p class="text-sm">{ err }</p>
+					</div>
+				}
+
+				<form hx-post="/auth/register" hx-target="body" hx-swap="outerHTML" class="space-y-4">
+					<div class="space-y-1">
+						<label class="label" for="username">Имя пользователя</label>
+						<input class="input" type="text" id="username" name="username" required placeholder="Введите логин"/>
+					</div>
+					<div class="space-y-1">
+						<label class="label" for="email">Почта</label>
+						<input class="input" type="email" id="email" name="email" required placeholder="email@example.com"/>
+					</div>
+					<div class="space-y-1">
+						<label class="label" for="password">Пароль</label>
+						<input class="input" type="password" id="password" name="password" required placeholder="Введите пароль"/>
+					</div>
+					<div class="space-y-1">
+						<label class="label" for="confirm">Повторите пароль</label>
+						<input class="input" type="password" id="confirm" name="confirm" required placeholder="Повторите пароль"/>
+					</div>
+					<button type="submit" class="btn btn-primary w-full">Зарегистрироваться</button>
+				</form>
+
+				<p class="text-sm text-center mt-6 text-surface-dimmed">
+					Уже есть аккаунт? <a href="/login" class="text-accent hover:underline">Войти</a>
+				</p>
+			</div>
+		</div>
+	}
+}

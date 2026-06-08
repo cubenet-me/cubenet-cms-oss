@@ -1,0 +1,52 @@
+package web
+
+type BaseData struct {
+	Title    string
+	LoggedIn bool
+	Username string
+}
+
+templ base(data BaseData) {
+	<!DOCTYPE html>
+	<html lang="ru" data-theme="catppuccin">
+		<head>
+			<meta charset="utf-8"/>
+			<meta name="viewport" content="width=device-width, initial-scale=1"/>
+			<title>{ data.Title } — CubeNet CMS</title>
+			<link rel="stylesheet" href="/static/style.css"/>
+			<script src="/static/htmx.min.js"></script>
+		</head>
+		<body class="flex flex-col min-h-screen bg-base">
+			@navbar(data)
+			<main class="flex-1">
+				{ children... }
+			</main>
+			@footer()
+		</body>
+	</html>
+}
+
+templ navbar(data BaseData) {
+	<header class="h-16 px-4 flex items-center border-b border-surface sticky top-0 z-50 bg-base/95">
+		<div class="container mx-auto flex items-center justify-between">
+			<a href="/" class="text-xl font-bold gradient-text">CubeNet</a>
+			<nav class="flex items-center gap-2">
+				if data.LoggedIn {
+					<span class="text-sm text-surface-dimmed">{ data.Username }</span>
+					<a href="/admin" class="btn btn-ghost btn-sm">Админка</a>
+				} else {
+					<a href="/login" class="btn btn-primary px-5">Авторизация</a>
+				}
+			</nav>
+		</div>
+	</header>
+}
+
+templ footer() {
+	<footer class="py-8 border-t border-surface mt-auto">
+		<div class="container mx-auto px-4 text-center text-sm text-surface-dimmed">
+			<p class="mb-1">Сделано на <a href="https://github.com/cubenet-me/cubenet-cms-oss" class="text-accent hover:underline">CubeNet CMS OSS</a></p>
+			<p class="text-xs text-surface-muted">CubeNet CMS License v1.0</p>
+		</div>
+	</footer>
+}
