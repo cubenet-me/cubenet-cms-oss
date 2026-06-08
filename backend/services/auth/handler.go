@@ -23,11 +23,60 @@ type loginRequest struct {
 	Password string `json:"password"`
 }
 
+type registerRequest struct {
+	Username string `json:"username"`
+	Email    string `json:"email"`
+	Password string `json:"password"`
+}
+
 type authResponse struct {
 	Token    string `json:"token"`
 	UserID   string `json:"user_id"`
 	Username string `json:"username"`
 	Role     string `json:"role"`
+}
+
+func (h *Handler) Register(w http.ResponseWriter, r *http.Request) {
+	var req registerRequest
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		http.Error(w, `{"error":"invalid request"}`, http.StatusBadRequest)
+		return
+	}
+
+	if req.Username == "" || req.Email == "" || req.Password == "" {
+		http.Error(w, `{"error":"all fields required"}`, http.StatusBadRequest)
+		return
+	}
+
+	hash, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
+	if err != nil {
+		http.Error(w, `{"error":"internal error"}`, http.StatusInternalServerError)
+		return
+	}
+
+	var userID string
+	err = h.pool.QueryRow(r.Context(),
+		`INSERT INTO users (username, email, password) VALUES ($1, $2, $3) RETURNING id`,
+		req.Username, req.Email, string(hash),
+	).Scan(&userID)
+	if err != nil {
+		http.Error(w, `{"error":"username or email already exists"}`, http.StatusConflict)
+		return
+	}
+
+	token, err := auth.GenerateToken(h.secret, userID, req.Username, "user")
+	if err != nil {
+		http.Error(w, `{"error":"token generation failed"}`, http.StatusInternalServerError)
+		return
+	}
+
+	w.WriteHeader(http.StatusCreated)
+	json.NewEncoder(w).Encode(authResponse{
+		Token:    token,
+		UserID:   userID,
+		Username: req.Username,
+		Role:     "user",
+	})
 }
 
 func (h *Handler) Login(w http.ResponseWriter, r *http.Request) {

@@ -15,6 +15,10 @@
 				</div>
 				<button type="submit" class="btn variant-filled w-full">Войти</button>
 			</form>
+
+			<p class="text-sm text-center mt-6 text-surface-400">
+				Нет аккаунта? <a href="/register" class="text-primary-400 hover:text-primary-300">Зарегистрироваться</a>
+			</p>
 		</div>
 	</div>
 </div>

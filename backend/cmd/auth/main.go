@@ -35,6 +35,7 @@ func main() {
 	h := authsvc.NewHandler(pool, cfg.JWTSecret)
 
 	mux := http.NewServeMux()
+	mux.HandleFunc("POST /api/v1/auth/register", h.Register)
 	mux.HandleFunc("POST /api/v1/auth/login", h.Login)
 	mux.HandleFunc("GET /health", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte(`{"status":"ok"}`))

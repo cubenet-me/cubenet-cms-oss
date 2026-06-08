@@ -19,6 +19,7 @@
 			<nav class="flex items-center gap-6">
 				<a href="/servers" class="text-sm font-medium text-surface-300 hover:text-primary-300 transition-colors">Servers</a>
 				<a href="/admin" class="text-sm font-medium text-surface-300 hover:text-primary-300 transition-colors">Admin</a>
+				<a href="/register" class="btn variant-soft btn-sm">Регистрация</a>
 				<a href="/login" class="btn variant-filled btn-sm">Войти</a>
 			</nav>
 		</div>
