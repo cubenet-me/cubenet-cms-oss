@@ -1,0 +1,11 @@
+.env
+.env.local
+*.log
+.DS_Store
+Thumbs.db
+
+# Go
+backend/tmp/
+
+# Node
+node_modules/
