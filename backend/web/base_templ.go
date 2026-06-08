@@ -35,7 +35,7 @@ func base(data BaseData) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<!doctype html><html lang=\"ru\" data-theme=\"catppuccin\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><title>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<!doctype html><html lang=\"ru\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><title>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -48,7 +48,7 @@ func base(data BaseData) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, " — CubeNet CMS</title><link rel=\"stylesheet\" href=\"/static/style.css\"><script src=\"/static/htmx.min.js\"></script></head><body class=\"flex flex-col min-h-screen bg-base\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, " — CubeNet CMS</title><link rel=\"stylesheet\" href=\"/static/output.css\"><script src=\"/static/htmx.min.js\"></script></head><body>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -101,7 +101,7 @@ func navbar(data BaseData) templ.Component {
 			templ_7745c5c3_Var3 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "<header class=\"h-16 px-4 flex items-center border-b border-surface sticky top-0 z-50 bg-base/95\"><div class=\"container mx-auto flex items-center justify-between\"><a href=\"/\" class=\"text-xl font-bold gradient-text\">CubeNet</a><nav class=\"flex items-center gap-2\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "<header class=\"h-16 px-4 flex items-center border-b border-border sticky top-0 z-50 bg-base/95 backdrop-blur-sm\"><div class=\"max-w-5xl mx-auto flex items-center justify-between w-full px-4\"><a href=\"/\" class=\"text-xl font-bold gradient-text\">CubeNet</a><nav class=\"flex items-center gap-2\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -119,12 +119,12 @@ func navbar(data BaseData) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "</span> <a href=\"/admin\" class=\"btn btn-ghost btn-sm\">Админка</a>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "</span> <a href=\"/admin\" class=\"inline-flex items-center justify-center px-3 py-1.5 text-xs rounded-lg text-surface-dimmed hover:bg-surface-hover hover:text-white transition-colors\">Админка</a>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		} else {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "<a href=\"/login\" class=\"btn btn-primary px-5\">Авторизация</a>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "<a href=\"/login\" class=\"inline-flex items-center justify-center px-5 py-2 rounded-lg text-sm font-medium bg-accent text-white hover:bg-accent-hover transition-colors\">Авторизация</a>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -158,7 +158,7 @@ func footer() templ.Component {
 			templ_7745c5c3_Var5 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "<footer class=\"py-8 border-t border-surface mt-auto\"><div class=\"container mx-auto px-4 text-center text-sm text-surface-dimmed\"><p class=\"mb-1\">Сделано на <a href=\"https://github.com/cubenet-me/cubenet-cms-oss\" class=\"text-accent hover:underline\">CubeNet CMS OSS</a></p><p class=\"text-xs text-surface-muted\">CubeNet CMS License v1.0</p></div></footer>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "<footer class=\"py-8 border-t border-border mt-auto\"><div class=\"max-w-5xl mx-auto px-4 text-center text-sm text-surface-dimmed\"><p class=\"mb-1\">Сделано на <a href=\"https://github.com/cubenet-me/cubenet-cms-oss\" class=\"text-accent hover:underline\">CubeNet CMS OSS</a></p><p class=\"text-xs text-surface-muted\">CubeNet CMS License v1.0</p></div></footer>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

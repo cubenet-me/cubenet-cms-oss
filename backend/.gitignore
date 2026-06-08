@@ -3,3 +3,4 @@
 *.exe
 *.out
 .env
+node_modules/

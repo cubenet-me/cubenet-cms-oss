@@ -2,23 +2,23 @@ package web
 
 templ adminPage(data BaseData) {
 	@base(data) {
-		<div class="container mx-auto px-4 py-12">
+		<div class="max-w-5xl mx-auto px-4 py-12">
 			<h1 class="text-3xl font-bold mb-8">Панель управления</h1>
-			<div class="grid grid-3 gap-6">
-				<div class="card p-6">
+			<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+				<div class="bg-surface border border-border rounded-lg p-6">
 					<h2 class="text-lg font-semibold mb-2">Серверы</h2>
 					<p class="text-sm text-surface-dimmed mb-4">Управление серверами</p>
-					<button class="btn btn-primary btn-sm">Добавить</button>
+					<button class="inline-flex items-center justify-center px-3 py-1.5 text-xs rounded-lg font-medium bg-accent text-white hover:bg-accent-hover transition-colors">Добавить</button>
 				</div>
-				<div class="card p-6">
+				<div class="bg-surface border border-border rounded-lg p-6">
 					<h2 class="text-lg font-semibold mb-2">Новости</h2>
 					<p class="text-sm text-surface-dimmed mb-4">Управление новостями</p>
-					<button class="btn btn-primary btn-sm">Добавить</button>
+					<button class="inline-flex items-center justify-center px-3 py-1.5 text-xs rounded-lg font-medium bg-accent text-white hover:bg-accent-hover transition-colors">Добавить</button>
 				</div>
-				<div class="card p-6">
+				<div class="bg-surface border border-border rounded-lg p-6">
 					<h2 class="text-lg font-semibold mb-2">Билды</h2>
 					<p class="text-sm text-surface-dimmed mb-4">Управление сборками лаунчера</p>
-					<button class="btn btn-primary btn-sm">Добавить</button>
+					<button class="inline-flex items-center justify-center px-3 py-1.5 text-xs rounded-lg font-medium bg-accent text-white hover:bg-accent-hover transition-colors">Добавить</button>
 				</div>
 			</div>
 		</div>

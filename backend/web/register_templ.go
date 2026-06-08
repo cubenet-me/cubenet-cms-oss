@@ -41,30 +41,30 @@ func registerPage(data BaseData, err string) templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"container mx-auto px-4 py-16\"><div class=\"card max-w-sm mx-auto p-8\"><h1 class=\"text-2xl font-bold text-center mb-2\">Регистрация</h1><p class=\"text-sm text-surface-dimmed text-center mb-8\">Создайте аккаунт</p>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"max-w-5xl mx-auto px-4 py-16\"><div class=\"bg-surface border border-border rounded-lg max-w-sm mx-auto p-8\"><h1 class=\"text-2xl font-bold text-center mb-2\">Регистрация</h1><p class=\"text-sm text-surface-dimmed text-center mb-8\">Создайте аккаунт</p>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			if err != "" {
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<div class=\"card mb-4\" style=\"background: oklch(30% 0.1 20deg); border-color: oklch(50% 0.15 20deg);\"><p class=\"text-sm\">")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<div class=\"bg-red-950/40 border border-red-800/50 rounded-lg p-4 mb-4 text-sm\">")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
 				var templ_7745c5c3_Var3 string
 				templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(err)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/register.templ`, Line: 12, Col: 30}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/register.templ`, Line: 12, Col: 11}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</p></div>")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</div>")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "<form hx-post=\"/auth/register\" hx-target=\"body\" hx-swap=\"outerHTML\" class=\"space-y-4\"><div class=\"space-y-1\"><label class=\"label\" for=\"username\">Имя пользователя</label> <input class=\"input\" type=\"text\" id=\"username\" name=\"username\" required placeholder=\"Введите логин\"></div><div class=\"space-y-1\"><label class=\"label\" for=\"email\">Почта</label> <input class=\"input\" type=\"email\" id=\"email\" name=\"email\" required placeholder=\"email@example.com\"></div><div class=\"space-y-1\"><label class=\"label\" for=\"password\">Пароль</label> <input class=\"input\" type=\"password\" id=\"password\" name=\"password\" required placeholder=\"Введите пароль\"></div><div class=\"space-y-1\"><label class=\"label\" for=\"confirm\">Повторите пароль</label> <input class=\"input\" type=\"password\" id=\"confirm\" name=\"confirm\" required placeholder=\"Повторите пароль\"></div><button type=\"submit\" class=\"btn btn-primary w-full\">Зарегистрироваться</button></form><p class=\"text-sm text-center mt-6 text-surface-dimmed\">Уже есть аккаунт? <a href=\"/login\" class=\"text-accent hover:underline\">Войти</a></p></div></div>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "<form hx-post=\"/auth/register\" hx-target=\"body\" hx-swap=\"outerHTML\" class=\"space-y-4\"><div><label class=\"block text-sm text-surface-dimmed mb-1\" for=\"username\">Имя пользователя</label> <input class=\"w-full px-3 py-2 bg-[oklch(14%_0.03_280deg)] border border-[oklch(30%_0.05_280deg)] rounded-lg text-sm text-white placeholder-surface-muted focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/20 transition-colors\" type=\"text\" id=\"username\" name=\"username\" required placeholder=\"Введите логин\"></div><div><label class=\"block text-sm text-surface-dimmed mb-1\" for=\"email\">Почта</label> <input class=\"w-full px-3 py-2 bg-[oklch(14%_0.03_280deg)] border border-[oklch(30%_0.05_280deg)] rounded-lg text-sm text-white placeholder-surface-muted focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/20 transition-colors\" type=\"email\" id=\"email\" name=\"email\" required placeholder=\"email@example.com\"></div><div><label class=\"block text-sm text-surface-dimmed mb-1\" for=\"password\">Пароль</label> <input class=\"w-full px-3 py-2 bg-[oklch(14%_0.03_280deg)] border border-[oklch(30%_0.05_280deg)] rounded-lg text-sm text-white placeholder-surface-muted focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/20 transition-colors\" type=\"password\" id=\"password\" name=\"password\" required placeholder=\"Введите пароль\"></div><div><label class=\"block text-sm text-surface-dimmed mb-1\" for=\"confirm\">Повторите пароль</label> <input class=\"w-full px-3 py-2 bg-[oklch(14%_0.03_280deg)] border border-[oklch(30%_0.05_280deg)] rounded-lg text-sm text-white placeholder-surface-muted focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/20 transition-colors\" type=\"password\" id=\"confirm\" name=\"confirm\" required placeholder=\"Повторите пароль\"></div><button type=\"submit\" class=\"inline-flex items-center justify-center w-full px-4 py-2 rounded-lg text-sm font-medium bg-accent text-white hover:bg-accent-hover transition-colors\">Зарегистрироваться</button></form><p class=\"text-sm text-center mt-6 text-surface-dimmed\">Уже есть аккаунт? <a href=\"/login\" class=\"text-accent hover:underline\">Войти</a></p></div></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

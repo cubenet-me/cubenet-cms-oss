@@ -1,3 +1,4 @@
 .git
 .env
 tmp/
+node_modules/

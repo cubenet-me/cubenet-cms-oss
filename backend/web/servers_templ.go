@@ -41,7 +41,7 @@ func serversPage(data BaseData) templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"container mx-auto px-4 py-12\"><h1 class=\"text-3xl font-bold mb-8\">Серверы</h1><div class=\"grid gap-4\" id=\"server-list\" hx-get=\"/api/v1/servers\" hx-trigger=\"load\" hx-swap=\"innerHTML\"><div class=\"card\">Загрузка...</div></div></div>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"max-w-5xl mx-auto px-4 py-12\"><h1 class=\"text-3xl font-bold mb-8\">Серверы</h1><div class=\"grid gap-4\" id=\"server-list\" hx-get=\"/api/v1/servers\" hx-trigger=\"load\" hx-swap=\"innerHTML\"><div class=\"bg-surface border border-border rounded-lg p-6\">Загрузка...</div></div></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
