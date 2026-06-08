@@ -1,12 +1,37 @@
-package db
+package main
 
 import (
 	"context"
 	"fmt"
 	"io/fs"
+	"time"
 
 	"github.com/jackc/pgx/v5/pgxpool"
 )
+
+func Connect(databaseURL string) (*pgxpool.Pool, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	cfg, err := pgxpool.ParseConfig(databaseURL)
+	if err != nil {
+		return nil, fmt.Errorf("parse config: %w", err)
+	}
+
+	cfg.MaxConns = 10
+	cfg.MinConns = 2
+
+	pool, err := pgxpool.NewWithConfig(ctx, cfg)
+	if err != nil {
+		return nil, fmt.Errorf("create pool: %w", err)
+	}
+
+	if err := pool.Ping(ctx); err != nil {
+		return nil, fmt.Errorf("ping: %w", err)
+	}
+
+	return pool, nil
+}
 
 func Migrate(pool *pgxpool.Pool, migrationsFS fs.FS, prefix string) error {
 	ctx := context.Background()

@@ -1,22 +1,11 @@
-package authsvc
+package main
 
 import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/cubenet-cms/backend/internal/auth"
-	"github.com/jackc/pgx/v5/pgxpool"
 	"golang.org/x/crypto/bcrypt"
 )
-
-type Handler struct {
-	pool   *pgxpool.Pool
-	secret string
-}
-
-func NewHandler(pool *pgxpool.Pool, secret string) *Handler {
-	return &Handler{pool: pool, secret: secret}
-}
 
 type loginRequest struct {
 	Username string `json:"username"`
@@ -36,7 +25,7 @@ type authResponse struct {
 	Role     string `json:"role"`
 }
 
-func (h *Handler) Register(w http.ResponseWriter, r *http.Request) {
+func (a *App) handleRegister(w http.ResponseWriter, r *http.Request) {
 	var req registerRequest
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
 		http.Error(w, `{"error":"invalid request"}`, http.StatusBadRequest)
@@ -55,7 +44,7 @@ func (h *Handler) Register(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var userID string
-	err = h.pool.QueryRow(r.Context(),
+	err = a.pool.QueryRow(r.Context(),
 		`INSERT INTO users (username, email, password) VALUES ($1, $2, $3) RETURNING id`,
 		req.Username, req.Email, string(hash),
 	).Scan(&userID)
@@ -64,7 +53,7 @@ func (h *Handler) Register(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	token, err := auth.GenerateToken(h.secret, userID, req.Username, "user")
+	token, err := GenerateToken(a.secret, userID, req.Username, "user")
 	if err != nil {
 		http.Error(w, `{"error":"token generation failed"}`, http.StatusInternalServerError)
 		return
@@ -79,7 +68,7 @@ func (h *Handler) Register(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
-func (h *Handler) Login(w http.ResponseWriter, r *http.Request) {
+func (a *App) handleLogin(w http.ResponseWriter, r *http.Request) {
 	var req loginRequest
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
 		http.Error(w, `{"error":"invalid request"}`, http.StatusBadRequest)
@@ -87,7 +76,7 @@ func (h *Handler) Login(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var userID, username, password, role string
-	err := h.pool.QueryRow(r.Context(),
+	err := a.pool.QueryRow(r.Context(),
 		"SELECT id, username, password, role FROM users WHERE username = $1", req.Username,
 	).Scan(&userID, &username, &password, &role)
 	if err != nil {
@@ -100,7 +89,7 @@ func (h *Handler) Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	token, err := auth.GenerateToken(h.secret, userID, username, role)
+	token, err := GenerateToken(a.secret, userID, username, role)
 	if err != nil {
 		http.Error(w, `{"error":"token generation failed"}`, http.StatusInternalServerError)
 		return

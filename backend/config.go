@@ -1,9 +1,8 @@
-package config
+package main
 
 import (
 	"log/slog"
 	"os"
-	"strconv"
 	"time"
 )
 
@@ -11,17 +10,25 @@ type Config struct {
 	Addr        string
 	LogLevel    slog.Level
 	DatabaseURL string
-	DBName      string
 	JWTSecret   string
+	S3Endpoint  string
+	S3AccessKey string
+	S3SecretKey string
+	S3Bucket    string
+	S3UseSSL    bool
 }
 
-func Load() *Config {
+func LoadConfig() *Config {
 	return &Config{
 		Addr:        env("ADDR", ":8080"),
 		LogLevel:    parseLogLevel(env("LOG_LEVEL", "info")),
-		DatabaseURL: env("DATABASE_URL", "postgres://cubenet:cubenet@localhost:5432/cubenet?sslmode=disable"),
-		DBName:      env("DB_NAME", "cubenet"),
+		DatabaseURL: env("DATABASE_URL", "postgres://cubenet:cubenet@postgres:5432/cubenet?sslmode=disable"),
 		JWTSecret:   env("JWT_SECRET", "dev-secret-change-in-production"),
+		S3Endpoint:  env("S3_ENDPOINT", "minio:9000"),
+		S3AccessKey: env("S3_ACCESS_KEY", "minioadmin"),
+		S3SecretKey: env("S3_SECRET_KEY", "minioadmin"),
+		S3Bucket:    env("S3_BUCKET", "cubenet"),
+		S3UseSSL:    envBool("S3_USE_SSL", false),
 	}
 }
 
@@ -37,23 +44,7 @@ func envBool(key string, fallback bool) bool {
 	if v == "" {
 		return fallback
 	}
-	b, err := strconv.ParseBool(v)
-	if err != nil {
-		return fallback
-	}
-	return b
-}
-
-func envInt64(key string, fallback int64) int64 {
-	v := os.Getenv(key)
-	if v == "" {
-		return fallback
-	}
-	n, err := strconv.ParseInt(v, 10, 64)
-	if err != nil {
-		return fallback
-	}
-	return n
+	return v == "true" || v == "1"
 }
 
 func envDur(key string, fallback time.Duration) time.Duration {

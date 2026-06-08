@@ -1,4 +1,4 @@
-package wssvc
+package main
 
 import (
 	"encoding/json"
@@ -6,7 +6,6 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/cubenet-cms/backend/internal/ws"
 	"github.com/gorilla/websocket"
 )
 
@@ -16,41 +15,32 @@ var upgrader = websocket.Upgrader{
 	CheckOrigin:     func(r *http.Request) bool { return true },
 }
 
-type Config struct {
+type WSConfig struct {
 	ReadTimeout  time.Duration
 	WriteTimeout time.Duration
 	PingInterval time.Duration
 	MaxMessageSz int64
 }
 
-type Handler struct {
-	hub *ws.Hub
-	cfg Config
-}
-
-func NewHandler(hub *ws.Hub, cfg Config) *Handler {
-	return &Handler{hub: hub, cfg: cfg}
-}
-
-func (h *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+func (a *App) handleWS(w http.ResponseWriter, r *http.Request) {
 	conn, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		slog.Error("ws upgrade failed", "error", err)
 		return
 	}
 
-	client := &ws.Client{
+	client := &Client{
 		ID:   r.RemoteAddr,
-		Send: make(chan ws.Message, 64),
-		Hub:  h.hub,
+		Send: make(chan Message, 64),
+		Hub:  a.hub,
 	}
 
-	h.hub.Register(client)
-	go writePump(client, conn, h.cfg)
-	go readPump(client, conn, h.cfg)
+	a.hub.Register(client)
+	go writePump(client, conn, a.wsCfg)
+	go readPump(client, conn, a.wsCfg)
 }
 
-func readPump(client *ws.Client, conn *websocket.Conn, cfg Config) {
+func readPump(client *Client, conn *websocket.Conn, cfg WSConfig) {
 	defer func() {
 		client.Hub.Unregister(client)
 		conn.Close()
@@ -69,7 +59,7 @@ func readPump(client *ws.Client, conn *websocket.Conn, cfg Config) {
 			break
 		}
 
-		var msg ws.Message
+		var msg Message
 		if err := json.Unmarshal(message, &msg); err != nil {
 			continue
 		}
@@ -78,7 +68,7 @@ func readPump(client *ws.Client, conn *websocket.Conn, cfg Config) {
 	}
 }
 
-func writePump(client *ws.Client, conn *websocket.Conn, cfg Config) {
+func writePump(client *Client, conn *websocket.Conn, cfg WSConfig) {
 	ticker := time.NewTicker(cfg.PingInterval)
 	defer func() {
 		ticker.Stop()

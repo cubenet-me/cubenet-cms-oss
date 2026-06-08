@@ -1,29 +1,12 @@
-package newssvc
+package main
 
 import (
 	"encoding/json"
 	"net/http"
-
-	"github.com/jackc/pgx/v5/pgxpool"
 )
 
-type Handler struct {
-	pool *pgxpool.Pool
-}
-
-func NewHandler(pool *pgxpool.Pool) *Handler {
-	return &Handler{pool: pool}
-}
-
-type newsItem struct {
-	ID        string `json:"id"`
-	Title     string `json:"title"`
-	Content   string `json:"content"`
-	CreatedAt string `json:"created_at"`
-}
-
-func (h *Handler) List(w http.ResponseWriter, r *http.Request) {
-	rows, err := h.pool.Query(r.Context(), `
+func (a *App) handleListNews(w http.ResponseWriter, r *http.Request) {
+	rows, err := a.pool.Query(r.Context(), `
 		SELECT id, title, content, created_at FROM news ORDER BY created_at DESC LIMIT 20
 	`)
 	if err != nil {
@@ -31,6 +14,13 @@ func (h *Handler) List(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	defer rows.Close()
+
+	type newsItem struct {
+		ID        string `json:"id"`
+		Title     string `json:"title"`
+		Content   string `json:"content"`
+		CreatedAt string `json:"created_at"`
+	}
 
 	news := make([]newsItem, 0)
 	for rows.Next() {

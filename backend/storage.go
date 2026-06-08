@@ -1,4 +1,4 @@
-package storage
+package main
 
 import (
 	"context"
@@ -14,7 +14,7 @@ type Storage struct {
 	bucket string
 }
 
-type Config struct {
+type StorageConfig struct {
 	Endpoint  string
 	AccessKey string
 	SecretKey string
@@ -22,7 +22,7 @@ type Config struct {
 	UseSSL    bool
 }
 
-func New(cfg Config) (*Storage, error) {
+func NewStorage(cfg StorageConfig) (*Storage, error) {
 	client, err := minio.New(cfg.Endpoint, &minio.Options{
 		Creds:  credentials.NewStaticV4(cfg.AccessKey, cfg.SecretKey, ""),
 		Secure: cfg.UseSSL,
