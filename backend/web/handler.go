@@ -121,7 +121,7 @@ func (h *Handler) Admin(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *Handler) Static(w http.ResponseWriter, r *http.Request) {
-	http.StripPrefix("/static/", http.FileServer(http.Dir("web/static"))).ServeHTTP(w, r)
+	http.StripPrefix("/static/", staticHandler()).ServeHTTP(w, r)
 }
 
 func baseData(pc *plugin.Context) BaseData {
