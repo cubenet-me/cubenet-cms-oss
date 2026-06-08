@@ -8,6 +8,7 @@ import (
 
 	"github.com/cubenet-cms/backend/internal/config"
 	"github.com/cubenet-cms/backend/internal/db"
+	"github.com/cubenet-cms/backend/internal/migrate"
 	"github.com/cubenet-cms/backend/internal/storage"
 	"github.com/cubenet-cms/backend/internal/ws"
 	authsvc "github.com/cubenet-cms/backend/services/auth"
@@ -29,20 +30,8 @@ func main() {
 	}
 	defer pool.Close()
 
-	if err := db.Migrate(pool, authsvc.MigrationsFS, "migrations"); err != nil {
-		slog.Error("migrate auth", "error", err)
-		os.Exit(1)
-	}
-	if err := db.Migrate(pool, serverssvc.MigrationsFS, "migrations"); err != nil {
-		slog.Error("migrate servers", "error", err)
-		os.Exit(1)
-	}
-	if err := db.Migrate(pool, launcher.MigrationsFS, "migrations"); err != nil {
-		slog.Error("migrate launcher", "error", err)
-		os.Exit(1)
-	}
-	if err := db.Migrate(pool, newssvc.MigrationsFS, "migrations"); err != nil {
-		slog.Error("migrate news", "error", err)
+	if err := db.Migrate(pool, migrate.FS, "migrations"); err != nil {
+		slog.Error("migrate", "error", err)
 		os.Exit(1)
 	}
 
