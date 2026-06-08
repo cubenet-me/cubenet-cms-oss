@@ -1,4 +1,4 @@
-package main
+package v1
 
 import (
 	"encoding/json"
@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/cubenet-cms/backend/pkg/ws"
 	"github.com/gorilla/websocket"
 )
 
@@ -15,41 +16,45 @@ var upgrader = websocket.Upgrader{
 	CheckOrigin:     func(r *http.Request) bool { return true },
 }
 
-type WSConfig struct {
-	ReadTimeout  time.Duration
-	WriteTimeout time.Duration
-	PingInterval time.Duration
-	MaxMessageSz int64
+type WSHandler struct {
+	hub      *ws.Hub
+	timeout  time.Duration
+	interval time.Duration
+	maxSize  int64
 }
 
-func (a *App) handleWS(w http.ResponseWriter, r *http.Request) {
+func NewWSHandler(hub *ws.Hub, timeout, interval time.Duration, maxSize int64) *WSHandler {
+	return &WSHandler{hub: hub, timeout: timeout, interval: interval, maxSize: maxSize}
+}
+
+func (h *WSHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	conn, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		slog.Error("ws upgrade failed", "error", err)
 		return
 	}
 
-	client := &Client{
+	client := &ws.Client{
 		ID:   r.RemoteAddr,
-		Send: make(chan Message, 64),
-		Hub:  a.hub,
+		Send: make(chan ws.Message, 64),
+		Hub:  h.hub,
 	}
 
-	a.hub.Register(client)
-	go writePump(client, conn, a.wsCfg)
-	go readPump(client, conn, a.wsCfg)
+	h.hub.Register(client)
+	go writePump(client, conn, h.timeout, h.interval)
+	go readPump(client, conn, h.timeout, h.maxSize)
 }
 
-func readPump(client *Client, conn *websocket.Conn, cfg WSConfig) {
+func readPump(client *ws.Client, conn *websocket.Conn, timeout time.Duration, maxSize int64) {
 	defer func() {
 		client.Hub.Unregister(client)
 		conn.Close()
 	}()
 
-	conn.SetReadLimit(cfg.MaxMessageSz)
-	conn.SetReadDeadline(time.Now().Add(cfg.ReadTimeout))
+	conn.SetReadLimit(maxSize)
+	conn.SetReadDeadline(time.Now().Add(timeout))
 	conn.SetPongHandler(func(string) error {
-		conn.SetReadDeadline(time.Now().Add(cfg.ReadTimeout))
+		conn.SetReadDeadline(time.Now().Add(timeout))
 		return nil
 	})
 
@@ -59,7 +64,7 @@ func readPump(client *Client, conn *websocket.Conn, cfg WSConfig) {
 			break
 		}
 
-		var msg Message
+		var msg ws.Message
 		if err := json.Unmarshal(message, &msg); err != nil {
 			continue
 		}
@@ -68,8 +73,8 @@ func readPump(client *Client, conn *websocket.Conn, cfg WSConfig) {
 	}
 }
 
-func writePump(client *Client, conn *websocket.Conn, cfg WSConfig) {
-	ticker := time.NewTicker(cfg.PingInterval)
+func writePump(client *ws.Client, conn *websocket.Conn, timeout, interval time.Duration) {
+	ticker := time.NewTicker(interval)
 	defer func() {
 		ticker.Stop()
 		conn.Close()
@@ -78,18 +83,16 @@ func writePump(client *Client, conn *websocket.Conn, cfg WSConfig) {
 	for {
 		select {
 		case msg, ok := <-client.Send:
-			conn.SetWriteDeadline(time.Now().Add(cfg.WriteTimeout))
+			conn.SetWriteDeadline(time.Now().Add(timeout))
 			if !ok {
 				conn.WriteMessage(websocket.CloseMessage, []byte{})
 				return
 			}
-
 			if err := conn.WriteJSON(msg); err != nil {
 				return
 			}
-
 		case <-ticker.C:
-			conn.SetWriteDeadline(time.Now().Add(cfg.WriteTimeout))
+			conn.SetWriteDeadline(time.Now().Add(timeout))
 			if err := conn.WriteMessage(websocket.PingMessage, nil); err != nil {
 				return
 			}

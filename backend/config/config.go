@@ -1,4 +1,4 @@
-package main
+package config
 
 import (
 	"log/slog"
@@ -18,7 +18,7 @@ type Config struct {
 	S3UseSSL    bool
 }
 
-func LoadConfig() *Config {
+func Load() *Config {
 	return &Config{
 		Addr:        env("ADDR", ":8080"),
 		LogLevel:    parseLogLevel(env("LOG_LEVEL", "info")),

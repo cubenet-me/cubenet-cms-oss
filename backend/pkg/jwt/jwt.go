@@ -1,4 +1,4 @@
-package main
+package jwt
 
 import (
 	"fmt"
@@ -14,7 +14,7 @@ type Claims struct {
 	jwt.RegisteredClaims
 }
 
-func GenerateToken(secret string, userID, username, role string) (string, error) {
+func Generate(secret string, userID, username, role string) (string, error) {
 	claims := Claims{
 		UserID:   userID,
 		Username: username,
@@ -29,7 +29,7 @@ func GenerateToken(secret string, userID, username, role string) (string, error)
 	return token.SignedString([]byte(secret))
 }
 
-func ValidateToken(secret, tokenString string) (*Claims, error) {
+func Validate(secret, tokenString string) (*Claims, error) {
 	token, err := jwt.ParseWithClaims(tokenString, &Claims{}, func(t *jwt.Token) (interface{}, error) {
 		if _, ok := t.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("unexpected signing method: %v", t.Header["alg"])
