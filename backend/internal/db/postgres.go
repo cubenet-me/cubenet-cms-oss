@@ -3,6 +3,7 @@ package db
 import (
 	"context"
 	"fmt"
+	"strings"
 	"time"
 
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -33,12 +34,12 @@ func Connect(databaseURL string) (*pgxpool.Pool, error) {
 }
 
 func CreateDatabaseIfNotExists(targetURL, dbName string) (string, error) {
-	rootURL := targetURL
+	u := targetURL
 	if dbName != "" {
-		rootURL = replaceDBName(targetURL, "postgres")
+		u = replaceDBName(targetURL, "postgres")
 	}
 
-	pool, err := Connect(rootURL)
+	pool, err := Connect(u)
 	if err != nil {
 		return "", fmt.Errorf("connect to root: %w", err)
 	}
@@ -63,20 +64,14 @@ func CreateDatabaseIfNotExists(targetURL, dbName string) (string, error) {
 	return targetURL, nil
 }
 
-func replaceDBName(url, newName string) string {
-	for i := 0; i < len(url); i++ {
-		if url[i] == '/' {
-			lastSlash := i
-			for j := i + 1; j < len(url); j++ {
-				if url[j] == '/' {
-					lastSlash = j
-				}
-				if url[j] == '?' || url[j] == ' ' {
-					break
-				}
-			}
-			return url[:lastSlash+1] + newName + url[len(url)-len(url[lastSlash+1:]):]
-		}
+func replaceDBName(databaseURL, newName string) string {
+	idx := strings.LastIndexByte(databaseURL, '/')
+	if idx == -1 {
+		return databaseURL + "/" + newName
 	}
-	return url + "/" + newName
+	qidx := strings.IndexByte(databaseURL, '?')
+	if qidx == -1 {
+		return databaseURL[:idx+1] + newName
+	}
+	return databaseURL[:idx+1] + newName + databaseURL[qidx:]
 }
