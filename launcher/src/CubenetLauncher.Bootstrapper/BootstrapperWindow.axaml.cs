@@ -25,8 +25,8 @@ public partial class BootstrapperWindow : Window
         var candidates = new[]
         {
             Path.Combine(AppContext.BaseDirectory, ".env"),
+            Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "..", "..", ".env"),
             Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "..", ".env"),
-            Path.Combine(AppContext.BaseDirectory, "..", "..", "..", ".env"),
         };
 
         foreach (var path in candidates)

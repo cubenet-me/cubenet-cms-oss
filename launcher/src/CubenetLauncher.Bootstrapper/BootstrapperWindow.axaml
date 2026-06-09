@@ -4,7 +4,6 @@
         Title="Cubenet Bootstrapper"
         Width="350" Height="200"
         WindowStartupLocation="CenterScreen"
-        WindowDecorations="Default"
         Background="#1a1b2e"
         CanResize="False">
 

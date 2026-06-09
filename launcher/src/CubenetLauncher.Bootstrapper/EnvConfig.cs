@@ -49,11 +49,11 @@ public class EnvConfig
     public string GetInstallDir()
     {
         var appDir = $".{AppName}";
-        var base = OperatingSystem.IsWindows()
+        var baseDir = OperatingSystem.IsWindows()
             ? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), appDir)
             : Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), appDir);
 
-        return Path.Combine(base, "bin");
+        return Path.Combine(baseDir, "bin");
     }
 
     public string GetLauncherPath()
