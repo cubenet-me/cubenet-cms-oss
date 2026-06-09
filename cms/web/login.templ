@@ -8,7 +8,7 @@ templ loginPage(data BaseData, err string) {
 					<svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 2.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"/></svg>
 					<span>{ err }</span>
 				</div>
-				<script>setTimeout(function(){var e=document.getElementById('toast-error');if(e)e.remove();},15000);</script>
+				<script>setTimeout(function(){var e=document.getElementById('toast-error');if(e){e.classList.add('toast-dissolve');setTimeout(function(){e.remove();},550);}},15000);</script>
 			}
 			<div class="glass-container w-full max-w-sm">
 				<div class="text-center mb-6">

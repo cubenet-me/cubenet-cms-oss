@@ -59,7 +59,7 @@ func registerPage(data BaseData, err string) templ.Component {
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</span></div><script>setTimeout(function(){var e=document.getElementById('toast-error');if(e)e.remove();},15000);</script>")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</span></div><script>setTimeout(function(){var e=document.getElementById('toast-error');if(e){e.classList.add('toast-dissolve');setTimeout(function(){e.remove();},550);}},15000);</script>")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
