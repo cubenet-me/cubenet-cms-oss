@@ -2304,6 +2304,7 @@ h1, h2, h3, h4, h5, h6 {
 .admin-layout {
   display: flex;
   min-height: 100vh;
+  transition: margin-left 0.2s ease-out;
 }
 
 /* Desktop: sidebar hidden behind 10px trigger, slides out on hover */
@@ -2340,7 +2341,6 @@ h1, h2, h3, h4, h5, h6 {
   }
 
   .admin-content {
-    margin-left: 1rem;
     width: 100%;
     min-width: 0px;
     flex: 1 1 0%;
@@ -2391,6 +2391,13 @@ h1, h2, h3, h4, h5, h6 {
   .admin-sidebar-backdrop.is-open {
     opacity: 1;
     pointer-events: auto;
+  }
+
+  /* shift content when sidebar opens */
+
+  .admin-shell:has(.admin-sidebar-trigger.is-open) .admin-layout,
+  .admin-shell:has(.admin-sidebar-trigger:hover) .admin-layout {
+    margin-left: 16rem;
   }
 }
 
@@ -2450,6 +2457,10 @@ h1, h2, h3, h4, h5, h6 {
     padding-right: 1rem;
     padding-bottom: 1.5rem;
     padding-top: 4rem;
+  }
+
+  .admin-shell:has(.admin-sidebar.is-open) .admin-layout {
+    margin-left: 16rem;
   }
 
   .admin-hamburger {

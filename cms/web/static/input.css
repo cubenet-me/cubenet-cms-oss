@@ -857,6 +857,7 @@
 }
 .admin-layout {
   @apply flex min-h-screen;
+  transition: margin-left 0.2s ease-out;
 }
 
 /* Desktop: sidebar hidden behind 10px trigger, slides out on hover */
@@ -887,7 +888,7 @@
     width: 16rem;
   }
   .admin-content {
-    @apply w-full min-w-0 flex-1 overflow-x-auto px-8 py-10 ml-4;
+    @apply w-full min-w-0 flex-1 overflow-x-auto px-8 py-10;
   }
   .admin-hamburger {
     @apply fixed top-4 left-4 z-[60] flex items-center justify-center w-10 h-10 rounded-xl border border-white/10 transition-colors;
@@ -907,6 +908,11 @@
   .admin-sidebar-backdrop.is-open {
     opacity: 1;
     pointer-events: auto;
+  }
+  /* shift content when sidebar opens */
+  .admin-shell:has(.admin-sidebar-trigger.is-open) .admin-layout,
+  .admin-shell:has(.admin-sidebar-trigger:hover) .admin-layout {
+    margin-left: 16rem;
   }
 }
 
@@ -935,6 +941,9 @@
   }
   .admin-content {
     @apply w-full min-w-0 flex-1 overflow-x-auto px-4 py-6 pt-16;
+  }
+  .admin-shell:has(.admin-sidebar.is-open) .admin-layout {
+    margin-left: 16rem;
   }
   .admin-hamburger {
     @apply fixed top-4 left-4 z-[60] flex items-center justify-center w-10 h-10 rounded-xl border border-white/10 transition-colors;
