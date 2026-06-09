@@ -20,11 +20,11 @@ dev() {
   echo ":: Starting dev mode..."
 
   # Start tailwind watcher
-  (cd backend && npx tailwindcss -i web/static/input.css -o web/static/output.css --watch) &
+  (cd cms && npx tailwindcss -i web/static/input.css -o web/static/output.css --watch) &
   TW_PID=$!
 
   # Start templ watcher
-  (cd backend && PATH="$HOME/go/bin:$PATH" templ generate --watch) &
+  (cd cms && PATH="$HOME/go/bin:$PATH" templ generate --watch) &
   TM_PID=$!
 
   cleanup() {
@@ -34,16 +34,16 @@ dev() {
   trap cleanup EXIT INT TERM
 
   # Run server with reload on recompile
-  cd backend && PATH="$HOME/go/bin:$PATH" go run ./cmd/server
+  cd cms && PATH="$HOME/go/bin:$PATH" go run ./cmd/server
 }
 
 build() {
   echo ":: Building..."
-  cd backend
+  cd cms
   npx tailwindcss -i web/static/input.css -o web/static/output.css
   PATH="$HOME/go/bin:$PATH" templ generate
   CGO_ENABLED=0 go build -o server ./cmd/server
-  echo ":: Built backend/server"
+  echo ":: Built cms/server"
 }
 
 docker_build() {

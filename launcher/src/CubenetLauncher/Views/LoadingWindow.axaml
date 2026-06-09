@@ -1,0 +1,40 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:CubenetLauncher.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="250" d:DesignHeight="150"
+        x:Class="CubenetLauncher.Views.LoadingWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Title="Cubenet Launcher"
+        Width="250" Height="150"
+        WindowStartupLocation="CenterScreen"
+        WindowDecorations="None"
+        Background="#1a1b2e"
+        CanResize="False"
+        ShowInTaskbar="False">
+
+    <Grid IsVisible="{Binding IsLoading}">
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="12">
+            <TextBlock Text="CUBENET"
+                       FontSize="20"
+                       FontWeight="Bold"
+                       Foreground="#6c63ff"
+                       HorizontalAlignment="Center"/>
+
+            <ProgressBar Value="{Binding ProgressValue}"
+                         Maximum="100"
+                         Width="180"
+                         Height="4"
+                         Foreground="#6c63ff"
+                         Background="#2a2b3e"
+                         IsIndeterminate="True"/>
+
+            <TextBlock Text="{Binding StatusText}"
+                       FontSize="11"
+                       Foreground="#888888"
+                       HorizontalAlignment="Center"/>
+        </StackPanel>
+    </Grid>
+
+</Window>

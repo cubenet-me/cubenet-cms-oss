@@ -26,9 +26,9 @@ services:
     volumes:
       - miniodata:/data
 
-  backend:
+  cms:
     build:
-      context: ./backend
+      context: ./cms
       dockerfile: Dockerfile
     environment:
       ADDR: ":8080"
@@ -52,7 +52,7 @@ services:
     volumes:
       - ./deploy/nginx.conf:/etc/nginx/conf.d/default.conf:ro
     depends_on:
-      - backend
+      - cms
 
 volumes:
   pgdata:
