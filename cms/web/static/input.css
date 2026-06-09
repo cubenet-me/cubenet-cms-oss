@@ -872,6 +872,22 @@
     overflow: hidden;
     transition: width 0.2s ease-out;
   }
+  .admin-sidebar-trigger::after {
+    content: '›';
+    position: absolute;
+    left: 1px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 14px;
+    line-height: 1;
+    color: rgba(255,255,255,0.2);
+    pointer-events: none;
+    transition: opacity 0.2s ease-out;
+  }
+  .admin-sidebar-trigger:hover::after,
+  .admin-sidebar-trigger.is-open::after {
+    opacity: 0;
+  }
   .admin-sidebar-trigger:hover {
     width: 16rem;
   }
@@ -891,18 +907,7 @@
     @apply w-full min-w-0 flex-1 overflow-x-auto px-8 py-10;
   }
   .admin-hamburger {
-    @apply fixed top-4 left-4 z-[60] flex items-center justify-center w-10 h-10 rounded-xl border border-white/10 transition-colors opacity-0 pointer-events-none;
-    background: rgba(0,0,0,0.85);
-    color: rgba(255,255,255,0.7);
-  }
-  .admin-shell:has(.admin-sidebar-trigger:hover) .admin-hamburger,
-  .admin-shell:has(.admin-sidebar-trigger.is-open) .admin-hamburger {
-    opacity: 1;
-    pointer-events: auto;
-  }
-  .admin-hamburger:hover {
-    background: rgba(255,255,255,0.1);
-    color: white;
+    @apply hidden;
   }
   .admin-sidebar-backdrop {
     @apply fixed inset-0 z-[45] transition-opacity duration-300;
