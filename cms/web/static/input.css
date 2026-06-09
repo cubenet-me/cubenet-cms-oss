@@ -872,8 +872,7 @@
     overflow: hidden;
     transition: width 0.2s ease-out;
   }
-  .admin-sidebar-trigger:hover,
-  .admin-shell:has(.admin-sidebar-indicator:hover) .admin-sidebar-trigger {
+  .admin-sidebar-trigger:hover {
     width: 16rem;
   }
   .admin-sidebar {
@@ -900,24 +899,23 @@
     top: 50%;
     transform: translateY(-50%);
     z-index: 51;
-    color: rgba(255,255,255,0.2);
+    color: rgba(255,255,255,0.25);
     pointer-events: auto;
     cursor: pointer;
     padding: 12px 8px;
-    transition: opacity 0.2s ease-out, color 0.2s ease-out;
+    transition: color 0.2s ease-out;
   }
   .admin-sidebar-indicator:hover {
-    color: rgba(255,255,255,0.4);
+    color: rgba(255,255,255,0.6);
   }
   .admin-sidebar-indicator svg {
     width: 28px;
     height: 28px;
     display: block;
+    transition: transform 0.2s ease-out;
   }
-  .admin-shell:has(.admin-sidebar-trigger:hover) .admin-sidebar-indicator,
-  .admin-shell:has(.admin-sidebar-trigger.is-open) .admin-sidebar-indicator,
-  .admin-shell:has(.admin-sidebar-indicator:hover) .admin-sidebar-indicator {
-    opacity: 0;
+  .admin-shell:has(.admin-sidebar-trigger.is-open) .admin-sidebar-indicator svg {
+    transform: rotate(180deg);
   }
   .admin-sidebar-backdrop {
     @apply fixed inset-0 z-[45] transition-opacity duration-300;
@@ -931,8 +929,7 @@
   }
   /* shift content when sidebar opens */
   .admin-shell:has(.admin-sidebar-trigger.is-open) .admin-layout,
-  .admin-shell:has(.admin-sidebar-trigger:hover) .admin-layout,
-  .admin-shell:has(.admin-sidebar-indicator:hover) .admin-layout {
+  .admin-shell:has(.admin-sidebar-trigger:hover) .admin-layout {
     margin-left: 16rem;
   }
 }

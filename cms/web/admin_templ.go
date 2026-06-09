@@ -67,7 +67,7 @@ func adminShell() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</div><div class=\"admin-sidebar-indicator\" id=\"admin-sidebar-indicator\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M9 18l6-6-6-6\"></path></svg></div><div class=\"admin-sidebar-backdrop\" id=\"admin-backdrop\" onclick=\"closeAdminSidebar()\"></div><div class=\"admin-layout\"><main class=\"admin-content\"><div class=\"admin-loading htmx-indicator\"><div class=\"admin-loading-bar\"></div></div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</div><div class=\"admin-sidebar-indicator\" id=\"admin-sidebar-indicator\" onclick=\"toggleAdminSidebar()\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M9 18l6-6-6-6\"></path></svg></div><div class=\"admin-sidebar-backdrop\" id=\"admin-backdrop\" onclick=\"closeAdminSidebar()\"></div><div class=\"admin-layout\"><main class=\"admin-content\"><div class=\"admin-loading htmx-indicator\"><div class=\"admin-loading-bar\"></div></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
