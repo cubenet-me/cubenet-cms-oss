@@ -35,6 +35,10 @@ func (s *ServerService) List(ctx context.Context) ([]model.Server, error) {
 	return v, nil
 }
 
+func (s *ServerService) CacheStats() cache.Stats {
+	return s.list.Stats()
+}
+
 func (s *ServerService) GetBySlug(ctx context.Context, slug string) (*model.Server, error) {
 	if v, ok := s.bySlug.Get(slug); ok {
 		return v, nil

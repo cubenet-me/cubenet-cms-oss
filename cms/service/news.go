@@ -21,6 +21,10 @@ func NewNewsService(repo *store.NewsRepo) *NewsService {
 	}
 }
 
+func (s *NewsService) CacheStats() cache.Stats {
+	return s.c.Stats()
+}
+
 func (s *NewsService) List(ctx context.Context) ([]model.News, error) {
 	if v, ok := s.c.Get("list"); ok {
 		return v, nil

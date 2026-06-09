@@ -2,6 +2,7 @@ package main
 
 	import (
 	"context"
+	"encoding/json"
 	"log/slog"
 	"net/http"
 	"os"
@@ -14,6 +15,7 @@ package main
 	v1ws "github.com/cubenet-cms/cms/api/v1/ws"
 	"github.com/cubenet-cms/cms/config"
 	"github.com/cubenet-cms/cms/middleware"
+	"github.com/cubenet-cms/cms/pkg/cache"
 	"github.com/cubenet-cms/cms/pkg/db"
 	"github.com/cubenet-cms/cms/pkg/s3"
 	"github.com/cubenet-cms/cms/pkg/ws"
@@ -88,6 +90,25 @@ func main() {
 		w.Write([]byte(`{"status":"ok"}`))
 	})
 
+	noCache := func(next http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			w.Header().Set("Cache-Control", "no-cache, no-store, must-revalidate")
+			w.Header().Set("Pragma", "no-cache")
+			w.Header().Set("Expires", "0")
+			next.ServeHTTP(w, r)
+		})
+	}
+
+	r.Get("/debug/cache", func(w http.ResponseWriter, _ *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		stats := map[string]cache.Stats{
+			"servers":  serverSvc.CacheStats(),
+			"news":     newsSvc.CacheStats(),
+			"launcher": launcherSvc.CacheStats(),
+		}
+		json.NewEncoder(w).Encode(stats)
+	})
+
 	// Public API
 	r.Route("/api/v1/auth", func(r chi.Router) {
 		r.Post("/register", authH.Register)
@@ -105,6 +126,7 @@ func main() {
 	// Protected API (JWT required)
 	r.Route("/api/v1", func(r chi.Router) {
 		r.Use(middleware.Auth(cfg.JWTSecret))
+		r.Use(noCache)
 
 		r.Get("/me", authH.Me)
 	})
@@ -120,11 +142,14 @@ func main() {
 	r.Post("/auth/logout", webH.Logout)
 	r.Get("/servers", webH.Servers)
 	r.Get("/wallet", webH.WalletPage)
-	r.Get("/admin", webH.Admin)
-	r.Get("/admin/settings", webH.AdminSettings)
-	r.Post("/admin/settings", webH.AdminSettings)
-	r.Get("/admin/settings/navbar", webH.AdminNavbar)
-	r.Get("/admin/settings/servers", webH.AdminServers)
+	r.Group(func(r chi.Router) {
+		r.Use(noCache)
+		r.Get("/admin", webH.Admin)
+		r.Get("/admin/settings", webH.AdminSettings)
+		r.Post("/admin/settings", webH.AdminSettings)
+		r.Get("/admin/settings/navbar", webH.AdminNavbar)
+		r.Get("/admin/settings/servers", webH.AdminServers)
+	})
 
 	srv := &http.Server{
 		Addr:              cfg.Addr,

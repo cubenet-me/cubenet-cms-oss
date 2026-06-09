@@ -25,6 +25,10 @@ func NewLauncherService(repo *store.BuildRepo) *LauncherService {
 	}
 }
 
+func (s *LauncherService) CacheStats() cache.Stats {
+	return s.builds.Stats()
+}
+
 func (s *LauncherService) ListBuilds(ctx context.Context) ([]model.Build, error) {
 	if v, ok := s.builds.Get("list"); ok {
 		return v, nil
