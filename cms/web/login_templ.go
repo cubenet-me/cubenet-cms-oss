@@ -41,7 +41,7 @@ func loginPage(data BaseData, err string) templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"flex-1 flex items-center justify-center px-4 py-[60px]\"><div class=\"glass-container w-full max-w-sm\"><div class=\"text-center mb-6\"><div class=\"flex items-center justify-center gap-2 mb-3\"><img class=\"w-8 h-8\" src=\"/assets/logo.webp\" alt=\"CubeNet\"></div><h1 class=\"text-2xl font-black\">Вход</h1><p class=\"text-sm\" style=\"color: oklch(0.72 0.035 292);\">Войдите в панель управления</p></div>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"flex-1 flex items-center justify-center px-4 py-[60px]\"><div class=\"glass-container w-full max-w-sm\"><div class=\"text-center mb-6\"><div class=\"flex items-center justify-center gap-2 mb-3\"><img class=\"w-[200px] h-auto\" src=\"/assets/logo.webp\" alt=\"CubeNet\"></div><h1 class=\"text-2xl font-black\">Вход</h1><p class=\"text-sm\" style=\"color: oklch(0.72 0.035 292);\">Войдите в панель управления</p></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

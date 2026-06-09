@@ -4,7 +4,7 @@ public static class Logger
 {
     private static readonly string LogPath = Path.Combine(
         Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-        "Cubenet",
+        Env.AppName,
         "launcher.log");
 
     static Logger()

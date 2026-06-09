@@ -6,7 +6,7 @@ templ registerPage(data BaseData, err string) {
 			<div class="glass-container w-full max-w-sm">
 				<div class="text-center mb-6">
 					<div class="flex items-center justify-center gap-2 mb-3">
-						<svg width="32" height="32" viewBox="0 0 40 40" fill="none"><rect width="40" height="40" rx="8" fill="#030207"/><path d="M12 14h16v4H12zM12 20h12v3H12zM12 25h14v2H12z" fill="rgba(167,139,250,0.9)"/></svg>
+						<img class="w-[200px] h-auto" src="/assets/logo.webp" alt="CubeNet">
 					</div>
 					<h1 class="text-2xl font-black">Регистрация</h1>
 					<p class="text-sm" style="color: oklch(0.72 0.035 292);">Создайте аккаунт</p>
@@ -22,7 +22,7 @@ templ registerPage(data BaseData, err string) {
 				<form hx-post="/auth/register" hx-target="body" hx-swap="outerHTML" class="flex flex-col gap-5">
 					<div>
 						<label class="label mb-2 block" for="username">Имя пользователя</label>
-						<input class="input-base" type="text" id="username" name="username" required placeholder="Введите логин"/>
+						<input class="input-base" type="text" id="username" name="username" required pattern="[a-zA-Z0-9_-]+" title="Буквы, цифры, _ и -" placeholder="Введите логин"/>
 					</div>
 					<div>
 						<label class="label mb-2 block" for="email">Почта</label>
@@ -30,7 +30,7 @@ templ registerPage(data BaseData, err string) {
 					</div>
 					<div>
 						<label class="label mb-2 block" for="password">Пароль</label>
-						<input class="input-base" type="password" id="password" name="password" required placeholder="Введите пароль"/>
+						<input class="input-base" type="password" id="password" name="password" required minlength="6" title="Минимум 6 символов, заглавная буква и спецсимвол" placeholder="Введите пароль"/>
 					</div>
 					<div>
 						<label class="label mb-2 block" for="confirm">Повторите пароль</label>

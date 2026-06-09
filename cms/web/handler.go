@@ -3,11 +3,15 @@ package web
 import (
 	"context"
 	"net/http"
+	"regexp"
 	"strings"
+	"unicode"
 
 	"github.com/cubenet-cms/cms/plugin"
 	"github.com/cubenet-cms/cms/service"
 )
+
+var usernameRe = regexp.MustCompile(`^[a-zA-Z0-9_-]+$`)
 
 type Handler struct {
 	authSvc   *service.AuthService
@@ -86,6 +90,33 @@ func (h *Handler) Register(w http.ResponseWriter, r *http.Request) {
 	if username == "" || email == "" || password == "" {
 		pc := h.execPipeline(r, w, "register")
 		registerPage(baseData(pc), "Заполните все поля").Render(context.Background(), w)
+		return
+	}
+
+	if !usernameRe.MatchString(username) {
+		pc := h.execPipeline(r, w, "register")
+		registerPage(baseData(pc), "Логин может содержать только буквы, цифры, _ и -").Render(context.Background(), w)
+		return
+	}
+
+	if len(password) < 6 {
+		pc := h.execPipeline(r, w, "register")
+		registerPage(baseData(pc), "Пароль должен быть минимум 6 символов").Render(context.Background(), w)
+		return
+	}
+
+	hasUpper, hasSpecial := false, false
+	for _, c := range password {
+		if unicode.IsUpper(c) {
+			hasUpper = true
+		}
+		if unicode.IsPunct(c) || unicode.IsSymbol(c) {
+			hasSpecial = true
+		}
+	}
+	if !hasUpper || !hasSpecial {
+		pc := h.execPipeline(r, w, "register")
+		registerPage(baseData(pc), "Пароль должен содержать заглавную букву и спецсимвол").Render(context.Background(), w)
 		return
 	}
 

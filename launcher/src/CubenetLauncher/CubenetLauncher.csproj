@@ -6,11 +6,20 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+    <AssemblyName>Cubenet_Launcher</AssemblyName>
+    <PublishSingleFile Condition="'$(Configuration)'=='Release'">true</PublishSingleFile>
+    <SelfContained Condition="'$(Configuration)'=='Release'">true</SelfContained>
+    <IncludeNativeLibrariesForSelfExtract Condition="'$(Configuration)'=='Release'">true</IncludeNativeLibrariesForSelfExtract>
+    <PublishTrimmed Condition="'$(Configuration)'=='Release'">true</PublishTrimmed>
   </PropertyGroup>
 
   <ItemGroup>
     <Folder Include="Models\" />
     <AvaloniaResource Include="Assets\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\..\Env.cs" Link="Env.cs" />
   </ItemGroup>
 
   <ItemGroup>

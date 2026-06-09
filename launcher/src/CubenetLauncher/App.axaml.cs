@@ -1,9 +1,9 @@
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
+using CubenetLauncher.Services;
 using CubenetLauncher.ViewModels;
 using CubenetLauncher.Views;
-using System.Threading.Tasks;
 
 namespace CubenetLauncher;
 
@@ -21,6 +21,7 @@ public partial class App : Application
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
             var vm = new MainWindowViewModel();
+            var updateService = new UpdateService();
 
             var loading = new LoadingWindow
             {
@@ -35,7 +36,7 @@ public partial class App : Application
             desktop.MainWindow = loading;
             loading.Show();
 
-            _ = SimulateLoadingAsync(vm, loading, main);
+            _ = StartAsync(vm, updateService, loading, main);
         }
         else
         {
@@ -45,35 +46,33 @@ public partial class App : Application
         base.OnFrameworkInitializationCompleted();
     }
 
-    private static async Task SimulateLoadingAsync(
+    private static async Task StartAsync(
         MainWindowViewModel vm,
+        UpdateService updateService,
         LoadingWindow loading,
         MainWindow main)
     {
         try
         {
-            Logger.Info("Loading phase: initialization");
-            vm.StatusText = "Инициализация...";
-            await Task.Delay(1500);
-            vm.ProgressValue = 30;
+            var updated = await updateService.CheckAndUpdateAsync(
+                new Progress<(string status, double progress)>(state =>
+                {
+                    vm.StatusText = state.status;
+                    vm.ProgressValue = state.progress;
+                }));
 
-            Logger.Info("Loading phase: resources");
-            vm.StatusText = "Загрузка ресурсов...";
-            await Task.Delay(1000);
-            vm.ProgressValue = 60;
+            if (updated)
+                return; // app will restart
 
-            Logger.Info("Loading phase: preparation");
-            vm.StatusText = "Подготовка...";
-            await Task.Delay(1000);
-            vm.ProgressValue = 90;
-
-            await Task.Delay(500);
+            // No update — open main window
+            vm.StatusText = "Запуск...";
             vm.ProgressValue = 100;
+            await Task.Delay(200);
             vm.IsLoading = false;
 
             if (Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
-                Logger.Info("Switching to main window");
+                Logger.Info("Opening main window");
                 desktop.MainWindow = main;
                 main.Show();
                 loading.Close();
@@ -81,7 +80,10 @@ public partial class App : Application
         }
         catch (Exception ex)
         {
-            Logger.Error($"Loading failed: {ex}");
+            Logger.Error($"Startup failed: {ex}");
+            vm.StatusText = "Ошибка запуска";
+            await Task.Delay(2000);
+            loading.Close();
         }
     }
 }
