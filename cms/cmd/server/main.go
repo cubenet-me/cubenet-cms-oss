@@ -80,6 +80,8 @@ func main() {
 	r.Post("/api/v1/auth/register", authH.Register)
 	r.Post("/api/v1/auth/login", authH.Login)
 
+	r.Get("/api/v1/me", authH.Me)
+
 	r.Get("/api/v1/servers", serverH.List)
 	r.Get("/api/v1/servers/{slug}", serverH.GetBySlug)
 

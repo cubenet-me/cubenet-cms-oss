@@ -52,6 +52,25 @@ func (h *AuthHandler) Register(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
+func (h *AuthHandler) Me(w http.ResponseWriter, r *http.Request) {
+	cookie, err := r.Cookie("token")
+	if err != nil || cookie.Value == "" {
+		http.Error(w, `{"error":"not authenticated"}`, http.StatusUnauthorized)
+		return
+	}
+	claims, err := h.svc.ValidateToken(cookie.Value)
+	if err != nil {
+		http.Error(w, `{"error":"invalid token"}`, http.StatusUnauthorized)
+		return
+	}
+	json.NewEncoder(w).Encode(authResponse{
+		Token:    cookie.Value,
+		UserID:   claims.UserID,
+		Username: claims.Username,
+		Role:     claims.Role,
+	})
+}
+
 func (h *AuthHandler) Login(w http.ResponseWriter, r *http.Request) {
 	var req authRequest
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {

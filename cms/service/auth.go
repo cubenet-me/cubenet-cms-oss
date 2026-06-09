@@ -52,6 +52,10 @@ type LoginResult struct {
 	Role     string
 }
 
+func (s *AuthService) ValidateToken(tokenString string) (*jwt.Claims, error) {
+	return jwt.Validate(s.secret, tokenString)
+}
+
 func (s *AuthService) Login(ctx context.Context, username, password string) (*LoginResult, error) {
 	user, err := s.repo.GetByUsername(ctx, username)
 	if err != nil {

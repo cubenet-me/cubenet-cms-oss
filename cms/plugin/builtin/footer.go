@@ -23,8 +23,19 @@ func (p *SessionPlugin) sessionHook(ctx *plugin.Context) error {
 	if ctx.Data == nil {
 		ctx.Data = make(map[string]any)
 	}
-	// session handling would go here (cookie → user)
-	// for now just set defaults
+
+	cookie, err := ctx.R.Cookie("token")
+	if err == nil && cookie.Value != "" {
+		claims, err := p.authSvc.ValidateToken(cookie.Value)
+		if err == nil {
+			ctx.Data["LoggedIn"] = true
+			ctx.Data["Username"] = claims.Username
+			ctx.Data["UserID"] = claims.UserID
+			ctx.Data["Role"] = claims.Role
+			return nil
+		}
+	}
+
 	ctx.Data["LoggedIn"] = false
 	ctx.Data["Username"] = ""
 	return nil
