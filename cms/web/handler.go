@@ -148,7 +148,12 @@ func (h *Handler) Servers(w http.ResponseWriter, r *http.Request) {
 
 func (h *Handler) Admin(w http.ResponseWriter, r *http.Request) {
 	pc := h.execPipeline(r, w, "admin")
-	adminPage(baseData(pc)).Render(context.Background(), w)
+	bd := baseData(pc)
+	if !bd.HasPermission("admin.access") {
+		http.Error(w, "Forbidden", http.StatusForbidden)
+		return
+	}
+	adminPage(bd).Render(context.Background(), w)
 }
 
 func (h *Handler) Static(w http.ResponseWriter, r *http.Request) {
@@ -159,11 +164,27 @@ func (h *Handler) Assets(w http.ResponseWriter, r *http.Request) {
 	http.StripPrefix("/assets/", http.FileServer(http.Dir("./assets"))).ServeHTTP(w, r)
 }
 
+func (h *Handler) Logout(w http.ResponseWriter, r *http.Request) {
+	http.SetCookie(w, &http.Cookie{
+		Name: "token", Value: "",
+		Path: "/", HttpOnly: true, SameSite: http.SameSiteLaxMode,
+		MaxAge: -1,
+	})
+	w.Header().Set("HX-Redirect", "/")
+	w.WriteHeader(http.StatusOK)
+}
+
 func baseData(pc *plugin.Context) BaseData {
+	perms, _ := pc.Data["Permissions"].([]string)
+	if perms == nil {
+		perms = []string{}
+	}
 	return BaseData{
-		Title:    title(pc.Template),
-		LoggedIn: getBool(pc.Data, "LoggedIn"),
-		Username: getString(pc.Data, "Username"),
+		Title:       title(pc.Template),
+		LoggedIn:    getBool(pc.Data, "LoggedIn"),
+		Username:    getString(pc.Data, "Username"),
+		Role:        getString(pc.Data, "Role"),
+		Permissions: perms,
 	}
 }
 

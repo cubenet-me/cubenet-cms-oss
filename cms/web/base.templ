@@ -1,9 +1,26 @@
 package web
 
 type BaseData struct {
-	Title    string
-	LoggedIn bool
-	Username string
+	Title       string
+	LoggedIn    bool
+	Username    string
+	Role        string
+	Permissions []string
+}
+
+func (d BaseData) HasPermission(perm string) bool {
+	for _, p := range d.Permissions {
+		if p == perm {
+			return true
+		}
+		if len(p) >= 2 && p[len(p)-2:] == ".*" {
+			prefix := p[:len(p)-2]
+			if len(perm) >= len(prefix) && perm[:len(prefix)] == prefix {
+				return true
+			}
+		}
+	}
+	return false
 }
 
 templ base(data BaseData) {
@@ -55,10 +72,28 @@ templ navbar(data BaseData) {
 
 			<div class="nav-actions">
 				if data.LoggedIn {
-					<a href="/admin" class="nav-auth-btn">
-						<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg>
-						<span class="hidden sm:inline">{ data.Username }</span>
-					</a>
+					<div class="user-dropdown" id="user-dropdown">
+						<button class="nav-auth-btn" onclick="toggleDropdown()">
+							<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg>
+							<span class="hidden sm:inline">{ data.Username }</span>
+							<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="dropdown-chevron"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/></svg>
+						</button>
+						<div class="dropdown-menu" id="dropdown-menu">
+							<a href="/profile" class="dropdown-item">Профиль</a>
+							if data.HasPermission("admin.access") {
+								<a href="/admin" class="dropdown-item">Админ панель</a>
+							}
+							<a href="/wallet" class="dropdown-item">Кошелёк</a>
+							<hr class="dropdown-divider"/>
+							<form hx-post="/auth/logout" hx-target="body" hx-swap="outerHTML" class="dropdown-item-form">
+								<button type="submit" class="dropdown-item">Выйти</button>
+							</form>
+						</div>
+					</div>
+					<script>
+					function toggleDropdown(){document.getElementById('dropdown-menu').classList.toggle('is-open');}
+					document.addEventListener('click',function(e){if(!document.getElementById('user-dropdown').contains(e.target)){document.getElementById('dropdown-menu').classList.remove('is-open');}});
+					</script>
 				} else {
 					<a href="/login" class="nav-auth-btn">
 						<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg>

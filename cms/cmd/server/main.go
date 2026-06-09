@@ -101,6 +101,7 @@ func main() {
 	r.Post("/auth/login", webH.Login)
 	r.Get("/register", webH.RegisterPage)
 	r.Post("/auth/register", webH.Register)
+	r.Post("/auth/logout", webH.Logout)
 	r.Get("/servers", webH.Servers)
 	r.Get("/admin", webH.Admin)
 
