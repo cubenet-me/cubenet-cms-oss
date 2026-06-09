@@ -41,19 +41,19 @@ func registerPage(data BaseData, err string) templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"flex-1 flex items-center justify-center px-4 py-[60px]\"><div class=\"glass-container w-full max-w-sm\"><div class=\"text-center mb-6\"><div class=\"flex items-center justify-center gap-2 mb-3\"><img class=\"w-[200px] h-auto\" src=\"/assets/logo.webp\" alt=\"CubeNet\"></div><h1 class=\"text-2xl font-black\">Регистрация</h1><p class=\"text-sm\" style=\"color: oklch(0.72 0.035 292);\">Создайте аккаунт</p></div>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"flex-1 flex items-center justify-center px-4 py-[60px]\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			if err != "" {
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<div class=\"flex items-center gap-3 px-4 py-3 rounded-2xl mb-6 text-sm\" style=\"background: rgba(255,100,100,0.12); border: 1px solid rgba(255,100,100,0.3); color: #ff7c7c;\"><svg class=\"w-5 h-5 shrink-0\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M12 9v3.75m-9.303 2.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z\"></path></svg> <span>")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<div class=\"toast-error\"><svg class=\"w-5 h-5 shrink-0\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M12 9v3.75m-9.303 2.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z\"></path></svg> <span>")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
 				var templ_7745c5c3_Var3 string
 				templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(err)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/register.templ`, Line: 18, Col: 17}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/register.templ`, Line: 9, Col: 16}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 				if templ_7745c5c3_Err != nil {
@@ -64,7 +64,7 @@ func registerPage(data BaseData, err string) templ.Component {
 					return templ_7745c5c3_Err
 				}
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "<form hx-post=\"/auth/register\" hx-target=\"body\" hx-swap=\"outerHTML\" class=\"flex flex-col gap-5\"><div><label class=\"label mb-2 block\" for=\"username\">Имя пользователя</label> <input class=\"input-base\" type=\"text\" id=\"username\" name=\"username\" required pattern=\"[a-zA-Z0-9_-]+\" title=\"Буквы, цифры, _ и -\" placeholder=\"Введите логин\"></div><div><label class=\"label mb-2 block\" for=\"email\">Почта</label> <input class=\"input-base\" type=\"email\" id=\"email\" name=\"email\" required placeholder=\"email@example.com\"></div><div><label class=\"label mb-2 block\" for=\"password\">Пароль</label> <input class=\"input-base\" type=\"password\" id=\"password\" name=\"password\" required minlength=\"6\" title=\"Минимум 6 символов, заглавная буква и спецсимвол\" placeholder=\"Введите пароль\"></div><div><label class=\"label mb-2 block\" for=\"confirm\">Повторите пароль</label> <input class=\"input-base\" type=\"password\" id=\"confirm\" name=\"confirm\" required placeholder=\"Повторите пароль\"></div><button type=\"submit\" class=\"btn-primary mb-4\">Зарегистрироваться</button></form><p class=\"text-sm text-center mt-6\" style=\"color: oklch(0.72 0.035 292);\">Уже есть аккаунт? <a href=\"/login\" class=\"underline hover:no-underline\" style=\"color: oklch(0.76 0.145 292);\">Войти</a></p></div></div>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "<div class=\"glass-container w-full max-w-sm\"><div class=\"text-center mb-6\"><div class=\"flex items-center justify-center gap-2 mb-3\"><img class=\"w-[200px] h-auto\" src=\"/assets/logo.webp\" alt=\"CubeNet\"></div><h1 class=\"text-2xl font-black\">Регистрация</h1><p class=\"text-sm\" style=\"color: oklch(0.72 0.035 292);\">Создайте аккаунт</p></div><form hx-post=\"/auth/register\" hx-target=\"body\" hx-swap=\"outerHTML\" class=\"flex flex-col gap-5\"><div><label class=\"label mb-2 block\" for=\"username\">Имя пользователя</label> <input class=\"input-base\" type=\"text\" id=\"username\" name=\"username\" required pattern=\"[a-zA-Z0-9_-]+\" title=\"Буквы, цифры, _ и -\" placeholder=\"Введите логин\"></div><div><label class=\"label mb-2 block\" for=\"email\">Почта</label> <input class=\"input-base\" type=\"email\" id=\"email\" name=\"email\" required placeholder=\"email@example.com\"></div><div><label class=\"label mb-2 block\" for=\"password\">Пароль</label> <input class=\"input-base\" type=\"password\" id=\"password\" name=\"password\" required minlength=\"6\" title=\"Минимум 6 символов, заглавная буква и спецсимвол\" placeholder=\"Введите пароль\"></div><div><label class=\"label mb-2 block\" for=\"confirm\">Повторите пароль</label> <input class=\"input-base\" type=\"password\" id=\"confirm\" name=\"confirm\" required placeholder=\"Повторите пароль\"></div><button type=\"submit\" class=\"btn-primary mb-4\">Зарегистрироваться</button></form><p class=\"text-sm text-center mt-6\" style=\"color: oklch(0.72 0.035 292);\">Уже есть аккаунт? <a href=\"/login\" class=\"underline hover:no-underline\" style=\"color: oklch(0.76 0.145 292);\">Войти</a></p></div></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
