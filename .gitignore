@@ -12,6 +12,9 @@ launcher/**/Debug/
 launcher/**/Release/
 launcher/.vs/
 launcher/*.slnx
+launcher/dist/
+launcher/**/*.pdb
+launcher/**/publish-all.sh
 
 # Node
 node_modules/
