@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"github.com/cubenet-cms/cms/middleware"
 	"github.com/cubenet-cms/cms/model"
 	"github.com/cubenet-cms/cms/service"
 )
@@ -64,14 +65,9 @@ type meResponse struct {
 }
 
 func (h *AuthHandler) Me(w http.ResponseWriter, r *http.Request) {
-	cookie, err := r.Cookie("token")
-	if err != nil || cookie.Value == "" {
+	claims := middleware.GetClaims(r)
+	if claims == nil {
 		http.Error(w, `{"error":"not authenticated"}`, http.StatusUnauthorized)
-		return
-	}
-	claims, err := h.svc.ValidateToken(cookie.Value)
-	if err != nil {
-		http.Error(w, `{"error":"invalid token"}`, http.StatusUnauthorized)
 		return
 	}
 	user, err := h.svc.GetProfile(r.Context(), claims.UserID)

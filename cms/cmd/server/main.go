@@ -1,6 +1,6 @@
 package main
 
-import (
+	import (
 	"context"
 	"log/slog"
 	"net/http"
@@ -13,6 +13,7 @@ import (
 	v1servers "github.com/cubenet-cms/cms/api/v1/servers"
 	v1ws "github.com/cubenet-cms/cms/api/v1/ws"
 	"github.com/cubenet-cms/cms/config"
+	"github.com/cubenet-cms/cms/middleware"
 	"github.com/cubenet-cms/cms/pkg/db"
 	"github.com/cubenet-cms/cms/pkg/s3"
 	"github.com/cubenet-cms/cms/pkg/ws"
@@ -21,8 +22,8 @@ import (
 	"github.com/cubenet-cms/cms/service"
 	"github.com/cubenet-cms/cms/store"
 	"github.com/cubenet-cms/cms/web"
+	chimw "github.com/go-chi/chi/v5/middleware"
 	"github.com/go-chi/chi/v5"
-	"github.com/go-chi/chi/v5/middleware"
 )
 
 func main() {
@@ -58,6 +59,11 @@ func main() {
 		slog.Error("load roles", "error", err)
 		os.Exit(1)
 	}
+	settingsSvc := service.NewSettingsService(store.NewSettingsRepo(pool))
+	if err := settingsSvc.Load(context.Background()); err != nil {
+		slog.Error("load settings", "error", err)
+		os.Exit(1)
+	}
 	serverSvc := service.NewServerService(store.NewServerRepo(pool))
 	launcherSvc := service.NewLauncherService(store.NewBuildRepo(pool))
 	newsSvc := service.NewNewsService(store.NewNewsRepo(pool))
@@ -70,33 +76,38 @@ func main() {
 
 	pipe := plugin.New()
 	pipe.Register(builtin.NewSessionPlugin(authSvc))
+	pipe.Register(builtin.NewSettingsPlugin(settingsSvc))
 	pipe.Register(builtin.NewFooterPlugin())
 
-	webH := web.NewHandler(authSvc, serverSvc, newsSvc, pipe)
+	webH := web.NewHandler(authSvc, serverSvc, newsSvc, settingsSvc, pipe)
 
 	r := chi.NewRouter()
-	r.Use(middleware.RedirectSlashes)
+	r.Use(chimw.RedirectSlashes)
 
 	r.Get("/health", func(w http.ResponseWriter, _ *http.Request) {
 		w.Write([]byte(`{"status":"ok"}`))
 	})
 
-	// API
-	r.Post("/api/v1/auth/register", authH.Register)
-	r.Post("/api/v1/auth/login", authH.Login)
-
-	r.Get("/api/v1/me", authH.Me)
+	// Public API
+	r.Route("/api/v1/auth", func(r chi.Router) {
+		r.Post("/register", authH.Register)
+		r.Post("/login", authH.Login)
+	})
 
 	r.Get("/api/v1/servers", serverH.List)
 	r.Get("/api/v1/servers/{slug}", serverH.GetBySlug)
-
+	r.Get("/api/v1/news", newsH.List)
 	r.Get("/api/v1/launcher/manifest", launcherH.Manifest)
 	r.Get("/api/v1/launcher/builds", launcherH.ListBuilds)
 	r.Get("/api/v1/launcher/builds/{id}", launcherH.GetBuild)
-
-	r.Get("/api/v1/news", newsH.List)
-
 	r.Handle("/api/v1/ws", wsH)
+
+	// Protected API (JWT required)
+	r.Route("/api/v1", func(r chi.Router) {
+		r.Use(middleware.Auth(cfg.JWTSecret))
+
+		r.Get("/me", authH.Me)
+	})
 
 	// Web (Templ + htmx)
 	r.Get("/static/*", webH.Static)
@@ -110,9 +121,23 @@ func main() {
 	r.Get("/servers", webH.Servers)
 	r.Get("/wallet", webH.WalletPage)
 	r.Get("/admin", webH.Admin)
+	r.Get("/admin/settings", webH.AdminSettings)
+	r.Post("/admin/settings", webH.AdminSettings)
+	r.Get("/admin/settings/navbar", webH.AdminNavbar)
+	r.Get("/admin/settings/servers", webH.AdminServers)
+
+	srv := &http.Server{
+		Addr:              cfg.Addr,
+		Handler:           r,
+		ReadHeaderTimeout: 10 * time.Second,
+		ReadTimeout:       30 * time.Second,
+		WriteTimeout:      30 * time.Second,
+		IdleTimeout:       120 * time.Second,
+		MaxHeaderBytes:    1 << 20, // 1MB
+	}
 
 	slog.Info("server started", "addr", cfg.Addr)
-	if err := http.ListenAndServe(cfg.Addr, r); err != nil {
+	if err := srv.ListenAndServe(); err != nil {
 		slog.Error("server", "error", err)
 		os.Exit(1)
 	}

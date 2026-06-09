@@ -43,3 +43,14 @@ func GetClaims(r *http.Request) *jwt.Claims {
 	c, _ := r.Context().Value(claimsKey).(*jwt.Claims)
 	return c
 }
+
+func AdminOnly(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		c := GetClaims(r)
+		if c == nil || c.Role != "admin" {
+			http.Error(w, `{"error":"forbidden"}`, http.StatusForbidden)
+			return
+		}
+		next.ServeHTTP(w, r)
+	})
+}
