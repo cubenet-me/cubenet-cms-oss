@@ -4,31 +4,25 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        background: "oklch(5.5% 0.018 292)",
-        foreground: "oklch(98% 0 0)",
-        card: {
-          DEFAULT: "oklch(10.5% 0.018 292)",
-          foreground: "oklch(98% 0 0)",
-        },
-        primary: {
-          DEFAULT: "oklch(76% 0.145 292)",
-          foreground: "oklch(12% 0.03 292)",
-        },
-        muted: {
-          DEFAULT: "oklch(18% 0.018 292)",
-          foreground: "oklch(72% 0.035 292)",
-        },
-        accent: {
-          DEFAULT: "oklch(22% 0.04 292)",
-          foreground: "oklch(98% 0 0)",
-        },
-        border: "oklch(22% 0.035 292)",
-        input: "oklch(22% 0.035 292)",
-        ring: "oklch(76% 0.145 292)",
+        page: "#0a0514",
+        foreground: "#f7f8ff",
+        muted: "rgba(210, 213, 231, 0.7)",
+        primary: "#7c5cff",
+        "primary-2": "#5fd6ff",
+        card: "#1a1325",
+      },
+      fontFamily: {
+        body: ['"Minecraft Rus"', "Manrope", "Segoe UI", "sans-serif"],
+        display: ['"Minecraft Rus"', '"Space Grotesk"', "Manrope", "sans-serif"],
       },
       borderRadius: {
-        "2xl": "1rem",
-        "3xl": "1.5rem",
+        "2xl": "16px",
+        "3xl": "28px",
+      },
+      boxShadow: {
+        "neu": "18px 18px 36px rgba(6, 4, 12, 0.85), -18px -18px 36px rgba(44, 32, 66, 0.55)",
+        "neu-sm": "8px 8px 20px rgba(6, 4, 12, 0.6), -8px -8px 20px rgba(44, 32, 66, 0.4)",
+        "glass": "0 26px 70px rgba(0, 0, 0, 0.55)",
       },
     },
   },

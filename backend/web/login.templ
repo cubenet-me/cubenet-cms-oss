@@ -2,39 +2,39 @@ package web
 
 templ loginPage(data BaseData, err string) {
 	@base(data) {
-		<div class="relative flex-1 flex items-center justify-center px-4 py-12 overflow-hidden">
-			<div class="orb top-[-10%] left-[-5%] w-[400px] h-[400px] bg-violet-300/12" style="box-shadow: 0 0 140px 60px rgba(167, 139, 250, 0.04);"></div>
-			<div class="orb bottom-[-10%] right-[-5%] w-[400px] h-[400px] bg-violet-300/10" style="box-shadow: 0 0 140px 60px rgba(167, 139, 250, 0.03);"></div>
-			<div class="relative z-10 glass-strong rounded-3xl w-full max-w-sm p-8">
-				<div class="text-center mb-8">
-					<h1 class="text-2xl font-bold gradient-text mb-1">Вход</h1>
-					<p class="text-sm text-foreground/60">Войдите в панель управления</p>
+		<div class="flex-1 flex items-center justify-center px-4 py-[60px]">
+			<div class="glass w-full max-w-sm">
+				<div class="text-center mb-6">
+					<div class="flex items-center justify-center gap-2 mb-3">
+						<svg width="32" height="32" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="40" height="40" rx="10" fill="#7c5cff"/><path d="M12 14h16v4H12zM12 20h12v3H12zM12 25h14v2H12z" fill="#fff" opacity="0.9"/></svg>
+					</div>
+					<h1 class="section-title text-xl">Вход</h1>
+					<p class="section-sub">Войдите в панель управления</p>
 				</div>
 
 				if err != "" {
-					<div class="flex items-center gap-3 px-4 py-3 rounded-2xl mb-6 text-sm" style="background: oklch(57.7% 0.245 27.325 / 0.15); border: 1px solid oklch(57.7% 0.245 27.325 / 0.3);">
-						<svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="oklch(57.7% 0.245 27.325)" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 2.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"/></svg>
+					<div class="flex items-center gap-3 px-4 py-3 rounded-2xl mb-6 text-sm" style="background: rgba(255,100,100,0.12); border: 1px solid rgba(255,100,100,0.3); color: #ff7c7c;">
+						<svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 2.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"/></svg>
 						<span>{ err }</span>
 					</div>
 				}
 
-				<form hx-post="/auth/login" hx-target="body" hx-swap="outerHTML" class="space-y-5">
+				<form hx-post="/auth/login" hx-target="body" hx-swap="outerHTML" class="flex flex-col gap-5">
 					<div>
-						<label class="block text-sm font-medium text-foreground/60 mb-1.5" for="username">Имя пользователя</label>
-						<input class="input-modern" type="text" id="username" name="username" required placeholder="Введите логин"/>
+						<label class="label mb-2 block" for="username">Имя пользователя</label>
+						<input class="input-base w-full" type="text" id="username" name="username" required placeholder="Введите логин"/>
 					</div>
 					<div>
-						<label class="block text-sm font-medium text-foreground/60 mb-1.5" for="password">Пароль</label>
-						<input class="input-modern" type="password" id="password" name="password" required placeholder="Введите пароль"/>
+						<label class="label mb-2 block" for="password">Пароль</label>
+						<input class="input-base w-full" type="password" id="password" name="password" required placeholder="Введите пароль"/>
 					</div>
-					<button type="submit" class="btn-primary w-full py-3.5">
-						<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/></svg>
+					<button type="submit" class="btn-primary-solid w-full py-3">
 						Войти
 					</button>
 				</form>
 
-				<p class="text-sm text-center mt-6 text-foreground/60">
-					Нет аккаунта? <a href="/register" class="text-primary hover:underline transition-colors font-medium">Зарегистрироваться</a>
+				<p class="text-sm text-center mt-6 text-muted">
+					Нет аккаунта? <a href="/register" class="text-primary hover:underline font-medium">Зарегистрироваться</a>
 				</p>
 			</div>
 		</div>

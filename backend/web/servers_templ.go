@@ -41,7 +41,7 @@ func serversPage(data BaseData) templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"relative overflow-hidden\"><div class=\"orb top-[-15%] left-[-8%] w-[450px] h-[450px]\" style=\"box-shadow: 0 0 160px 80px rgba(167, 139, 250, 0.05);\"></div><div class=\"max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 relative z-10\"><div class=\"mb-10\"><h1 class=\"text-3xl font-black gradient-text mb-1\">Серверы</h1><p class=\"text-sm text-foreground/60\">Серверы Minecraft, доступные для подключения</p></div><div id=\"server-list\" hx-get=\"/api/v1/servers\" hx-trigger=\"load\" hx-swap=\"innerHTML\" class=\"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4\"><div class=\"glass rounded-3xl p-8 text-center\"><div class=\"inline-block w-8 h-8 rounded-full border-2 border-primary border-t-transparent animate-spin mb-4\"></div><p class=\"text-sm text-foreground/60\">Загрузка серверов...</p></div></div></div></div>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div><div class=\"text-center mb-10\"><h1 class=\"section-title text-[32px]\">Серверы</h1><p class=\"section-sub\">Серверы Minecraft, доступные для подключения</p></div><div id=\"server-list\" class=\"flex justify-center gap-5 flex-wrap\"><div class=\"glass text-center p-8\"><div class=\"inline-block w-8 h-8 rounded-full border-2 border-primary border-t-transparent animate-spin mb-4\"></div><p class=\"text-sm text-muted\">Загрузка серверов...</p></div></div></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
