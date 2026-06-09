@@ -158,7 +158,7 @@ func footer() templ.Component {
 			templ_7745c5c3_Var5 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "<footer class=\"footer-section\"><div class=\"footer-inner\"><div><p>Сделано на <a href=\"https://github.com/cubenet-me/cubenet-cms-oss\" class=\"footer-link\">CubeNet CMS OSS</a></p></div><div class=\"text-right\"><p>CubeNet CMS License v1.0</p></div></div></footer>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "<footer class=\"footer-section\"><div class=\"neu-card p-8 mx-auto mb-6 text-center\" style=\"max-width: 800px;\"><div class=\"flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm mb-4\"><a href=\"https://github.com/cubenet-me/cubenet-cms-oss\" class=\"footer-link font-semibold\">CubeNet CMS OSS</a> <span class=\"text-muted\">CubeNet CMS License v1.0</span> <a href=\"https://github.com/cubenet-me/cubenet-cms-oss\" class=\"footer-link\">GitHub</a></div><div class=\"text-xs leading-relaxed text-muted\" style=\"letter-spacing: 0.5px;\">NOT OFFICIAL MINECRAFT PRODUCT. NOT APPROVED BY OR ASSOCIATED WITH MOJANG SYNERGIES AB.<br>Minecraft is a trademark of Mojang Synergies AB. This project is open-source and not affiliated with Mojang or Microsoft.</div></div><div class=\"footer-inner\"><div class=\"text-muted text-xs\">Made with <a href=\"https://github.com/cubenet-me/cubenet-cms-oss\" class=\"footer-link\">CubeNet CMS OSS</a></div></div></footer>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
