@@ -55,6 +55,9 @@ templ navbar(data BaseData) {
 				for _, item := range data.NavItems {
 					<a href={ item.Href } class="nav-link">
 						<span class="nav-link-bg"></span>
+						if item.Icon != "" {
+							@templ.Raw(navIconSVG[item.Icon])
+						}
 						<span class="nav-link-text">{ item.Label }</span>
 					</a>
 				}

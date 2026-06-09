@@ -9,95 +9,145 @@
         x:DataType="vm:MainWindowViewModel"
         Title="Cubenet Launcher"
         Width="1280" Height="720"
+        MinWidth="1000" MinHeight="600"
         WindowStartupLocation="CenterScreen"
         WindowDecorations="None"
-        Background="#0f0f1a">
+        Background="Transparent"
+        ExtendClientAreaToDecorationsHint="True"
+        TransparencyLevelHint="AcrylicBlur"
+        TransparencyBackgroundFallback="#0E0E0E">
 
     <Design.DataContext>
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
+    <Border CornerRadius="8" ClipToBounds="True">
+        <Panel>
+            <ExperimentalAcrylicBorder IsHitTestVisible="False">
+                <ExperimentalAcrylicBorder.Material>
+                    <ExperimentalAcrylicMaterial
+                        BackgroundSource="Digger"
+                        MaterialOpacity="0.85"
+                        TintColor="Black"
+                        TintOpacity="0.9"/>
+                </ExperimentalAcrylicBorder.Material>
+            </ExperimentalAcrylicBorder>
 
+            <!-- Overlay -->
+            <Rectangle Fill="#0A000000"/>
 
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="220"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
-        <!-- Sidebar -->
-        <Border Grid.Column="0">
-            <Border.Background>
-                <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%">
-                    <GradientStop Color="#1a1a30" Offset="0.0"/>
-                    <GradientStop Color="#12122a" Offset="0.5"/>
-                    <GradientStop Color="#0e0e24" Offset="1.0"/>
-                </LinearGradientBrush>
-            </Border.Background>
-            <Border BoxShadow="2 0 10 #40000000">
-                <StackPanel Margin="20">
-                    <Border Background="#6c63ff"
-                            CornerRadius="10"
-                            Width="40" Height="40"
-                            HorizontalAlignment="Left"
-                            Margin="0,10,0,40">
-                        <TextBlock Text="C"
-                                   FontSize="22"
-                                   FontWeight="Bold"
-                                   Foreground="#ffffff"
-                                   HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"/>
-                    </Border>
+                <!-- Sidebar -->
+                <Border Grid.Column="0"
+                        Background="#0A0D0D"
+                        Padding="0,20"
+                        BoxShadow="2 0 15 #40000000">
+                    <Grid RowDefinitions="Auto, *, Auto"
+                          Width="80">
 
-                    <Button Command="{Binding GoToHomeCommand}"
-                            Background="{Binding HomeButtonBg}"
-                            Foreground="#ffffff"
-                            FontWeight="Bold"
-                            FontSize="14"
-                            CornerRadius="8"
-                            Padding="12,8"
-                            Margin="0,0,0,8"
-                            HorizontalContentAlignment="Left"
-                            Cursor="Hand">
-                        Играть
-                    </Button>
-                    <TextBlock Text="Сборки" FontSize="14" Foreground="#555580" Margin="12,8"/>
-                    <TextBlock Text="Моды" FontSize="14" Foreground="#555580" Margin="12,8"/>
-                    <Button Command="{Binding GoToSettingsCommand}"
-                            Background="{Binding SettingsButtonBg}"
-                            Foreground="#ddddff"
-                            FontSize="14"
-                            CornerRadius="8"
-                            Padding="12,8"
-                            Margin="0,8,0,0"
-                            HorizontalContentAlignment="Left"
-                            Cursor="Hand">
-                        Настройки
-                    </Button>
-                </StackPanel>
-            </Border>
-        </Border>
+                        <!-- Logo -->
+                        <Border Grid.Row="0"
+                                Background="#008C45"
+                                CornerRadius="12"
+                                Width="40" Height="40"
+                                HorizontalAlignment="Center"
+                                Margin="0,0,0,30">
+                            <TextBlock Text="C"
+                                       FontSize="22"
+                                       FontWeight="Bold"
+                                       Foreground="#ffffff"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"/>
+                        </Border>
 
-        <!-- Content Area -->
-        <Border Grid.Column="1">
-            <Border.Background>
-                <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
-                    <GradientStop Color="#0f0f1a" Offset="0.0"/>
-                    <GradientStop Color="#12122a" Offset="0.5"/>
-                    <GradientStop Color="#0a0a18" Offset="1.0"/>
-                </LinearGradientBrush>
-            </Border.Background>
-            <ContentControl Content="{Binding CurrentPage}">
-                <ContentControl.DataTemplates>
-                    <DataTemplate DataType="vm:HomeViewModel">
-                        <views:HomeView/>
-                    </DataTemplate>
-                    <DataTemplate DataType="vm:SettingsViewModel">
-                        <views:SettingsView/>
-                    </DataTemplate>
-                </ContentControl.DataTemplates>
-            </ContentControl>
-        </Border>
-    </Grid>
+                        <!-- Nav buttons -->
+                        <StackPanel Grid.Row="1"
+                                    Spacing="10"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Center">
+                            <Button Command="{Binding GoToHomeCommand}"
+                                    Width="50" Height="50"
+                                    CornerRadius="25"
+                                    Background="{Binding HomeButtonBg}"
+                                    BorderThickness="0"
+                                    Cursor="Hand"
+                                    ToolTip.Tip="Главная">
+                                <TextBlock Text="🏠" FontSize="20"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"/>
+                            </Button>
 
+                            <Button Width="50" Height="50"
+                                    CornerRadius="25"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    Cursor="Hand"
+                                    ToolTip.Tip="Сборки">
+                                <TextBlock Text="📦" FontSize="20"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"/>
+                            </Button>
+
+                            <Button Width="50" Height="50"
+                                    CornerRadius="25"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    Cursor="Hand"
+                                    ToolTip.Tip="Моды">
+                                <TextBlock Text="🔧" FontSize="20"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"/>
+                            </Button>
+
+                            <Button Command="{Binding GoToSettingsCommand}"
+                                    Width="50" Height="50"
+                                    CornerRadius="25"
+                                    Background="{Binding SettingsButtonBg}"
+                                    BorderThickness="0"
+                                    Cursor="Hand"
+                                    ToolTip.Tip="Настройки">
+                                <TextBlock Text="⚙️" FontSize="20"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"/>
+                            </Button>
+                        </StackPanel>
+
+                        <!-- Logout placeholder -->
+                        <Button Grid.Row="2"
+                                Width="50" Height="50"
+                                CornerRadius="25"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                Cursor="Hand"
+                                Margin="0,0,0,10"
+                                ToolTip.Tip="Выйти">
+                            <TextBlock Text="🚪" FontSize="20"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"/>
+                        </Button>
+                    </Grid>
+                </Border>
+
+                <!-- Content -->
+                <Border Grid.Column="1">
+                    <ContentControl Content="{Binding CurrentPage}"
+                                    Margin="0">
+                        <ContentControl.DataTemplates>
+                            <DataTemplate DataType="vm:HomeViewModel">
+                                <views:HomeView/>
+                            </DataTemplate>
+                            <DataTemplate DataType="vm:SettingsViewModel">
+                                <views:SettingsView/>
+                            </DataTemplate>
+                        </ContentControl.DataTemplates>
+                    </ContentControl>
+                </Border>
+            </Grid>
+        </Panel>
+    </Border>
 </Window>

@@ -240,18 +240,20 @@ func (h *Handler) AdminNavbar(w http.ResponseWriter, r *http.Request) {
 			for i := 0; ; i++ {
 				label := strings.TrimSpace(r.FormValue("label_" + strconv.Itoa(i)))
 				href := strings.TrimSpace(r.FormValue("href_" + strconv.Itoa(i)))
+				icon := r.FormValue("icon_" + strconv.Itoa(i))
 				orderStr := r.FormValue("order_" + strconv.Itoa(i))
 				if label == "" && href == "" {
 					break
 				}
 				order, _ := strconv.Atoi(orderStr)
-				newItems = append(newItems, model.NavItem{Label: label, Href: href, Order: order})
+				newItems = append(newItems, model.NavItem{Label: label, Href: href, Icon: icon, Order: order})
 			}
 			newLabel := strings.TrimSpace(r.FormValue("new_label"))
 			newHref := strings.TrimSpace(r.FormValue("new_href"))
+			newIcon := r.FormValue("new_icon")
 			if newLabel != "" && newHref != "" {
 				newItems = append(newItems, model.NavItem{
-					Label: newLabel, Href: newHref,
+					Label: newLabel, Href: newHref, Icon: newIcon,
 					Order: len(newItems),
 				})
 			}
@@ -326,7 +328,7 @@ func baseData(pc *plugin.Context) BaseData {
 	}
 	navItems := make([]NavItem, len(modelNavItems))
 	for i, mi := range modelNavItems {
-		navItems[i] = NavItem{Label: mi.Label, Href: mi.Href, Order: mi.Order}
+		navItems[i] = NavItem{Label: mi.Label, Href: mi.Href, Icon: mi.Icon, Order: mi.Order}
 	}
 	return BaseData{
 		Title:           title(pc.Template),

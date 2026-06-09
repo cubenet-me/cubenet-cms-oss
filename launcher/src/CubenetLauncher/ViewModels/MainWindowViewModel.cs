@@ -20,8 +20,8 @@ public partial class MainWindowViewModel : ViewModelBase
     public HomeViewModel HomeVM { get; } = new();
     public SettingsViewModel SettingsVM { get; } = new();
 
-    public string HomeButtonBg => CurrentPage is HomeViewModel ? "#ffffff10" : "Transparent";
-    public string SettingsButtonBg => CurrentPage is SettingsViewModel ? "#ffffff10" : "Transparent";
+    public string HomeButtonBg => CurrentPage is HomeViewModel ? "#008C45" : "Transparent";
+    public string SettingsButtonBg => CurrentPage is SettingsViewModel ? "#008C45" : "Transparent";
 
     public MainWindowViewModel()
     {
