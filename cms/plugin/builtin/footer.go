@@ -28,16 +28,21 @@ func (p *SessionPlugin) sessionHook(ctx *plugin.Context) error {
 	if err == nil && cookie.Value != "" {
 		claims, err := p.authSvc.ValidateToken(cookie.Value)
 		if err == nil {
-			perms := p.authSvc.GetPermissions(claims.Role)
-			ctx.Data["LoggedIn"] = true
-			ctx.Data["Username"] = claims.Username
-			ctx.Data["UserID"] = claims.UserID
-			ctx.Data["Role"] = claims.Role
-			ctx.Data["Permissions"] = perms
-			if perms == nil {
-				ctx.Data["Permissions"] = []string{}
+			user, err := p.authSvc.GetProfile(ctx.R.Context(), claims.UserID)
+			if err == nil && user != nil {
+				perms := user.RoleData.Permissions
+				if perms == nil {
+					perms = []string{}
+				}
+				ctx.Data["LoggedIn"] = true
+				ctx.Data["Username"] = claims.Username
+				ctx.Data["UserID"] = claims.UserID
+				ctx.Data["Role"] = user.Role
+				ctx.Data["Permissions"] = perms
+				ctx.Data["RoleName"] = user.RoleData.Name
+				ctx.Data["RoleColor"] = user.RoleData.Color
+				return nil
 			}
-			return nil
 		}
 	}
 

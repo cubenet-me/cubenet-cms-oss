@@ -46,14 +46,23 @@ func (r *AuthRepo) GetByUsername(ctx context.Context, username string) (*model.U
 }
 
 func (r *AuthRepo) GetProfile(ctx context.Context, userID string) (*model.User, error) {
-	u := &model.User{}
+	u := &model.User{RoleData: &model.Role{}}
 	err := r.pool.QueryRow(ctx,
-		`SELECT id, username, COALESCE(nickname, username), email, roles, wallet FROM users WHERE id = $1`,
+		`SELECT u.id, u.username, COALESCE(u.nickname, u.username), u.email,
+		        u.role, u.roles, u.wallet,
+		        r.identifier, r.name, r.color, r.permissions
+		 FROM users u
+		 LEFT JOIN roles r ON r.id = u.role_id
+		 WHERE u.id = $1`,
 		userID,
-	).Scan(&u.ID, &u.Username, &u.Nickname, &u.Email, &u.Roles, &u.Wallet)
+	).Scan(&u.ID, &u.Username, &u.Nickname, &u.Email,
+		&u.Role, &u.Roles, &u.Wallet,
+		&u.RoleData.Identifier, &u.RoleData.Name, &u.RoleData.Color, &u.RoleData.Permissions,
+	)
 	if err != nil {
 		return nil, err
 	}
+	u.RoleID = u.RoleData.Identifier
 	return u, nil
 }
 

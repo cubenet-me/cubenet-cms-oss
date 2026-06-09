@@ -54,11 +54,13 @@ func (h *AuthHandler) Register(w http.ResponseWriter, r *http.Request) {
 }
 
 type meResponse struct {
-	UUID     string           `json:"uuid"`
-	Nickname string           `json:"nickname"`
-	Email    string           `json:"email"`
-	Roles    []model.UserRole `json:"roles"`
-	Wallet   model.UserWallet `json:"wallet"`
+	UUID     string            `json:"uuid"`
+	Nickname string            `json:"nickname"`
+	Email    string            `json:"email"`
+	Role     string            `json:"role"`
+	RoleData *model.Role       `json:"role_data"`
+	Roles    []model.UserRole  `json:"roles"`
+	Wallet   model.UserWallet  `json:"wallet"`
 }
 
 func (h *AuthHandler) Me(w http.ResponseWriter, r *http.Request) {
@@ -81,6 +83,8 @@ func (h *AuthHandler) Me(w http.ResponseWriter, r *http.Request) {
 		UUID:     user.ID,
 		Nickname: user.Nickname,
 		Email:    user.Email,
+		Role:     user.Role,
+		RoleData: user.RoleData,
 		Roles:    user.Roles,
 		Wallet:   user.Wallet,
 	})

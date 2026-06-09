@@ -9,7 +9,7 @@ public static class Logger
 
     static Logger()
     {
-        var dir = Path.GetDirectoryName(LogPath);
+        var dir = Path.GetDirectoryName(_logPath);
         if (dir is not null)
             Directory.CreateDirectory(dir);
     }
@@ -23,13 +23,17 @@ public static class Logger
     private static void Write(string level, string message)
     {
         var line = $"[{DateTime.UtcNow:yyyy-MM-dd HH:mm:ss}] [{level}] {message}";
+
         try
         {
-            File.AppendAllText(LogPath, line + Environment.NewLine);
+            File.AppendAllText(_logPath, line + Environment.NewLine);
         }
-        catch
+        catch { /* ignore */ }
+
+        try
         {
-            // ignore write failures
+            Console.WriteLine(line);
         }
+        catch { /* ignore */ }
     }
 }

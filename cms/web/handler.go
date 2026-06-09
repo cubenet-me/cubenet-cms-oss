@@ -194,11 +194,14 @@ func baseData(pc *plugin.Context) BaseData {
 	if perms == nil {
 		perms = []string{}
 	}
+	roleName, _ := pc.Data["RoleName"].(map[string]string)
 	return BaseData{
 		Title:       title(pc.Template),
 		LoggedIn:    getBool(pc.Data, "LoggedIn"),
 		Username:    getString(pc.Data, "Username"),
 		Role:        getString(pc.Data, "Role"),
+		RoleName:    roleName,
+		RoleColor:   getString(pc.Data, "RoleColor"),
 		Permissions: perms,
 	}
 }

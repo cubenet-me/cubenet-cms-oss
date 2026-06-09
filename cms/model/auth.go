@@ -7,6 +7,8 @@ type User struct {
 	Email     string `json:"email"`
 	Password  string `json:"-"`
 	Role      string `json:"role"`
+	RoleID    string `json:"role_id"`
+	RoleData  *Role  `json:"role_data"`
 	Roles     []UserRole `json:"roles"`
 	Wallet    UserWallet `json:"wallet"`
 	CreatedAt string `json:"created_at"`
