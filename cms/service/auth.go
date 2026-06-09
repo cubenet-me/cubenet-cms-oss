@@ -13,12 +13,47 @@ import (
 )
 
 type AuthService struct {
-	repo   *store.AuthRepo
-	secret string
+	repo      *store.AuthRepo
+	secret    string
+	rolesByID map[string]*model.Role
 }
 
 func NewAuthService(repo *store.AuthRepo, secret string) *AuthService {
 	return &AuthService{repo: repo, secret: secret}
+}
+
+func (s *AuthService) LoadRoles(ctx context.Context) error {
+	roles, err := s.repo.GetAllRoles(ctx)
+	if err != nil {
+		return err
+	}
+	s.rolesByID = make(map[string]*model.Role, len(roles))
+	for i := range roles {
+		s.rolesByID[roles[i].Identifier] = &roles[i]
+	}
+	return nil
+}
+
+func (s *AuthService) GetPermissions(identifier string) []string {
+	if s.rolesByID == nil {
+		return nil
+	}
+	r, ok := s.rolesByID[identifier]
+	if !ok {
+		return nil
+	}
+	return r.Permissions
+}
+
+func (s *AuthService) GetRoleColor(identifier string) string {
+	if s.rolesByID == nil {
+		return "#94a3b8"
+	}
+	r, ok := s.rolesByID[identifier]
+	if !ok {
+		return "#94a3b8"
+	}
+	return r.Color
 }
 
 type RegisterResult struct {
@@ -34,7 +69,12 @@ func (s *AuthService) Register(ctx context.Context, username, email, password st
 		return nil, errors.New("internal error")
 	}
 
-	id, err := s.repo.Create(ctx, username, email, string(hash))
+	roleID, err := s.repo.GetDefaultRoleID(ctx)
+	if err != nil {
+		roleID = ""
+	}
+
+	id, err := s.repo.Create(ctx, username, email, string(hash), roleID)
 	if err != nil {
 		return nil, errors.New("username or email already exists")
 	}

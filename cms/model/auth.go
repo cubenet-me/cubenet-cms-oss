@@ -22,3 +22,11 @@ type UserWallet struct {
 	Money int64 `json:"money"`
 	Spent int64 `json:"spent"`
 }
+
+type Role struct {
+	ID          string            `json:"id"`
+	Identifier  string            `json:"identifier"`
+	Name        map[string]string `json:"name"`
+	Color       string            `json:"color"`
+	Permissions []string          `json:"permissions"`
+}

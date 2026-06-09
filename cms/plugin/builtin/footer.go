@@ -28,12 +28,15 @@ func (p *SessionPlugin) sessionHook(ctx *plugin.Context) error {
 	if err == nil && cookie.Value != "" {
 		claims, err := p.authSvc.ValidateToken(cookie.Value)
 		if err == nil {
-			perms := rolePermissions(claims.Role)
+			perms := p.authSvc.GetPermissions(claims.Role)
 			ctx.Data["LoggedIn"] = true
 			ctx.Data["Username"] = claims.Username
 			ctx.Data["UserID"] = claims.UserID
 			ctx.Data["Role"] = claims.Role
 			ctx.Data["Permissions"] = perms
+			if perms == nil {
+				ctx.Data["Permissions"] = []string{}
+			}
 			return nil
 		}
 	}
@@ -42,17 +45,6 @@ func (p *SessionPlugin) sessionHook(ctx *plugin.Context) error {
 	ctx.Data["Username"] = ""
 	ctx.Data["Permissions"] = []string{}
 	return nil
-}
-
-func rolePermissions(role string) []string {
-	switch role {
-	case "admin":
-		return []string{"admin.*", "wallet.*"}
-	case "moderator", "staff":
-		return []string{"admin.access", "admin.manage"}
-	default:
-		return nil
-	}
 }
 
 type FooterPlugin struct{}

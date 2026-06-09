@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"log/slog"
 	"net/http"
 	"os"
@@ -53,6 +54,10 @@ func main() {
 	hub := ws.NewHub()
 
 	authSvc := service.NewAuthService(store.NewAuthRepo(pool), cfg.JWTSecret)
+	if err := authSvc.LoadRoles(context.Background()); err != nil {
+		slog.Error("load roles", "error", err)
+		os.Exit(1)
+	}
 	serverSvc := service.NewServerService(store.NewServerRepo(pool))
 	launcherSvc := service.NewLauncherService(store.NewBuildRepo(pool))
 	newsSvc := service.NewNewsService(store.NewNewsRepo(pool))

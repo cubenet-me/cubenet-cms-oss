@@ -9,6 +9,8 @@ namespace CubenetLauncher;
 
 public partial class App : Application
 {
+    public static bool NoUpdate;
+
     public override void Initialize()
     {
         AvaloniaXamlLoader.Load(this);
@@ -20,6 +22,12 @@ public partial class App : Application
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
+            NoUpdate = Array.Exists(desktop.Args ?? [], a =>
+                a.Equals("--no-update", StringComparison.OrdinalIgnoreCase));
+
+            if (NoUpdate)
+                Logger.Info("Update check skipped (--no-update)");
+
             var vm = new MainWindowViewModel();
             var updateService = new UpdateService();
 
@@ -54,15 +62,18 @@ public partial class App : Application
     {
         try
         {
-            var updated = await updateService.CheckAndUpdateAsync(
-                new Progress<(string status, double progress)>(state =>
-                {
-                    vm.StatusText = state.status;
-                    vm.ProgressValue = state.progress;
-                }));
+            if (!NoUpdate)
+            {
+                var updated = await updateService.CheckAndUpdateAsync(
+                    new Progress<(string status, double progress)>(state =>
+                    {
+                        vm.StatusText = state.status;
+                        vm.ProgressValue = state.progress;
+                    }));
 
-            if (updated)
-                return; // app will restart
+                if (updated)
+                    return; // app will restart
+            }
 
             // No update — open main window
             vm.StatusText = "Запуск...";

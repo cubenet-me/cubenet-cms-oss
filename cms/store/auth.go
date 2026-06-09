@@ -15,16 +15,22 @@ func NewAuthRepo(pool *pgxpool.Pool) *AuthRepo {
 	return &AuthRepo{pool: pool}
 }
 
-func (r *AuthRepo) Create(ctx context.Context, username, email, password string) (string, error) {
+func (r *AuthRepo) Create(ctx context.Context, username, email, password, roleID string) (string, error) {
 	var id string
 	err := r.pool.QueryRow(ctx,
-		`INSERT INTO users (username, email, password) VALUES ($1, $2, $3) RETURNING id`,
-		username, email, password,
+		`INSERT INTO users (username, email, password, role_id) VALUES ($1, $2, $3, $4) RETURNING id`,
+		username, email, password, roleID,
 	).Scan(&id)
 	if err != nil {
 		return "", err
 	}
 	return id, nil
+}
+
+func (r *AuthRepo) GetDefaultRoleID(ctx context.Context) (string, error) {
+	var id string
+	err := r.pool.QueryRow(ctx, `SELECT id FROM roles WHERE identifier = 'user'`).Scan(&id)
+	return id, err
 }
 
 func (r *AuthRepo) GetByUsername(ctx context.Context, username string) (*model.User, error) {
@@ -49,6 +55,24 @@ func (r *AuthRepo) GetProfile(ctx context.Context, userID string) (*model.User, 
 		return nil, err
 	}
 	return u, nil
+}
+
+func (r *AuthRepo) GetAllRoles(ctx context.Context) ([]model.Role, error) {
+	rows, err := r.pool.Query(ctx, `SELECT id, identifier, name, color, permissions FROM roles ORDER BY created_at`)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var roles []model.Role
+	for rows.Next() {
+		var role model.Role
+		if err := rows.Scan(&role.ID, &role.Identifier, &role.Name, &role.Color, &role.Permissions); err != nil {
+			return nil, err
+		}
+		roles = append(roles, role)
+	}
+	return roles, nil
 }
 
 func (r *AuthRepo) UpdateRoles(ctx context.Context, userID string, roles []model.UserRole) error {
