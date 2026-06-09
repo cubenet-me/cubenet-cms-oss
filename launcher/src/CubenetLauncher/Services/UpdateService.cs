@@ -1,5 +1,7 @@
 using System.Diagnostics;
-using System.Net.Http;
+using System.Net.Http.Json;
+using System.Security.Cryptography;
+using System.Text.Json.Nodes;
 
 namespace CubenetLauncher.Services;
 
@@ -17,45 +19,98 @@ public class UpdateService
         }
 
         progress.Report(("Проверка обновлений...", 0));
-        Logger.Info($"Checking for updates from {Env.UpdateCheckUrl}");
-        await Task.Delay(800);
+        Logger.Info($"Fetching update info from {Env.UpdateCheckUrl}");
 
-        // TODO: actual version check
-        var hasUpdate = false;
-
-        if (!hasUpdate)
+        UpdateInfo? info;
+        try
         {
-            Logger.Info("No update available");
+            var json = await _http.GetStringAsync(Env.UpdateCheckUrl);
+            var node = JsonNode.Parse(json);
+            info = new UpdateInfo(
+                node?["url"]?.GetValue<string>(),
+                node?["hash"]?.GetValue<string>()
+            );
+        }
+        catch (Exception ex)
+        {
+            Logger.Warn($"Failed to check updates: {ex.Message}");
+            return false;
+        }
+
+        if (info is null || string.IsNullOrEmpty(info.Url) || string.IsNullOrEmpty(info.Hash))
+        {
+            Logger.Warn("Invalid update info response");
+            return false;
+        }
+
+        // Compare hash
+        var currentHash = await Sha256OfFileAsync(currentPath);
+        if (string.Equals(currentHash, info.Hash, StringComparison.OrdinalIgnoreCase))
+        {
+            Logger.Info("Launcher is up to date");
             progress.Report(("Обновлений нет", 100));
             await Task.Delay(300);
             return false;
         }
 
-        progress.Report(("Загрузка обновления...", 30));
-        Logger.Info($"Downloading update from {Env.UpdateDownloadUrl}");
+        Logger.Info($"Update available. Current: {currentHash}, remote: {info.Hash}");
 
-        var newPath = currentPath + ".new";
-        var oldPath = currentPath + ".old";
+        // Download
+        progress.Report(("Загрузка обновления...", 10));
+        Logger.Info($"Downloading from {info.Url}");
 
-        // TODO: actual download
-        await Task.Delay(1500);
-        progress.Report(("Обновление загружено", 90));
+        var tmpPath = currentPath + ".tmp";
 
+        try
+        {
+            using var response = await _http.GetAsync(info.Url, HttpCompletionOption.ResponseHeadersRead);
+            response.EnsureSuccessStatusCode();
+
+            var total = response.Content.Headers.ContentLength ?? -1;
+            await using var src = await response.Content.ReadAsStreamAsync();
+            await using var dst = File.Create(tmpPath);
+
+            var buffer = new byte[81920];
+            long read = 0;
+            int bytes;
+            while ((bytes = await src.ReadAsync(buffer)) > 0)
+            {
+                await dst.WriteAsync(buffer, 0, bytes);
+                read += bytes;
+                if (total > 0)
+                    progress.Report(("Загрузка обновления...", 10 + 80.0 * read / total));
+            }
+
+            progress.Report(("Проверка хэша...", 90));
+            var downloadedHash = await Sha256OfFileAsync(tmpPath);
+            if (!string.Equals(downloadedHash, info.Hash, StringComparison.OrdinalIgnoreCase))
+            {
+                Logger.Error($"Hash mismatch: expected {info.Hash}, got {downloadedHash}");
+                File.Delete(tmpPath);
+                return false;
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.Error($"Download failed: {ex}");
+            if (File.Exists(tmpPath)) File.Delete(tmpPath);
+            return false;
+        }
+
+        // Replace
         progress.Report(("Установка...", 95));
+        Logger.Info("Replacing executable");
 
-        // Replace executable
-        if (File.Exists(oldPath))
-            File.Delete(oldPath);
-
+        var oldPath = currentPath + ".old";
+        if (File.Exists(oldPath)) File.Delete(oldPath);
         File.Move(currentPath, oldPath);
-        File.Move(newPath, currentPath);
+        File.Move(tmpPath, currentPath);
 
         Logger.Info("Update applied, restarting");
 
         progress.Report(("Перезапуск...", 100));
         await Task.Delay(200);
 
-        // Restart
         using var proc = new Process();
         proc.StartInfo.FileName = currentPath;
         proc.StartInfo.UseShellExecute = true;
@@ -64,4 +119,13 @@ public class UpdateService
         Environment.Exit(0);
         return true;
     }
+
+    private static async Task<string> Sha256OfFileAsync(string path)
+    {
+        await using var stream = File.OpenRead(path);
+        var hash = await SHA256.HashDataAsync(stream);
+        return Convert.ToHexStringLower(hash);
+    }
+
+    private record UpdateInfo(string? Url, string? Hash);
 }

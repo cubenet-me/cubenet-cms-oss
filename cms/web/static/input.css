@@ -158,11 +158,12 @@
     transform: rotate(180deg);
   }
   .dropdown-menu {
-    @apply absolute right-0 top-full mt-2 min-w-[180px] rounded-2xl border border-white/10 bg-black/70 p-1 opacity-0 invisible translate-y-1 pointer-events-none transition-all duration-200;
+    display: none;
+    @apply absolute right-0 top-full mt-2 min-w-[180px] rounded-2xl border border-white/10 bg-black/70 p-1;
     backdrop-filter: blur(24px);
   }
   .dropdown-menu.is-open {
-    @apply opacity-100 visible translate-y-0 pointer-events-auto;
+    display: block;
   }
   .dropdown-item {
     @apply flex w-full items-center gap-2 rounded-xl px-3 py-2 text-sm transition-colors;
