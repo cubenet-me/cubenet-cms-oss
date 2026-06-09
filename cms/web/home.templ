@@ -5,9 +5,9 @@ templ homePage(data BaseData) {
 		<section class="hero-section">
 			<div class="hero-text-col">
 				<h1 class="hero-title">
-					<span class="hero-title-inner">CubeNet</span>
+					<span class="hero-title-inner">{ data.SiteName }</span>
 				</h1>
-				<p class="hero-description">Мощная открытая CMS для управления Minecraft модовыми серверами, лаунчером и новостями вашего проекта</p>
+				<p class="hero-description">{ data.SiteDescription }</p>
 				<div class="hero-cta-row">
 					<a href="/register" class="home-play-btn">
 						<span class="btn-text">Начать</span>
@@ -20,7 +20,7 @@ templ homePage(data BaseData) {
 			</div>
 			<div class="hero-visual">
 				<div class="hero-visual-glow"></div>
-				<img class="hero-mascot" src="/assets/hero-visual.webp" alt="CubeNet">
+				<img class="hero-mascot" src="/assets/hero-visual.webp" alt={ data.SiteName }>
 			</div>
 		</section>
 
@@ -37,7 +37,7 @@ templ homePage(data BaseData) {
 			<div class="video-grid">
 				<div class="video-text-col">
 					<div>
-						<h2>Атмосфера <span class="video-server-name">CubeNet CMS</span> в одном ролике</h2>
+						<h2>Атмосфера <span class="video-server-name">{ data.SiteName }</span> в одном ролике</h2>
 						<p>Короткий обзор CMS, визуала и того, как выглядит проект для игроков.</p>
 					</div>
 					<a href="https://youtube.com" target="_blank" rel="noreferrer" class="video-youtube-link">

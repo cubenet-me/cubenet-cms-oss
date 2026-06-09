@@ -14,21 +14,24 @@ import (
 var usernameRe = regexp.MustCompile(`^[a-zA-Z0-9_-]+$`)
 
 type Handler struct {
-	authSvc   *service.AuthService
-	serverSvc *service.ServerService
-	newsSvc   *service.NewsService
-	pipeline  *plugin.Pipeline
+	authSvc    *service.AuthService
+	serverSvc  *service.ServerService
+	newsSvc    *service.NewsService
+	settingsSvc *service.SettingsService
+	pipeline   *plugin.Pipeline
 }
 
 func NewHandler(
 	authSvc *service.AuthService,
 	serverSvc *service.ServerService,
 	newsSvc *service.NewsService,
+	settingsSvc *service.SettingsService,
 	pipeline *plugin.Pipeline,
 ) *Handler {
 	return &Handler{
 		authSvc: authSvc, serverSvc: serverSvc, newsSvc: newsSvc,
-		pipeline: pipeline,
+		settingsSvc: settingsSvc,
+		pipeline:    pipeline,
 	}
 }
 
@@ -168,7 +171,72 @@ func (h *Handler) Admin(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Forbidden", http.StatusForbidden)
 		return
 	}
+	if r.Header.Get("HX-Request") == "true" {
+		adminDashboardContent(bd).Render(context.Background(), w)
+		return
+	}
 	adminPage(bd).Render(context.Background(), w)
+}
+
+func (h *Handler) AdminSettings(w http.ResponseWriter, r *http.Request) {
+	pc := h.execPipeline(r, w, "admin")
+	bd := baseData(pc)
+	if !bd.HasPermission("admin.access") {
+		http.Error(w, "Forbidden", http.StatusForbidden)
+		return
+	}
+
+	if r.Method == http.MethodPost {
+		name := strings.TrimSpace(r.FormValue("site_name"))
+		if name == "" {
+			name = "CubeNet CMS"
+		}
+		_ = h.settingsSvc.Set(r.Context(), "site_name", name)
+		if r.Header.Get("HX-Request") == "true" {
+			// htmx: swap the whole body to refresh sidebar too
+			pc = h.execPipeline(r, w, "admin")
+			bd = baseData(pc)
+			adminSettingsPage(bd, name, true).Render(context.Background(), w)
+		} else {
+			adminSettingsContent(bd, name, true).Render(context.Background(), w)
+		}
+		return
+	}
+
+	currentName := h.settingsSvc.Get("site_name", "CubeNet CMS")
+	if r.Header.Get("HX-Request") == "true" {
+		adminSettingsContent(bd, currentName, false).Render(context.Background(), w)
+		return
+	}
+	adminSettingsPage(bd, currentName, false).Render(context.Background(), w)
+}
+
+func (h *Handler) AdminNavbar(w http.ResponseWriter, r *http.Request) {
+	pc := h.execPipeline(r, w, "admin")
+	bd := baseData(pc)
+	if !bd.HasPermission("admin.access") {
+		http.Error(w, "Forbidden", http.StatusForbidden)
+		return
+	}
+	if r.Header.Get("HX-Request") == "true" {
+		adminNavbarContent(bd).Render(context.Background(), w)
+		return
+	}
+	adminNavbarPage(bd).Render(context.Background(), w)
+}
+
+func (h *Handler) AdminServers(w http.ResponseWriter, r *http.Request) {
+	pc := h.execPipeline(r, w, "admin")
+	bd := baseData(pc)
+	if !bd.HasPermission("admin.access") {
+		http.Error(w, "Forbidden", http.StatusForbidden)
+		return
+	}
+	if r.Header.Get("HX-Request") == "true" {
+		adminServersContent(bd).Render(context.Background(), w)
+		return
+	}
+	adminServersPage(bd).Render(context.Background(), w)
 }
 
 func (h *Handler) Static(w http.ResponseWriter, r *http.Request) {
@@ -196,13 +264,15 @@ func baseData(pc *plugin.Context) BaseData {
 	}
 	roleName, _ := pc.Data["RoleName"].(map[string]string)
 	return BaseData{
-		Title:       title(pc.Template),
-		LoggedIn:    getBool(pc.Data, "LoggedIn"),
-		Username:    getString(pc.Data, "Username"),
-		Role:        getString(pc.Data, "Role"),
-		RoleName:    roleName,
-		RoleColor:   getString(pc.Data, "RoleColor"),
-		Permissions: perms,
+		Title:           title(pc.Template),
+		LoggedIn:        getBool(pc.Data, "LoggedIn"),
+		Username:        getString(pc.Data, "Username"),
+		Role:            getString(pc.Data, "Role"),
+		RoleName:        roleName,
+		RoleColor:       getString(pc.Data, "RoleColor"),
+		Permissions:     perms,
+		SiteName:        getString(pc.Data, "SiteName"),
+		SiteDescription: getString(pc.Data, "SiteDescription"),
 	}
 }
 

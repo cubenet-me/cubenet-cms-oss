@@ -64,7 +64,20 @@ func registerPage(data BaseData, err string) templ.Component {
 					return templ_7745c5c3_Err
 				}
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "<div class=\"glass-container w-full max-w-sm\"><div class=\"text-center mb-6\"><div class=\"flex items-center justify-center gap-2 mb-3\"><img class=\"w-[200px] h-auto\" src=\"/assets/logo.webp\" alt=\"CubeNet\"></div><h1 class=\"text-2xl font-black\">Регистрация</h1><p class=\"text-sm\" style=\"color: oklch(0.72 0.035 292);\">Создайте аккаунт</p></div><form hx-post=\"/auth/register\" hx-target=\"body\" hx-swap=\"outerHTML\" class=\"flex flex-col gap-5\"><div><label class=\"label mb-2 block\" for=\"username\">Имя пользователя</label> <input class=\"input-base\" type=\"text\" id=\"username\" name=\"username\" required pattern=\"[a-zA-Z0-9_-]+\" title=\"Буквы, цифры, _ и -\" placeholder=\"Введите логин\"></div><div><label class=\"label mb-2 block\" for=\"email\">Почта</label> <input class=\"input-base\" type=\"email\" id=\"email\" name=\"email\" required placeholder=\"email@example.com\"></div><div><label class=\"label mb-2 block\" for=\"password\">Пароль</label> <input class=\"input-base\" type=\"password\" id=\"password\" name=\"password\" required minlength=\"6\" title=\"Минимум 6 символов, заглавная буква и спецсимвол\" placeholder=\"Введите пароль\"></div><div><label class=\"label mb-2 block\" for=\"confirm\">Повторите пароль</label> <input class=\"input-base\" type=\"password\" id=\"confirm\" name=\"confirm\" required placeholder=\"Повторите пароль\"></div><button type=\"submit\" class=\"btn-primary mb-4\">Зарегистрироваться</button></form><p class=\"text-sm text-center mt-6\" style=\"color: oklch(0.72 0.035 292);\">Уже есть аккаунт? <a href=\"/login\" class=\"underline hover:no-underline\" style=\"color: oklch(0.76 0.145 292);\">Войти</a></p></div></div>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "<div class=\"glass-container w-full max-w-sm\"><div class=\"text-center mb-6\"><div class=\"flex items-center justify-center gap-2 mb-3\"><img class=\"w-[200px] h-auto\" src=\"/assets/logo.webp\" alt=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var4 string
+			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.ResolveAttributeValue(data.SiteName)
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/register.templ`, Line: 16, Col: 79}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var4)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "\"></div><h1 class=\"text-2xl font-black\">Регистрация</h1><p class=\"text-sm\" style=\"color: oklch(0.72 0.035 292);\">Создайте аккаунт</p></div><form hx-post=\"/auth/register\" hx-target=\"body\" hx-swap=\"outerHTML\" class=\"flex flex-col gap-5\"><div><label class=\"label mb-2 block\" for=\"username\">Имя пользователя</label> <input class=\"input-base\" type=\"text\" id=\"username\" name=\"username\" required pattern=\"[a-zA-Z0-9_-]+\" title=\"Буквы, цифры, _ и -\" placeholder=\"Введите логин\"></div><div><label class=\"label mb-2 block\" for=\"email\">Почта</label> <input class=\"input-base\" type=\"email\" id=\"email\" name=\"email\" required placeholder=\"email@example.com\"></div><div><label class=\"label mb-2 block\" for=\"password\">Пароль</label> <input class=\"input-base\" type=\"password\" id=\"password\" name=\"password\" required minlength=\"6\" title=\"Минимум 6 символов, заглавная буква и спецсимвол\" placeholder=\"Введите пароль\"></div><div><label class=\"label mb-2 block\" for=\"confirm\">Повторите пароль</label> <input class=\"input-base\" type=\"password\" id=\"confirm\" name=\"confirm\" required placeholder=\"Повторите пароль\"></div><button type=\"submit\" class=\"btn-primary mb-4\">Зарегистрироваться</button></form><p class=\"text-sm text-center mt-6\" style=\"color: oklch(0.72 0.035 292);\">Уже есть аккаунт? <a href=\"/login\" class=\"underline hover:no-underline\" style=\"color: oklch(0.76 0.145 292);\">Войти</a></p></div></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

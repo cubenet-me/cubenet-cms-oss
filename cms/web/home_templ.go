@@ -41,7 +41,59 @@ func homePage(data BaseData) templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<section class=\"hero-section\"><div class=\"hero-text-col\"><h1 class=\"hero-title\"><span class=\"hero-title-inner\">CubeNet</span></h1><p class=\"hero-description\">Мощная открытая CMS для управления Minecraft модовыми серверами, лаунчером и новостями вашего проекта</p><div class=\"hero-cta-row\"><a href=\"/register\" class=\"home-play-btn\"><span class=\"btn-text\">Начать</span> <svg class=\"btn-icon\" width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3\"></path></svg></a> <a href=\"/servers\" class=\"hero-secondary-btn\">Серверы</a></div></div><div class=\"hero-visual\"><div class=\"hero-visual-glow\"></div><img class=\"hero-mascot\" src=\"/assets/hero-visual.webp\" alt=\"CubeNet\"></div></section><div class=\"w-full max-w-5xl mx-auto\"><div id=\"server-list\" class=\"home-server-marquee\"><div class=\"flex justify-center p-8 glass rounded-3xl\"><div class=\"animate-spin w-6 h-6 rounded-full border-2 border-primary border-t-transparent\"></div><span class=\"ml-3 text-sm\" style=\"color: rgba(255,255,255,0.45);\">Загрузка серверов...</span></div></div></div><section class=\"mt-14 w-full overflow-hidden rounded-[2rem] border border-white/10 sm:mt-20\" style=\"background: rgba(255,255,255,0.045);box-shadow:0 24px 90px rgba(0,0,0,0.22);\"><div class=\"video-grid\"><div class=\"video-text-col\"><div><h2>Атмосфера <span class=\"video-server-name\">CubeNet CMS</span> в одном ролике</h2><p>Короткий обзор CMS, визуала и того, как выглядит проект для игроков.</p></div><a href=\"https://youtube.com\" target=\"_blank\" rel=\"noreferrer\" class=\"video-youtube-link\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 010 1.971l-11.54 6.347a1.125 1.125 0 01-1.667-.985V5.653z\"></path></svg> Открыть на YouTube</a></div><div class=\"video-media-col\"><div class=\"video-embed\"><div class=\"aspect-video w-full flex items-center justify-center\" style=\"background: #06050b;\"><svg class=\"w-12 h-12\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"rgba(167,139,250,0.3)\" stroke-width=\"1.5\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 010 1.971l-11.54 6.347a1.125 1.125 0 01-1.667-.985V5.653z\"></path></svg></div></div></div></div></section><div class=\"mt-16 w-full max-w-6xl sm:mt-24\"><div class=\"section-divider mb-12\"></div><div><div class=\"news-header\"><div><span class=\"news-pretitle\"><svg width=\"15\" height=\"15\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 01-2.25 2.25M16.5 7.5V18a2.25 2.25 0 002.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 002.25 2.25h13.5M6 7.5h3v3H6v-3z\"></path></svg> Новости</span><h2 class=\"news-section-title\">Последние обновления</h2></div><a href=\"/news\" class=\"news-all-link\">Все новости <svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3\"></path></svg></a></div><div class=\"news-empty\">Опубликованных новостей пока нет</div></div></div>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<section class=\"hero-section\"><div class=\"hero-text-col\"><h1 class=\"hero-title\"><span class=\"hero-title-inner\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var3 string
+			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(data.SiteName)
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/home.templ`, Line: 8, Col: 51}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "</span></h1><p class=\"hero-description\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var4 string
+			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(data.SiteDescription)
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/home.templ`, Line: 10, Col: 54}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</p><div class=\"hero-cta-row\"><a href=\"/register\" class=\"home-play-btn\"><span class=\"btn-text\">Начать</span> <svg class=\"btn-icon\" width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3\"></path></svg></a> <a href=\"/servers\" class=\"hero-secondary-btn\">Серверы</a></div></div><div class=\"hero-visual\"><div class=\"hero-visual-glow\"></div><img class=\"hero-mascot\" src=\"/assets/hero-visual.webp\" alt=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var5 string
+			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.ResolveAttributeValue(data.SiteName)
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/home.templ`, Line: 23, Col: 79}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var5)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "\"></div></section><div class=\"w-full max-w-5xl mx-auto\"><div id=\"server-list\" class=\"home-server-marquee\"><div class=\"flex justify-center p-8 glass rounded-3xl\"><div class=\"animate-spin w-6 h-6 rounded-full border-2 border-primary border-t-transparent\"></div><span class=\"ml-3 text-sm\" style=\"color: rgba(255,255,255,0.45);\">Загрузка серверов...</span></div></div></div><section class=\"mt-14 w-full overflow-hidden rounded-[2rem] border border-white/10 sm:mt-20\" style=\"background: rgba(255,255,255,0.045);box-shadow:0 24px 90px rgba(0,0,0,0.22);\"><div class=\"video-grid\"><div class=\"video-text-col\"><div><h2>Атмосфера <span class=\"video-server-name\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var6 string
+			templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(data.SiteName)
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/home.templ`, Line: 40, Col: 76}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "</span> в одном ролике</h2><p>Короткий обзор CMS, визуала и того, как выглядит проект для игроков.</p></div><a href=\"https://youtube.com\" target=\"_blank\" rel=\"noreferrer\" class=\"video-youtube-link\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 010 1.971l-11.54 6.347a1.125 1.125 0 01-1.667-.985V5.653z\"></path></svg> Открыть на YouTube</a></div><div class=\"video-media-col\"><div class=\"video-embed\"><div class=\"aspect-video w-full flex items-center justify-center\" style=\"background: #06050b;\"><svg class=\"w-12 h-12\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"rgba(167,139,250,0.3)\" stroke-width=\"1.5\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 010 1.971l-11.54 6.347a1.125 1.125 0 01-1.667-.985V5.653z\"></path></svg></div></div></div></div></section><div class=\"mt-16 w-full max-w-6xl sm:mt-24\"><div class=\"section-divider mb-12\"></div><div><div class=\"news-header\"><div><span class=\"news-pretitle\"><svg width=\"15\" height=\"15\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 01-2.25 2.25M16.5 7.5V18a2.25 2.25 0 002.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 002.25 2.25h13.5M6 7.5h3v3H6v-3z\"></path></svg> Новости</span><h2 class=\"news-section-title\">Последние обновления</h2></div><a href=\"/news\" class=\"news-all-link\">Все новости <svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3\"></path></svg></a></div><div class=\"news-empty\">Опубликованных новостей пока нет</div></div></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
