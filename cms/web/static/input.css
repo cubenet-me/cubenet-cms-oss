@@ -872,7 +872,8 @@
     overflow: hidden;
     transition: width 0.2s ease-out;
   }
-  .admin-sidebar-trigger:hover {
+  .admin-sidebar-trigger:hover,
+  .admin-shell:has(.admin-sidebar-indicator:hover) .admin-sidebar-trigger {
     width: 16rem;
   }
   .admin-sidebar {
@@ -893,22 +894,29 @@
   .admin-hamburger {
     @apply hidden;
   }
-  .admin-sidebar-indicator svg {
-    width: 24px;
-    height: 24px;
-  }
   .admin-sidebar-indicator {
     position: fixed;
-    left: 10px;
+    left: 5px;
     top: 50%;
     transform: translateY(-50%);
     z-index: 51;
     color: rgba(255,255,255,0.2);
-    pointer-events: none;
-    transition: opacity 0.2s ease-out;
+    pointer-events: auto;
+    cursor: pointer;
+    padding: 12px 8px;
+    transition: opacity 0.2s ease-out, color 0.2s ease-out;
   }
-  .admin-sidebar-trigger:hover ~ .admin-sidebar-indicator,
-  .admin-sidebar-trigger.is-open ~ .admin-sidebar-indicator {
+  .admin-sidebar-indicator:hover {
+    color: rgba(255,255,255,0.4);
+  }
+  .admin-sidebar-indicator svg {
+    width: 28px;
+    height: 28px;
+    display: block;
+  }
+  .admin-shell:has(.admin-sidebar-trigger:hover) .admin-sidebar-indicator,
+  .admin-shell:has(.admin-sidebar-trigger.is-open) .admin-sidebar-indicator,
+  .admin-shell:has(.admin-sidebar-indicator:hover) .admin-sidebar-indicator {
     opacity: 0;
   }
   .admin-sidebar-backdrop {
@@ -923,7 +931,8 @@
   }
   /* shift content when sidebar opens */
   .admin-shell:has(.admin-sidebar-trigger.is-open) .admin-layout,
-  .admin-shell:has(.admin-sidebar-trigger:hover) .admin-layout {
+  .admin-shell:has(.admin-sidebar-trigger:hover) .admin-layout,
+  .admin-shell:has(.admin-sidebar-indicator:hover) .admin-layout {
     margin-left: 16rem;
   }
 }
