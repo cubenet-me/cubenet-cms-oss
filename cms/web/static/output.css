@@ -2321,10 +2321,6 @@ h1, h2, h3, h4, h5, h6 {
     transition: width 0.2s ease-out;
   }
 
-  .admin-sidebar-trigger:hover {
-    width: 16rem;
-  }
-
   .admin-sidebar {
     width: 16rem;
     height: 100%;
@@ -2364,7 +2360,6 @@ h1, h2, h3, h4, h5, h6 {
     pointer-events: auto;
     cursor: pointer;
     padding: 12px 8px;
-    transition: color 0.2s ease-out;
   }
 
   .admin-sidebar-indicator:hover {
@@ -2401,8 +2396,7 @@ h1, h2, h3, h4, h5, h6 {
 
   /* shift content when sidebar opens */
 
-  .admin-shell:has(.admin-sidebar-trigger.is-open) .admin-layout,
-  .admin-shell:has(.admin-sidebar-trigger:hover) .admin-layout {
+  .admin-shell:has(.admin-sidebar-trigger.is-open) .admin-layout {
     margin-left: 16rem;
   }
 }
