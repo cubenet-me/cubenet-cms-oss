@@ -103,6 +103,7 @@ func main() {
 	r.Post("/auth/register", webH.Register)
 	r.Post("/auth/logout", webH.Logout)
 	r.Get("/servers", webH.Servers)
+	r.Get("/wallet", webH.WalletPage)
 	r.Get("/admin", webH.Admin)
 
 	slog.Info("server started", "addr", cfg.Addr)

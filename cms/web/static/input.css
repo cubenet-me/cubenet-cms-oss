@@ -164,6 +164,17 @@
   }
   .dropdown-menu.is-open {
     display: block;
+    animation: dropIn 0.15s ease-out;
+  }
+  @keyframes dropIn {
+    from {
+      opacity: 0;
+      transform: translateY(-6px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
   .dropdown-item {
     @apply flex w-full items-center gap-2 rounded-xl px-3 py-2 text-sm transition-colors;

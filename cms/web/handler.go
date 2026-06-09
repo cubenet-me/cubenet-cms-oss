@@ -146,6 +146,21 @@ func (h *Handler) Servers(w http.ResponseWriter, r *http.Request) {
 	serversPage(baseData(pc)).Render(context.Background(), w)
 }
 
+func (h *Handler) WalletPage(w http.ResponseWriter, r *http.Request) {
+	pc := h.execPipeline(r, w, "wallet")
+	bd := baseData(pc)
+	if !bd.LoggedIn {
+		http.Redirect(w, r, "/login", http.StatusFound)
+		return
+	}
+	user, err := h.authSvc.GetProfile(r.Context(), getString(pc.Data, "UserID"))
+	var wallet UserWalletData
+	if err == nil {
+		wallet = UserWalletData{Money: user.Wallet.Money, Spent: user.Wallet.Spent}
+	}
+	walletPage(bd, wallet).Render(context.Background(), w)
+}
+
 func (h *Handler) Admin(w http.ResponseWriter, r *http.Request) {
 	pc := h.execPipeline(r, w, "admin")
 	bd := baseData(pc)
@@ -200,6 +215,8 @@ func title(t string) string {
 		return "Серверы"
 	case "admin":
 		return "Админка"
+	case "wallet":
+		return "Кошелёк"
 	}
 	return t
 }
