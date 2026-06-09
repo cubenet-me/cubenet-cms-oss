@@ -2,7 +2,7 @@ namespace CubenetLauncher;
 
 public static class Logger
 {
-    private static readonly string LogPath = Path.Combine(
+    private static readonly string _logPath = Path.Combine(
         Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
         Env.AppName,
         "launcher.log");
@@ -13,6 +13,8 @@ public static class Logger
         if (dir is not null)
             Directory.CreateDirectory(dir);
     }
+
+    public static string LogPath => _logPath;
 
     public static void Info(string message) => Write("INFO", message);
     public static void Warn(string message) => Write("WARN", message);

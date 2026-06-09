@@ -9,10 +9,8 @@
         Title="Cubenet Launcher"
         Width="250" Height="150"
         WindowStartupLocation="CenterScreen"
-        WindowDecorations="None"
         Background="#1a1b2e"
-        CanResize="False"
-        ShowInTaskbar="False">
+        CanResize="False">
 
     <Grid IsVisible="{Binding IsLoading}">
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="12">

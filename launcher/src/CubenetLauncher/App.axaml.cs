@@ -9,7 +9,7 @@ namespace CubenetLauncher;
 
 public partial class App : Application
 {
-    public static bool NoUpdate;
+    public static bool SkipUpdate;
 
     public override void Initialize()
     {
@@ -22,11 +22,25 @@ public partial class App : Application
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            NoUpdate = Array.Exists(desktop.Args ?? [], a =>
-                a.Equals("--no-update", StringComparison.OrdinalIgnoreCase));
+            var args = desktop.Args ?? [];
 
-            if (NoUpdate)
-                Logger.Info("Update check skipped (--no-update)");
+            if (Array.Exists(args, a => a.Equals("--logs", StringComparison.OrdinalIgnoreCase)))
+            {
+                var logPath = Logger.LogPath;
+                Console.WriteLine($"=== Log: {logPath} ===");
+                if (File.Exists(logPath))
+                    Console.WriteLine(File.ReadAllText(logPath));
+                else
+                    Console.WriteLine("(log file not found)");
+                Environment.Exit(0);
+                return;
+            }
+
+            SkipUpdate = Array.Exists(args, a =>
+                a.Equals("--skip-update", StringComparison.OrdinalIgnoreCase));
+
+            if (SkipUpdate)
+                Logger.Info("Update check skipped (--skip-update)");
 
             var vm = new MainWindowViewModel();
             var updateService = new UpdateService();
@@ -62,7 +76,7 @@ public partial class App : Application
     {
         try
         {
-            if (!NoUpdate)
+            if (!SkipUpdate)
             {
                 var updated = await updateService.CheckAndUpdateAsync(
                     new Progress<(string status, double progress)>(state =>
@@ -75,7 +89,6 @@ public partial class App : Application
                     return; // app will restart
             }
 
-            // No update — open main window
             vm.StatusText = "Запуск...";
             vm.ProgressValue = 100;
             await Task.Delay(200);
