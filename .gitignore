@@ -4,8 +4,14 @@
 .DS_Store
 Thumbs.db
 
-# Go
-backend/tmp/
+# Launcher
+launcher/**/bin/
+launcher/**/obj/
+launcher/**/*.user
+launcher/**/Debug/
+launcher/**/Release/
+launcher/.vs/
+launcher/*.slnx
 
 # Node
 node_modules/
