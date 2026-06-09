@@ -1,0 +1,149 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:CubenetLauncher.ViewModels"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="1060" d:DesignHeight="720"
+             x:Class="CubenetLauncher.Views.SettingsView"
+             x:DataType="vm:SettingsViewModel">
+
+    <ScrollViewer Padding="40">
+        <StackPanel Spacing="28" MaxWidth="600" HorizontalAlignment="Left">
+
+            <TextBlock Text="Настройки"
+                       FontSize="28" FontWeight="Bold"
+                       Foreground="#ffffff"/>
+
+            <TextBlock Text="Управляй параметрами запуска Minecraft"
+                       FontSize="14"
+                       Foreground="#7777aa"
+                       Margin="0,-16,0,0"/>
+
+            <!-- RAM -->
+            <Border CornerRadius="12" Padding="24"
+                    BoxShadow="0 6 20 #30000000">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%">
+                        <GradientStop Color="#1e1e38" Offset="0.0"/>
+                        <GradientStop Color="#16162a" Offset="1.0"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+                <StackPanel Spacing="14">
+                    <TextBlock Text="Оперативная память (RAM)"
+                               FontSize="16" FontWeight="SemiBold"
+                               Foreground="#ddddff"/>
+                    <TextBlock Text="Рекомендуется: 2048–4096 MB"
+                               FontSize="12"
+                               Foreground="#7777aa"/>
+
+                    <Grid ColumnDefinitions="*,80">
+                        <Slider Grid.Column="0"
+                                Minimum="512"
+                                Maximum="16384"
+                                TickFrequency="256"
+                                Value="{Binding RamMb}"
+                                Margin="0,0,16,0"/>
+                        <Border Grid.Column="1"
+                                CornerRadius="8"
+                                Background="#0f0f1a"
+                                Padding="8,6">
+                            <TextBlock Text="{Binding RamMb}"
+                                       Foreground="#ddddff"
+                                       FontSize="14"
+                                       FontWeight="Bold"
+                                       HorizontalAlignment="Center"/>
+                        </Border>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- Java Path -->
+            <Border CornerRadius="12" Padding="24"
+                    BoxShadow="0 6 20 #30000000">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%">
+                        <GradientStop Color="#1e1e38" Offset="0.0"/>
+                        <GradientStop Color="#16162a" Offset="1.0"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+                <StackPanel Spacing="12">
+                    <TextBlock Text="Путь к Java"
+                               FontSize="16" FontWeight="SemiBold"
+                               Foreground="#ddddff"/>
+                    <TextBlock Text="Оставь пустым для авто-поиска"
+                               FontSize="12"
+                               Foreground="#7777aa"/>
+                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                        <Border Grid.Column="0"
+                                CornerRadius="8"
+                                Background="#0f0f1a"
+                                Padding="12,8">
+                            <TextBlock Text="{Binding JavaPath}"
+                                       Foreground="#9999bb"
+                                       FontSize="13"
+                                       VerticalAlignment="Center"/>
+                        </Border>
+                        <Button Grid.Column="1"
+                                Content="Обзор"
+                                Background="#ffffff10"
+                                Foreground="#ddddff"
+                                CornerRadius="8"
+                                Padding="16,8"
+                                Click="BrowseJavaPath"
+                                Cursor="Hand"/>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- Game Directory -->
+            <Border CornerRadius="12" Padding="24"
+                    BoxShadow="0 6 20 #30000000">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%">
+                        <GradientStop Color="#1e1e38" Offset="0.0"/>
+                        <GradientStop Color="#16162a" Offset="1.0"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+                <StackPanel Spacing="12">
+                    <TextBlock Text="Игровая директория"
+                               FontSize="16" FontWeight="SemiBold"
+                               Foreground="#ddddff"/>
+                    <TextBlock Text="Папка с ассетами, модами и конфигами"
+                               FontSize="12"
+                               Foreground="#7777aa"/>
+                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                        <Border Grid.Column="0"
+                                CornerRadius="8"
+                                Background="#0f0f1a"
+                                Padding="12,8">
+                            <TextBlock Text="{Binding GameDirectory}"
+                                       Foreground="#9999bb"
+                                       FontSize="13"
+                                       VerticalAlignment="Center"/>
+                        </Border>
+                        <Button Grid.Column="1"
+                                Content="Обзор"
+                                Background="#ffffff10"
+                                Foreground="#ddddff"
+                                CornerRadius="8"
+                                Padding="16,8"
+                                Click="BrowseGameDir"
+                                Cursor="Hand"/>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- Save -->
+            <Button Content="Сохранить"
+                    Command="{Binding SaveCommand}"
+                    Background="#6c63ff"
+                    Foreground="#ffffff"
+                    FontSize="15" FontWeight="Bold"
+                    CornerRadius="10"
+                    Padding="32,14"
+                    HorizontalAlignment="Left"
+                    Cursor="Hand"/>
+
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

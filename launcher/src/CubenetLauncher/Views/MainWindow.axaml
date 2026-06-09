@@ -1,27 +1,103 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="using:CubenetLauncher.ViewModels"
+        xmlns:views="using:CubenetLauncher.Views"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="1280" d:DesignHeight="720"
         x:Class="CubenetLauncher.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
-        Icon="/Assets/avalonia-logo.ico"
         Title="Cubenet Launcher"
         Width="1280" Height="720"
         WindowStartupLocation="CenterScreen"
         WindowDecorations="None"
-        Background="#1a1b2e">
+        Background="#0f0f1a">
 
     <Design.DataContext>
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
-    <TextBlock Text="CUBENET LAUNCHER"
-               FontSize="32"
-               FontWeight="Bold"
-               Foreground="#6c63ff"
-               HorizontalAlignment="Center"
-               VerticalAlignment="Center"/>
+
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="220"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Sidebar -->
+        <Border Grid.Column="0">
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%">
+                    <GradientStop Color="#1a1a30" Offset="0.0"/>
+                    <GradientStop Color="#12122a" Offset="0.5"/>
+                    <GradientStop Color="#0e0e24" Offset="1.0"/>
+                </LinearGradientBrush>
+            </Border.Background>
+            <Border BoxShadow="2 0 10 #40000000">
+                <StackPanel Margin="20">
+                    <Border Background="#6c63ff"
+                            CornerRadius="10"
+                            Width="40" Height="40"
+                            HorizontalAlignment="Left"
+                            Margin="0,10,0,40">
+                        <TextBlock Text="C"
+                                   FontSize="22"
+                                   FontWeight="Bold"
+                                   Foreground="#ffffff"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"/>
+                    </Border>
+
+                    <Button Command="{Binding GoToHomeCommand}"
+                            Background="{Binding HomeButtonBg}"
+                            Foreground="#ffffff"
+                            FontWeight="Bold"
+                            FontSize="14"
+                            CornerRadius="8"
+                            Padding="12,8"
+                            Margin="0,0,0,8"
+                            HorizontalContentAlignment="Left"
+                            Cursor="Hand">
+                        Играть
+                    </Button>
+                    <TextBlock Text="Сборки" FontSize="14" Foreground="#555580" Margin="12,8"/>
+                    <TextBlock Text="Моды" FontSize="14" Foreground="#555580" Margin="12,8"/>
+                    <Button Command="{Binding GoToSettingsCommand}"
+                            Background="{Binding SettingsButtonBg}"
+                            Foreground="#ddddff"
+                            FontSize="14"
+                            CornerRadius="8"
+                            Padding="12,8"
+                            Margin="0,8,0,0"
+                            HorizontalContentAlignment="Left"
+                            Cursor="Hand">
+                        Настройки
+                    </Button>
+                </StackPanel>
+            </Border>
+        </Border>
+
+        <!-- Content Area -->
+        <Border Grid.Column="1">
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                    <GradientStop Color="#0f0f1a" Offset="0.0"/>
+                    <GradientStop Color="#12122a" Offset="0.5"/>
+                    <GradientStop Color="#0a0a18" Offset="1.0"/>
+                </LinearGradientBrush>
+            </Border.Background>
+            <ContentControl Content="{Binding CurrentPage}">
+                <ContentControl.DataTemplates>
+                    <DataTemplate DataType="vm:HomeViewModel">
+                        <views:HomeView/>
+                    </DataTemplate>
+                    <DataTemplate DataType="vm:SettingsViewModel">
+                        <views:SettingsView/>
+                    </DataTemplate>
+                </ContentControl.DataTemplates>
+            </ContentControl>
+        </Border>
+    </Grid>
 
 </Window>

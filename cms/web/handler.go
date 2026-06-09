@@ -2,11 +2,14 @@ package web
 
 import (
 	"context"
+	"encoding/json"
 	"net/http"
 	"regexp"
+	"strconv"
 	"strings"
 	"unicode"
 
+	"github.com/cubenet-cms/cms/model"
 	"github.com/cubenet-cms/cms/plugin"
 	"github.com/cubenet-cms/cms/service"
 )
@@ -218,6 +221,64 @@ func (h *Handler) AdminNavbar(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Forbidden", http.StatusForbidden)
 		return
 	}
+
+	if r.Method == http.MethodPost {
+		raw := h.settingsSvc.Get("nav_items", `[{"label":"Главная","href":"/","order":0},{"label":"Серверы","href":"/servers","order":1}]`)
+		var items []model.NavItem
+		json.Unmarshal([]byte(raw), &items)
+		if items == nil {
+			items = []model.NavItem{}
+		}
+
+		if r.FormValue("delete") != "" {
+			idx, _ := strconv.Atoi(r.FormValue("delete"))
+			if idx >= 0 && idx < len(items) {
+				items = append(items[:idx], items[idx+1:]...)
+			}
+		} else {
+			// parse existing items from form
+			newItems := []model.NavItem{}
+			for i := 0; ; i++ {
+				label := strings.TrimSpace(r.FormValue("label_" + strconv.Itoa(i)))
+				href := strings.TrimSpace(r.FormValue("href_" + strconv.Itoa(i)))
+				orderStr := r.FormValue("order_" + strconv.Itoa(i))
+				if label == "" && href == "" {
+					break
+				}
+				order, _ := strconv.Atoi(orderStr)
+				newItems = append(newItems, model.NavItem{Label: label, Href: href, Order: order})
+			}
+			// add new item if provided
+			newLabel := strings.TrimSpace(r.FormValue("new_label"))
+			newHref := strings.TrimSpace(r.FormValue("new_href"))
+			if newLabel != "" && newHref != "" {
+				newItems = append(newItems, model.NavItem{
+					Label: newLabel, Href: newHref,
+					Order: len(newItems),
+				})
+			}
+			items = newItems
+		}
+
+		// fix ordering
+		for i := range items {
+			items[i].Order = i
+		}
+
+		b, _ := json.Marshal(items)
+		h.settingsSvc.Set(r.Context(), "nav_items", string(b))
+
+		// re-exec pipeline to get fresh nav items
+		pc = h.execPipeline(r, w, "admin")
+		bd = baseData(pc)
+		if r.Header.Get("HX-Request") == "true" {
+			adminNavbarContent(bd).Render(context.Background(), w)
+		} else {
+			adminNavbarPage(bd).Render(context.Background(), w)
+		}
+		return
+	}
+
 	if r.Header.Get("HX-Request") == "true" {
 		adminNavbarContent(bd).Render(context.Background(), w)
 		return
@@ -263,6 +324,10 @@ func baseData(pc *plugin.Context) BaseData {
 		perms = []string{}
 	}
 	roleName, _ := pc.Data["RoleName"].(map[string]string)
+	navItems, _ := pc.Data["NavItems"].([]model.NavItem)
+	if navItems == nil {
+		navItems = []model.NavItem{}
+	}
 	return BaseData{
 		Title:           title(pc.Template),
 		LoggedIn:        getBool(pc.Data, "LoggedIn"),
@@ -273,6 +338,7 @@ func baseData(pc *plugin.Context) BaseData {
 		Permissions:     perms,
 		SiteName:        getString(pc.Data, "SiteName"),
 		SiteDescription: getString(pc.Data, "SiteDescription"),
+		NavItems:        navItems,
 	}
 }
 

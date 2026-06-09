@@ -32,8 +32,6 @@ public partial class App : Application
                     Console.WriteLine(File.ReadAllText(logPath));
                 else
                     Console.WriteLine("(log file not found)");
-                Environment.Exit(0);
-                return;
             }
 
             SkipUpdate = Array.Exists(args, a =>
