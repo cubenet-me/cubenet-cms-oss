@@ -21,6 +21,7 @@ import (
 	"github.com/cubenet-cms/backend/store"
 	"github.com/cubenet-cms/backend/web"
 	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/chi/v5/middleware"
 )
 
 func main() {
@@ -69,6 +70,7 @@ func main() {
 	webH := web.NewHandler(authSvc, serverSvc, newsSvc, pipe)
 
 	r := chi.NewRouter()
+	r.Use(middleware.RedirectSlashes)
 
 	r.Get("/health", func(w http.ResponseWriter, _ *http.Request) {
 		w.Write([]byte(`{"status":"ok"}`))
