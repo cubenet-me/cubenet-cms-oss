@@ -1,0 +1,15 @@
+/home/vmko/cubenet-cms/launcher/src/CubenetLauncher.Bootstrapper/bin/Debug/net10.0/CubenetLauncher.Bootstrapper
+/home/vmko/cubenet-cms/launcher/src/CubenetLauncher.Bootstrapper/bin/Debug/net10.0/CubenetLauncher.Bootstrapper.deps.json
+/home/vmko/cubenet-cms/launcher/src/CubenetLauncher.Bootstrapper/bin/Debug/net10.0/CubenetLauncher.Bootstrapper.runtimeconfig.json
+/home/vmko/cubenet-cms/launcher/src/CubenetLauncher.Bootstrapper/bin/Debug/net10.0/CubenetLauncher.Bootstrapper.dll
+/home/vmko/cubenet-cms/launcher/src/CubenetLauncher.Bootstrapper/bin/Debug/net10.0/CubenetLauncher.Bootstrapper.pdb
+/home/vmko/cubenet-cms/launcher/src/CubenetLauncher.Bootstrapper/obj/Debug/net10.0/CubenetLauncher.Bootstrapper.GeneratedMSBuildEditorConfig.editorconfig
+/home/vmko/cubenet-cms/launcher/src/CubenetLauncher.Bootstrapper/obj/Debug/net10.0/CubenetLauncher.Bootstrapper.AssemblyInfoInputs.cache
+/home/vmko/cubenet-cms/launcher/src/CubenetLauncher.Bootstrapper/obj/Debug/net10.0/CubenetLauncher.Bootstrapper.AssemblyInfo.cs
+/home/vmko/cubenet-cms/launcher/src/CubenetLauncher.Bootstrapper/obj/Debug/net10.0/CubenetLauncher.Bootstrapper.csproj.CoreCompileInputs.cache
+/home/vmko/cubenet-cms/launcher/src/CubenetLauncher.Bootstrapper/obj/Debug/net10.0/CubenetLauncher.Bootstrapper.sourcelink.json
+/home/vmko/cubenet-cms/launcher/src/CubenetLauncher.Bootstrapper/obj/Debug/net10.0/CubenetLauncher.Bootstrapper.dll
+/home/vmko/cubenet-cms/launcher/src/CubenetLauncher.Bootstrapper/obj/Debug/net10.0/refint/CubenetLauncher.Bootstrapper.dll
+/home/vmko/cubenet-cms/launcher/src/CubenetLauncher.Bootstrapper/obj/Debug/net10.0/CubenetLauncher.Bootstrapper.pdb
+/home/vmko/cubenet-cms/launcher/src/CubenetLauncher.Bootstrapper/obj/Debug/net10.0/CubenetLauncher.Bootstrapper.genruntimeconfig.cache
+/home/vmko/cubenet-cms/launcher/src/CubenetLauncher.Bootstrapper/obj/Debug/net10.0/ref/CubenetLauncher.Bootstrapper.dll

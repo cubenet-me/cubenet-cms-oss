@@ -94,13 +94,13 @@
     top: 1rem;
   }
   .navbar-inner {
-    @apply w-full max-w-full px-4 py-3 flex items-center justify-between;
+    @apply w-full max-w-full px-4 py-3 flex items-center justify-between lg:w-auto lg:max-w-[calc(100vw-2rem)];
     border-radius: 28px;
     background: rgba(0, 0, 0, 0.55);
-    backdrop-filter: blur(16px) saturate(160%);
-    -webkit-backdrop-filter: blur(16px) saturate(160%);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(24px) saturate(160%);
+    -webkit-backdrop-filter: blur(24px) saturate(160%);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    box-shadow: 0 4px 32px rgba(0, 0, 0, 0.35);
   }
   .brand {
     @apply flex shrink-0 items-center;
