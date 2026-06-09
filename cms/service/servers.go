@@ -38,7 +38,9 @@ func (s *ServerService) List(ctx context.Context) ([]model.Server, error) {
 }
 
 func (s *ServerService) CacheStats() cache.Stats {
-	return s.list.Stats()
+	a := s.list.Stats()
+	b := s.bySlug.Stats()
+	return cache.Stats{Entries: a.Entries + b.Entries, Hits: a.Hits + b.Hits, Misses: a.Misses + b.Misses}
 }
 
 func (s *ServerService) GetBySlug(ctx context.Context, slug string) (*model.Server, error) {
