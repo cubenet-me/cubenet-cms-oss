@@ -2,11 +2,13 @@ package service
 
 import (
 	"context"
+	"errors"
 	"time"
 
 	"github.com/cubenet-cms/cms/model"
 	"github.com/cubenet-cms/cms/pkg/cache"
 	"github.com/cubenet-cms/cms/store"
+	"github.com/jackc/pgx/v5"
 )
 
 type ServerService struct {
@@ -45,6 +47,10 @@ func (s *ServerService) GetBySlug(ctx context.Context, slug string) (*model.Serv
 	}
 	v, err := s.repo.GetBySlug(ctx, slug)
 	if err != nil {
+		if errors.Is(err, pgx.ErrNoRows) {
+			s.bySlug.Set(slug, nil)
+			return nil, nil
+		}
 		return nil, err
 	}
 	s.bySlug.Set(slug, v)

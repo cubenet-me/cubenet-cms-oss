@@ -43,6 +43,10 @@ func (h *LauncherHandler) GetBuild(w http.ResponseWriter, r *http.Request) {
 
 	b, err := h.svc.GetBuild(r.Context(), id)
 	if err != nil {
+		http.Error(w, `{"error":"query failed"}`, http.StatusInternalServerError)
+		return
+	}
+	if b == nil {
 		http.Error(w, `{"error":"build not found"}`, http.StatusNotFound)
 		return
 	}

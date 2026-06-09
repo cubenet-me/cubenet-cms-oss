@@ -34,6 +34,10 @@ func (h *ServerHandler) GetBySlug(w http.ResponseWriter, r *http.Request) {
 
 	s, err := h.svc.GetBySlug(r.Context(), slug)
 	if err != nil {
+		http.Error(w, `{"error":"query failed"}`, http.StatusInternalServerError)
+		return
+	}
+	if s == nil {
 		http.Error(w, `{"error":"server not found"}`, http.StatusNotFound)
 		return
 	}

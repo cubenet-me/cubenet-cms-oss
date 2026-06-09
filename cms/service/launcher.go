@@ -2,11 +2,13 @@ package service
 
 import (
 	"context"
+	"errors"
 	"time"
 
 	"github.com/cubenet-cms/cms/model"
 	"github.com/cubenet-cms/cms/pkg/cache"
 	"github.com/cubenet-cms/cms/store"
+	"github.com/jackc/pgx/v5"
 )
 
 type LauncherService struct {
@@ -63,6 +65,10 @@ func (s *LauncherService) GetBuild(ctx context.Context, id string) (*model.Build
 	}
 	v, err := s.repo.GetByID(ctx, id)
 	if err != nil {
+		if errors.Is(err, pgx.ErrNoRows) {
+			s.byID.Set(id, nil)
+			return nil, nil
+		}
 		return nil, err
 	}
 	s.byID.Set(id, v)
