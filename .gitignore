@@ -19,3 +19,6 @@ launcher/**/build.sh
 
 # Node
 node_modules/
+
+# CMS backend binary
+cms/cms-backend
