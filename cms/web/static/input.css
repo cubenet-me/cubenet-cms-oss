@@ -802,9 +802,15 @@
   pointer-events: none;
 }
 
+@property --toast-progress {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
 .toast-error {
   position: fixed;
-  top: 5rem;
+  top: calc(5rem + 15px);
   left: 50%;
   transform: translateX(-50%);
   z-index: 100;
@@ -822,13 +828,38 @@
   white-space: nowrap;
 }
 
+.toast-error::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  padding: 2px;
+  background: conic-gradient(
+    transparent 0deg,
+    transparent var(--toast-progress),
+    rgba(34, 197, 94, 0.6) var(--toast-progress),
+    rgba(34, 197, 94, 0.6) 360deg
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  animation: toastDrain 15s linear forwards;
+}
+
 @keyframes toastIn {
   from {
     opacity: 0;
-    transform: translateX(-50%) translateY(-1rem);
+    transform: translateX(-50%) translateY(-1.5rem);
   }
   to {
     opacity: 1;
     transform: translateX(-50%) translateY(0);
+  }
+}
+
+@keyframes toastDrain {
+  to {
+    --toast-progress: 360deg;
   }
 }
