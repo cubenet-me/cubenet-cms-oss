@@ -41,7 +41,7 @@ func serversPage(data BaseData) templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div><div class=\"text-center mb-10\"><h1 class=\"section-title text-[32px]\">Серверы</h1><p class=\"section-sub\">Серверы Minecraft, доступные для подключения</p></div><div id=\"server-list\" class=\"flex justify-center gap-5 flex-wrap\"><div class=\"glass text-center p-8\"><div class=\"inline-block w-8 h-8 rounded-full border-2 border-primary border-t-transparent animate-spin mb-4\"></div><p class=\"text-sm text-muted\">Загрузка серверов...</p></div></div></div>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"max-w-5xl mx-auto\"><div class=\"mb-8\"><h1 class=\"text-3xl sm:text-4xl font-black\">Серверы</h1><p class=\"text-sm mt-2\" style=\"color: oklch(0.72 0.035 292);\">Серверы Minecraft, доступные для подключения</p></div><div id=\"server-list\" class=\"grid gap-4 sm:grid-cols-2\"><div class=\"glass rounded-3xl p-8 text-center\"><div class=\"inline-block w-6 h-6 rounded-full border-2 border-primary border-t-transparent animate-spin\"></div><p class=\"text-sm mt-3\" style=\"color: oklch(0.72 0.035 292);\">Загрузка серверов...</p></div></div></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

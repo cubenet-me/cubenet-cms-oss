@@ -2,41 +2,36 @@
   'use strict';
 
   function renderServer(server) {
-    const online = server.status === 'online';
-    const playerStr = server.players != null ? server.players : '?';
-    const maxStr = server.max_players != null ? server.max_players : '?';
-    return `<div class="server-card">
-      <div class="server-card-top neu-card">
-        <div style="position:relative;z-index:2;display:flex;flex-direction:column;justify-content:space-between;height:100%;">
-          <div style="display:flex;align-items:flex-start;justify-content:space-between;">
-            <div>
-              <div class="server-card-badge">${server.version || '1.20.4'}</div>
-              <h3 style="font-size:20px;font-weight:700;margin-top:8px;color:#f7f8ff;">${server.name || server.slug}</h3>
-            </div>
-            <div class="status-dot${online ? '' : ' is-offline'}"><span class="outer"></span><span class="inner"></span></div>
-          </div>
-          <div style="margin-top:16px;display:flex;gap:20px;font-size:13px;color:rgba(210,213,231,0.7);">
-            <div style="display:flex;align-items:center;gap:6px;">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg>
-              <span>${playerStr}/${maxStr}</span>
-            </div>
-            <div style="display:flex;align-items:center;gap:6px;">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15a4.5 4.5 0 004.5 4.5H18a3.75 3.75 0 001.332-7.257 3 3 0 00-3.758-3.848 5.25 5.25 0 00-10.233 2.33A4.502 4.502 0 002.25 15z"/></svg>
-              <span>${server.address || server.slug + '.example.com'}</span>
-            </div>
-          </div>
-          ${server.description ? '<p style="margin-top:10px;font-size:13px;color:rgba(210,213,231,0.6);">' + server.description + '</p>' : ''}
-        </div>
-      </div>
-    </div>`;
+    var title = server.name || server.slug || 'Server';
+    var desc = server.description || 'Minecraft server';
+    var version = server.version || '';
+    var addr = server.address || server.slug + '.example.com';
+    var online = server.status === 'online';
+    var players = server.players != null ? server.players : '?';
+    var maxPl = server.max_players != null ? server.max_players : '?';
+
+    return '<a href="/server/' + server.slug + '" class="server-card-ref group">' +
+      '<div class="server-card-ref-bg"></div>' +
+      '<div class="server-card-ref-overlay"></div>' +
+      '<div class="server-card-ref-violet"></div>' +
+      '<div class="server-card-ref-hover"><span>Открыть</span></div>' +
+      '<div class="server-card-ref-content">' +
+        '<h3 class="server-card-ref-title">' + escapeHtml(title) + '</h3>' +
+        '<p class="server-card-ref-desc">' + escapeHtml(desc) + '</p>' +
+        '<div class="server-card-ref-tags">' +
+          (online
+            ? '<span class="server-card-ref-badge-online"><span class="server-card-ref-dot"></span> Онлайн</span>'
+            : '<span class="server-card-ref-badge-online" style="border-color:rgba(255,120,120,0.18);background:rgba(255,120,120,0.10);color:#fecaca;"><span class="server-card-ref-dot" style="background:#ff7c7c;box-shadow:0 0 18px rgba(255,120,120,0.65);"></span> Офлайн</span>') +
+          (version ? '<span class="server-card-ref-badge-version">' + escapeHtml(version) + '</span>' : '') +
+        '</div>' +
+      '</div>' +
+    '</a>';
   }
 
-  function renderModPreview(mods) {
-    if (!mods || mods.length === 0) return '';
-    const visible = mods.slice(0, 3);
-    const remainder = mods.length - 3;
-    return visible.map(m => `<span class="server-card-badge" style="font-size:10px;padding:2px 8px;">${m}</span>`).join('') +
-      (remainder > 0 ? `<span class="server-card-badge" style="font-size:10px;padding:2px 8px;">+${remainder}</span>` : '');
+  function escapeHtml(str) {
+    var div = document.createElement('div');
+    div.appendChild(document.createTextNode(str));
+    return div.innerHTML;
   }
 
   function loadServerList(container) {
@@ -44,14 +39,29 @@
     fetch('/api/v1/servers')
       .then(function(r) { return r.json(); })
       .then(function(servers) {
-        if (servers.length === 0) {
-          container.innerHTML = '<div class="glass text-center p-8"><p class="text-muted">Серверов пока нет</p></div>';
+        if (!servers || servers.length === 0) {
+          container.innerHTML = '<div class="glass rounded-3xl p-10 text-center"><p style="color:rgba(255,255,255,0.45);">Серверов пока нет</p></div>';
           return;
         }
-        container.innerHTML = servers.map(renderServer).join('');
+        if (servers.length === 1) {
+          container.className = 'grid gap-4 sm:grid-cols-2';
+          container.innerHTML = renderServer(servers[0]);
+          return;
+        }
+        container.className = 'home-server-marquee';
+        var duration = Math.max(24, servers.length * 10);
+        container.innerHTML =
+          '<div class="home-server-track home-server-track-animated" style="--home-server-duration:' + duration + 's">' +
+            '<div class="home-server-set">' +
+              servers.map(function(s) { return renderServer(s); }).join('') +
+            '</div>' +
+            '<div class="home-server-set" aria-hidden="true">' +
+              servers.map(function(s) { return renderServer(s); }).join('') +
+            '</div>' +
+          '</div>';
       })
       .catch(function() {
-        container.innerHTML = '<div class="glass text-center p-8"><p class="text-muted">Не удалось загрузить серверы</p></div>';
+        container.innerHTML = '<div class="glass rounded-3xl p-10 text-center"><p style="color:rgba(255,255,255,0.45);">Не удалось загрузить серверы</p></div>';
       });
   }
 
