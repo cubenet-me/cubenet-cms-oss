@@ -1,18 +1,5 @@
 package web
 
-type BaseData struct {
-	Title           string
-	LoggedIn        bool
-	Username        string
-	Role            string
-	RoleName        map[string]string
-	RoleColor       string
-	Permissions     []string
-	SiteName        string
-	SiteDescription string
-	NavItems        []model.NavItem
-}
-
 func (d BaseData) HasPermission(perm string) bool {
 	for _, p := range d.Permissions {
 		if p == perm {

@@ -236,7 +236,6 @@ func (h *Handler) AdminNavbar(w http.ResponseWriter, r *http.Request) {
 				items = append(items[:idx], items[idx+1:]...)
 			}
 		} else {
-			// parse existing items from form
 			newItems := []model.NavItem{}
 			for i := 0; ; i++ {
 				label := strings.TrimSpace(r.FormValue("label_" + strconv.Itoa(i)))
@@ -248,7 +247,6 @@ func (h *Handler) AdminNavbar(w http.ResponseWriter, r *http.Request) {
 				order, _ := strconv.Atoi(orderStr)
 				newItems = append(newItems, model.NavItem{Label: label, Href: href, Order: order})
 			}
-			// add new item if provided
 			newLabel := strings.TrimSpace(r.FormValue("new_label"))
 			newHref := strings.TrimSpace(r.FormValue("new_href"))
 			if newLabel != "" && newHref != "" {
@@ -260,7 +258,6 @@ func (h *Handler) AdminNavbar(w http.ResponseWriter, r *http.Request) {
 			items = newItems
 		}
 
-		// fix ordering
 		for i := range items {
 			items[i].Order = i
 		}
@@ -268,7 +265,6 @@ func (h *Handler) AdminNavbar(w http.ResponseWriter, r *http.Request) {
 		b, _ := json.Marshal(items)
 		h.settingsSvc.Set(r.Context(), "nav_items", string(b))
 
-		// re-exec pipeline to get fresh nav items
 		pc = h.execPipeline(r, w, "admin")
 		bd = baseData(pc)
 		if r.Header.Get("HX-Request") == "true" {
@@ -324,9 +320,13 @@ func baseData(pc *plugin.Context) BaseData {
 		perms = []string{}
 	}
 	roleName, _ := pc.Data["RoleName"].(map[string]string)
-	navItems, _ := pc.Data["NavItems"].([]model.NavItem)
-	if navItems == nil {
-		navItems = []model.NavItem{}
+	modelNavItems, _ := pc.Data["NavItems"].([]model.NavItem)
+	if modelNavItems == nil {
+		modelNavItems = []model.NavItem{}
+	}
+	navItems := make([]NavItem, len(modelNavItems))
+	for i, mi := range modelNavItems {
+		navItems[i] = NavItem{Label: mi.Label, Href: mi.Href, Order: mi.Order}
 	}
 	return BaseData{
 		Title:           title(pc.Template),
