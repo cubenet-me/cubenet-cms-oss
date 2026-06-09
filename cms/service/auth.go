@@ -3,7 +3,9 @@ package service
 import (
 	"context"
 	"errors"
+	"time"
 
+	"github.com/cubenet-cms/cms/model"
 	"github.com/cubenet-cms/cms/pkg/jwt"
 	"github.com/cubenet-cms/cms/store"
 	"github.com/jackc/pgx/v5"
@@ -54,6 +56,30 @@ type LoginResult struct {
 
 func (s *AuthService) ValidateToken(tokenString string) (*jwt.Claims, error) {
 	return jwt.Validate(s.secret, tokenString)
+}
+
+func (s *AuthService) GetProfile(ctx context.Context, userID string) (*model.User, error) {
+	u, err := s.repo.GetProfile(ctx, userID)
+	if err != nil {
+		return nil, err
+	}
+	now := time.Now()
+	cleaned := make([]model.UserRole, 0, len(u.Roles))
+	for _, r := range u.Roles {
+		if r.ExpiresAt == "" {
+			cleaned = append(cleaned, r)
+			continue
+		}
+		t, err := time.Parse(time.RFC3339, r.ExpiresAt)
+		if err != nil || t.After(now) {
+			cleaned = append(cleaned, r)
+		}
+	}
+	if len(cleaned) != len(u.Roles) {
+		u.Roles = cleaned
+		_ = s.repo.UpdateRoles(ctx, userID, cleaned)
+	}
+	return u, nil
 }
 
 func (s *AuthService) Login(ctx context.Context, username, password string) (*LoginResult, error) {

@@ -38,3 +38,23 @@ func (r *AuthRepo) GetByUsername(ctx context.Context, username string) (*model.U
 	}
 	return u, nil
 }
+
+func (r *AuthRepo) GetProfile(ctx context.Context, userID string) (*model.User, error) {
+	u := &model.User{}
+	err := r.pool.QueryRow(ctx,
+		`SELECT id, username, COALESCE(nickname, username), email, roles, wallet FROM users WHERE id = $1`,
+		userID,
+	).Scan(&u.ID, &u.Username, &u.Nickname, &u.Email, &u.Roles, &u.Wallet)
+	if err != nil {
+		return nil, err
+	}
+	return u, nil
+}
+
+func (r *AuthRepo) UpdateRoles(ctx context.Context, userID string, roles []model.UserRole) error {
+	_, err := r.pool.Exec(ctx,
+		`UPDATE users SET roles = $1 WHERE id = $2`,
+		roles, userID,
+	)
+	return err
+}

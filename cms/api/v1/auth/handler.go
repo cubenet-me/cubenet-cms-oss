@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"github.com/cubenet-cms/cms/model"
 	"github.com/cubenet-cms/cms/service"
 )
 
@@ -52,6 +53,14 @@ func (h *AuthHandler) Register(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
+type meResponse struct {
+	UUID     string           `json:"uuid"`
+	Nickname string           `json:"nickname"`
+	Email    string           `json:"email"`
+	Roles    []model.UserRole `json:"roles"`
+	Wallet   model.UserWallet `json:"wallet"`
+}
+
 func (h *AuthHandler) Me(w http.ResponseWriter, r *http.Request) {
 	cookie, err := r.Cookie("token")
 	if err != nil || cookie.Value == "" {
@@ -63,11 +72,17 @@ func (h *AuthHandler) Me(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, `{"error":"invalid token"}`, http.StatusUnauthorized)
 		return
 	}
-	json.NewEncoder(w).Encode(authResponse{
-		Token:    cookie.Value,
-		UserID:   claims.UserID,
-		Username: claims.Username,
-		Role:     claims.Role,
+	user, err := h.svc.GetProfile(r.Context(), claims.UserID)
+	if err != nil {
+		http.Error(w, `{"error":"user not found"}`, http.StatusNotFound)
+		return
+	}
+	json.NewEncoder(w).Encode(meResponse{
+		UUID:     user.ID,
+		Nickname: user.Nickname,
+		Email:    user.Email,
+		Roles:    user.Roles,
+		Wallet:   user.Wallet,
 	})
 }
 
