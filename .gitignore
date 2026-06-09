@@ -15,6 +15,7 @@ launcher/*.slnx
 launcher/dist/
 launcher/**/*.pdb
 launcher/**/publish-all.sh
+launcher/**/build.sh
 
 # Node
 node_modules/
