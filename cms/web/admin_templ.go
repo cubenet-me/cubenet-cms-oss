@@ -67,7 +67,7 @@ func adminShell() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</div><div class=\"admin-sidebar-indicator\" id=\"admin-sidebar-indicator\" onclick=\"toggleAdminSidebar()\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M9 18l6-6-6-6\"></path></svg></div><div class=\"admin-sidebar-backdrop\" id=\"admin-backdrop\" onclick=\"closeAdminSidebar()\"></div><div class=\"admin-layout\"><main class=\"admin-content\"><div class=\"admin-loading htmx-indicator\"><div class=\"admin-loading-bar\"></div></div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "</div><div class=\"admin-sidebar-indicator\" id=\"admin-sidebar-indicator\" onclick=\"toggleAdminSidebar()\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M9 18l6-6-6-6\"></path></svg></div><div class=\"admin-layout\"><main class=\"admin-content\"><div class=\"admin-loading htmx-indicator\"><div class=\"admin-loading-bar\"></div></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -112,7 +112,7 @@ func adminDashboardContent(data BaseData) templ.Component {
 		var templ_7745c5c3_Var4 string
 		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(data.Username)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/admin.templ`, Line: 103, Col: 113}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/admin.templ`, Line: 101, Col: 113}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 		if templ_7745c5c3_Err != nil {
@@ -164,7 +164,7 @@ func adminSettingsContent(data BaseData, currentName string, saved bool) templ.C
 		var templ_7745c5c3_Var6 string
 		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.ResolveAttributeValue(currentName)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/admin.templ`, Line: 133, Col: 60}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/admin.templ`, Line: 131, Col: 60}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var6)
 		if templ_7745c5c3_Err != nil {

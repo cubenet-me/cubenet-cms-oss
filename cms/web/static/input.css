@@ -913,16 +913,6 @@
   .admin-shell:has(.admin-sidebar-trigger.is-open) .admin-sidebar-indicator svg {
     transform: rotate(180deg);
   }
-  .admin-sidebar-backdrop {
-    @apply fixed inset-0 z-[45] transition-opacity duration-300;
-    background: rgba(0,0,0,0.6);
-    opacity: 0;
-    pointer-events: none;
-  }
-  .admin-sidebar-backdrop.is-open {
-    opacity: 1;
-    pointer-events: auto;
-  }
   /* shift content when sidebar opens */
   .admin-shell:has(.admin-sidebar-trigger.is-open) .admin-layout {
     margin-left: 16rem;
@@ -942,16 +932,6 @@
   .admin-sidebar.is-open {
     transform: translateX(0);
   }
-  .admin-sidebar-backdrop {
-    @apply fixed inset-0 z-[65] transition-opacity duration-300;
-    background: rgba(0,0,0,0.7);
-    opacity: 0;
-    pointer-events: none;
-  }
-  .admin-sidebar-backdrop.is-open {
-    opacity: 1;
-    pointer-events: auto;
-  }
   .admin-content {
     @apply w-full min-w-0 flex-1 overflow-x-auto px-4 py-6 pt-16;
   }
@@ -966,6 +946,9 @@
   .admin-hamburger:hover {
     background: rgba(255,255,255,0.1);
     color: white;
+  }
+  .admin-sidebar-indicator {
+    display: none;
   }
 }
 .admin-sidebar-header {

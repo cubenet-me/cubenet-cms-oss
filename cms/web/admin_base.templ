@@ -16,37 +16,23 @@ templ adminBase(data BaseData) {
 			<script>
 			function toggleAdminSidebar(){
 				var s=document.getElementById('admin-sidebar');
-				var b=document.getElementById('admin-backdrop');
 				var t=s.closest('.admin-sidebar-trigger');
 				s.classList.toggle('is-open');
 				if(t) t.classList.toggle('is-open');
-				b.classList.toggle('is-open');
-			}
-			function closeAdminSidebar(){
-				var s=document.getElementById('admin-sidebar');
-				var b=document.getElementById('admin-backdrop');
-				var t=s.closest('.admin-sidebar-trigger');
-				s.classList.remove('is-open');
-				if(t) t.classList.remove('is-open');
-				b.classList.remove('is-open');
 			}
 			function toggleAdminGroup(btn){
 				btn.parentElement.classList.toggle('is-open');
 			}
 			function navClick(el, page){
-				// remove active from all nav items
 				document.querySelectorAll('.admin-nav-item').forEach(function(e){e.classList.remove('admin-nav-item-active');});
 				document.querySelectorAll('.admin-nav-sub-item').forEach(function(e){e.classList.remove('admin-nav-sub-item-active');});
 
 				if(el.classList.contains('admin-nav-sub-item')){
 					el.classList.add('admin-nav-sub-item-active');
-					// expand parent group
 					el.closest('.admin-nav-group').classList.add('is-open');
 				} else {
 					el.classList.add('admin-nav-item-active');
 				}
-
-				closeAdminSidebar();
 				return true;
 			}
 			// init active state from current URL on page load (for direct navigation)

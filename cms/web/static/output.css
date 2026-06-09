@@ -2377,23 +2377,6 @@ h1, h2, h3, h4, h5, h6 {
     transform: rotate(180deg);
   }
 
-  .admin-sidebar-backdrop {
-    position: fixed;
-    inset: 0px;
-    z-index: 45;
-    transition-property: opacity;
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    transition-duration: 300ms;
-    background: rgba(0,0,0,0.6);
-    opacity: 0;
-    pointer-events: none;
-  }
-
-  .admin-sidebar-backdrop.is-open {
-    opacity: 1;
-    pointer-events: auto;
-  }
-
   /* shift content when sidebar opens */
 
   .admin-shell:has(.admin-sidebar-trigger.is-open) .admin-layout {
@@ -2429,23 +2412,6 @@ h1, h2, h3, h4, h5, h6 {
 
   .admin-sidebar.is-open {
     transform: translateX(0);
-  }
-
-  .admin-sidebar-backdrop {
-    position: fixed;
-    inset: 0px;
-    z-index: 65;
-    transition-property: opacity;
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    transition-duration: 300ms;
-    background: rgba(0,0,0,0.7);
-    opacity: 0;
-    pointer-events: none;
-  }
-
-  .admin-sidebar-backdrop.is-open {
-    opacity: 1;
-    pointer-events: auto;
   }
 
   .admin-content {
@@ -2486,6 +2452,10 @@ h1, h2, h3, h4, h5, h6 {
   .admin-hamburger:hover {
     background: rgba(255,255,255,0.1);
     color: white;
+  }
+
+  .admin-sidebar-indicator {
+    display: none;
   }
 }
 
