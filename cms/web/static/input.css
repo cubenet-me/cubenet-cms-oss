@@ -97,13 +97,8 @@
                 opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1);
     opacity: 1;
   }
-  .navbar-hidden {
-    transform: translateY(-120%);
-    opacity: 0;
-    pointer-events: none;
-  }
   .navbar-inner {
-    @apply w-full max-w-full px-4 py-3 flex items-center justify-between lg:w-auto lg:max-w-[calc(100vw-2rem)];
+    @apply w-full max-w-full px-4 py-3 flex items-center justify-between gap-x-3 lg:gap-x-6 lg:w-auto lg:max-w-[calc(100vw-2rem)];
     border-radius: 28px;
     background: rgba(0, 0, 0, 0.55);
     backdrop-filter: blur(24px) saturate(160%);
@@ -799,4 +794,10 @@
       -webkit-backdrop-filter: none !important;
     }
   }
+}
+
+.navbar-hidden {
+  transform: translateY(-120%);
+  opacity: 0;
+  pointer-events: none;
 }
