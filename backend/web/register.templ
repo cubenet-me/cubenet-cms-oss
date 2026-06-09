@@ -2,39 +2,45 @@ package web
 
 templ registerPage(data BaseData, err string) {
 	@base(data) {
-		<div class="max-w-5xl mx-auto px-4 py-16">
-			<div class="bg-surface border border-border rounded-lg max-w-sm mx-auto p-8">
-				<h1 class="text-2xl font-bold text-center mb-2">Регистрация</h1>
-				<p class="text-sm text-surface-dimmed text-center mb-8">Создайте аккаунт</p>
+		<div class="flex-1 flex items-center justify-center px-4 py-12">
+			<div class="glass-strong rounded-2xl w-full max-w-sm p-8">
+				<div class="text-center mb-8">
+					<h1 class="text-2xl font-bold gradient-text mb-1">Регистрация</h1>
+					<p class="text-sm text-surface-dimmed">Создайте аккаунт</p>
+				</div>
 
 				if err != "" {
-					<div class="bg-red-950/40 border border-red-800/50 rounded-lg p-4 mb-4 text-sm">
-						{ err }
+					<div class="flex items-center gap-3 px-4 py-3 rounded-xl mb-6 text-sm" style="background: oklch(30% 0.1 20deg / 0.3); border: 1px solid oklch(50% 0.15 20deg / 0.3);">
+						<svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="oklch(70% 0.15 20deg)" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 2.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"/></svg>
+						<span>{ err }</span>
 					</div>
 				}
 
-				<form hx-post="/auth/register" hx-target="body" hx-swap="outerHTML" class="space-y-4">
+				<form hx-post="/auth/register" hx-target="body" hx-swap="outerHTML" class="space-y-5">
 					<div>
-						<label class="block text-sm text-surface-dimmed mb-1" for="username">Имя пользователя</label>
-						<input class="w-full px-3 py-2 bg-[oklch(14%_0.03_280deg)] border border-[oklch(30%_0.05_280deg)] rounded-lg text-sm text-white placeholder-surface-muted focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/20 transition-colors" type="text" id="username" name="username" required placeholder="Введите логин"/>
+						<label class="block text-sm font-medium text-surface-dimmed mb-1.5" for="username">Имя пользователя</label>
+						<input class="input-modern" type="text" id="username" name="username" required placeholder="Введите логин"/>
 					</div>
 					<div>
-						<label class="block text-sm text-surface-dimmed mb-1" for="email">Почта</label>
-						<input class="w-full px-3 py-2 bg-[oklch(14%_0.03_280deg)] border border-[oklch(30%_0.05_280deg)] rounded-lg text-sm text-white placeholder-surface-muted focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/20 transition-colors" type="email" id="email" name="email" required placeholder="email@example.com"/>
+						<label class="block text-sm font-medium text-surface-dimmed mb-1.5" for="email">Почта</label>
+						<input class="input-modern" type="email" id="email" name="email" required placeholder="email@example.com"/>
 					</div>
 					<div>
-						<label class="block text-sm text-surface-dimmed mb-1" for="password">Пароль</label>
-						<input class="w-full px-3 py-2 bg-[oklch(14%_0.03_280deg)] border border-[oklch(30%_0.05_280deg)] rounded-lg text-sm text-white placeholder-surface-muted focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/20 transition-colors" type="password" id="password" name="password" required placeholder="Введите пароль"/>
+						<label class="block text-sm font-medium text-surface-dimmed mb-1.5" for="password">Пароль</label>
+						<input class="input-modern" type="password" id="password" name="password" required placeholder="Введите пароль"/>
 					</div>
 					<div>
-						<label class="block text-sm text-surface-dimmed mb-1" for="confirm">Повторите пароль</label>
-						<input class="w-full px-3 py-2 bg-[oklch(14%_0.03_280deg)] border border-[oklch(30%_0.05_280deg)] rounded-lg text-sm text-white placeholder-surface-muted focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/20 transition-colors" type="password" id="confirm" name="confirm" required placeholder="Повторите пароль"/>
+						<label class="block text-sm font-medium text-surface-dimmed mb-1.5" for="confirm">Повторите пароль</label>
+						<input class="input-modern" type="password" id="confirm" name="confirm" required placeholder="Повторите пароль"/>
 					</div>
-					<button type="submit" class="inline-flex items-center justify-center w-full px-4 py-2 rounded-lg text-sm font-medium bg-accent text-white hover:bg-accent-hover transition-colors">Зарегистрироваться</button>
+					<button type="submit" class="btn-glow w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium bg-accent text-white hover:bg-accent-hover transition-all duration-200">
+						<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/></svg>
+						Зарегистрироваться
+					</button>
 				</form>
 
 				<p class="text-sm text-center mt-6 text-surface-dimmed">
-					Уже есть аккаунт? <a href="/login" class="text-accent hover:underline">Войти</a>
+					Уже есть аккаунт? <a href="/login" class="text-accent hover:underline transition-colors font-medium">Войти</a>
 				</p>
 			</div>
 		</div>

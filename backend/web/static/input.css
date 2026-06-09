@@ -10,11 +10,87 @@
   body {
     @apply bg-base text-white antialiased min-h-screen flex flex-col;
   }
+  ::selection {
+    background: oklch(65% 0.2 300deg / 0.3);
+  }
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: oklch(18% 0.04 280deg);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: oklch(30% 0.04 280deg);
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: oklch(40% 0.04 280deg);
+  }
 }
 
 @layer components {
   .gradient-text {
     @apply bg-clip-text text-transparent;
     background-image: linear-gradient(135deg, oklch(65% 0.2 300deg), oklch(70% 0.2 330deg));
+  }
+  .gradient-text-glow {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, oklch(65% 0.2 300deg), oklch(75% 0.25 330deg), oklch(65% 0.2 300deg));
+    filter: drop-shadow(0 0 30px oklch(65% 0.2 300deg / 0.3));
+  }
+  .glass {
+    background: oklch(24% 0.04 280deg / 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid oklch(30% 0.04 280deg / 0.5);
+  }
+  .glass-strong {
+    background: oklch(24% 0.04 280deg / 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid oklch(30% 0.04 280deg / 0.6);
+  }
+  .card-hover {
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .card-hover:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px oklch(0% 0 0deg / 0.3), 0 0 0 1px oklch(65% 0.2 300deg / 0.1);
+  }
+  .btn-glow {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .btn-glow:hover {
+    box-shadow: 0 0 24px oklch(65% 0.2 300deg / 0.4);
+    transform: translateY(-1px);
+  }
+  .input-modern {
+    @apply w-full px-4 py-2.5 rounded-xl text-sm text-white transition-all duration-200 outline-none;
+    background: oklch(14% 0.03 280deg);
+    border: 1px solid oklch(30% 0.05 280deg);
+  }
+  .input-modern:focus {
+    border-color: oklch(65% 0.2 300deg);
+    box-shadow: 0 0 0 3px oklch(65% 0.2 300deg / 0.15), 0 0 20px oklch(65% 0.2 300deg / 0.05);
+  }
+  .input-modern::placeholder {
+    color: oklch(40% 0.03 280deg);
+  }
+  .hero-gradient {
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 0%, oklch(65% 0.2 300deg / 0.08) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 80% 20%, oklch(70% 0.2 330deg / 0.05) 0%, transparent 50%),
+      radial-gradient(ellipse 60% 40% at 20% 30%, oklch(60% 0.15 280deg / 0.05) 0%, transparent 50%);
+  }
+  .status-dot {
+    @apply inline-block w-2.5 h-2.5 rounded-full;
+  }
+  .status-dot.online {
+    background: oklch(65% 0.2 140deg);
+    box-shadow: 0 0 8px oklch(65% 0.2 140deg / 0.5);
+  }
+  .status-dot.offline {
+    background: oklch(50% 0.1 20deg);
+    box-shadow: 0 0 8px oklch(50% 0.1 20deg / 0.3);
   }
 }
