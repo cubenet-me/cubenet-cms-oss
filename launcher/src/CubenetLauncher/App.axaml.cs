@@ -16,6 +16,8 @@ public partial class App : Application
 
     public override void OnFrameworkInitializationCompleted()
     {
+        Logger.Info("Launcher started");
+
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
             var vm = new MainWindowViewModel();
@@ -35,6 +37,10 @@ public partial class App : Application
 
             _ = SimulateLoadingAsync(vm, loading, main);
         }
+        else
+        {
+            Logger.Warn("Not a desktop application lifetime");
+        }
 
         base.OnFrameworkInitializationCompleted();
     }
@@ -44,27 +50,38 @@ public partial class App : Application
         LoadingWindow loading,
         MainWindow main)
     {
-        vm.StatusText = "Инициализация...";
-        await Task.Delay(1500);
-        vm.ProgressValue = 30;
-
-        vm.StatusText = "Загрузка ресурсов...";
-        await Task.Delay(1000);
-        vm.ProgressValue = 60;
-
-        vm.StatusText = "Подготовка...";
-        await Task.Delay(1000);
-        vm.ProgressValue = 90;
-
-        await Task.Delay(500);
-        vm.ProgressValue = 100;
-        vm.IsLoading = false;
-
-        if (Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+        try
         {
-            desktop.MainWindow = main;
-            main.Show();
-            loading.Close();
+            Logger.Info("Loading phase: initialization");
+            vm.StatusText = "Инициализация...";
+            await Task.Delay(1500);
+            vm.ProgressValue = 30;
+
+            Logger.Info("Loading phase: resources");
+            vm.StatusText = "Загрузка ресурсов...";
+            await Task.Delay(1000);
+            vm.ProgressValue = 60;
+
+            Logger.Info("Loading phase: preparation");
+            vm.StatusText = "Подготовка...";
+            await Task.Delay(1000);
+            vm.ProgressValue = 90;
+
+            await Task.Delay(500);
+            vm.ProgressValue = 100;
+            vm.IsLoading = false;
+
+            if (Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+            {
+                Logger.Info("Switching to main window");
+                desktop.MainWindow = main;
+                main.Show();
+                loading.Close();
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.Error($"Loading failed: {ex}");
         }
     }
 }
