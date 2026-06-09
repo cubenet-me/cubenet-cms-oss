@@ -65,7 +65,7 @@ func base(data BaseData) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, " — CubeNet CMS</title><link rel=\"stylesheet\" href=\"/static/output.css\"><script src=\"/static/htmx.min.js\"></script><script src=\"/static/servers.js\"></script><script src=\"/static/navbar.js\" defer></script></head><body><div class=\"page\"><div class=\"site-glows\"></div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, " — CubeNet CMS</title><link rel=\"icon\" type=\"image/webp\" href=\"/assets/icon.webp\"><link rel=\"stylesheet\" href=\"/static/output.css\"><script src=\"/static/htmx.min.js\"></script><script src=\"/static/servers.js\"></script><script src=\"/static/navbar.js\" defer></script></head><body><div class=\"page\"><div class=\"site-glows\"></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -130,7 +130,7 @@ func navbar(data BaseData) templ.Component {
 			var templ_7745c5c3_Var4 string
 			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(data.Username)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/base.templ`, Line: 78, Col: 53}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/base.templ`, Line: 79, Col: 53}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 			if templ_7745c5c3_Err != nil {
