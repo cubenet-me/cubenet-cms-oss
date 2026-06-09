@@ -2,87 +2,90 @@ package web
 
 templ adminPage(data BaseData) {
 	@base(data) {
-		<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-			<div class="mb-10">
-				<h1 class="text-3xl font-bold gradient-text mb-1">Панель управления</h1>
-				<p class="text-sm text-surface-dimmed">Управление проектом</p>
-			</div>
+		<div class="relative overflow-hidden">
+			<div class="orb top-[-10%] left-[-5%] w-[400px] h-[400px]" style="box-shadow: 0 0 160px 80px rgba(167, 139, 250, 0.05);"></div>
+			<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 relative z-10">
+				<div class="mb-10">
+					<h1 class="text-3xl font-black gradient-text mb-1">Панель управления</h1>
+					<p class="text-sm text-foreground/60">Управление проектом</p>
+				</div>
 
-			<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-				<div class="glass rounded-2xl p-6">
-					<div class="flex items-center justify-between mb-4">
-						<div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background: oklch(65% 0.2 300deg / 0.1);">
-							<svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="oklch(65% 0.2 300deg)" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15a4.5 4.5 0 004.5 4.5H18a3.75 3.75 0 001.332-7.257 3 3 0 00-3.758-3.848 5.25 5.25 0 00-10.233 2.33A4.502 4.502 0 002.25 15z"/></svg>
+				<div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-10">
+					<div class="glass rounded-3xl p-6">
+						<div class="flex items-center justify-between mb-4">
+							<div class="w-10 h-10 rounded-2xl flex items-center justify-center" style="background: oklch(76% 0.145 292 / 0.12);">
+								<svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="oklch(76% 0.145 292)" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15a4.5 4.5 0 004.5 4.5H18a3.75 3.75 0 001.332-7.257 3 3 0 00-3.758-3.848 5.25 5.25 0 00-10.233 2.33A4.502 4.502 0 002.25 15z"/></svg>
+							</div>
+							<span class="text-2xl font-bold gradient-text">0</span>
 						</div>
-						<span class="text-2xl font-bold gradient-text">0</span>
+						<h2 class="text-sm font-medium text-foreground/60">Серверы</h2>
 					</div>
-					<h2 class="text-sm font-medium text-surface-dimmed">Серверы</h2>
-				</div>
-				<div class="glass rounded-2xl p-6">
-					<div class="flex items-center justify-between mb-4">
-						<div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background: oklch(65% 0.2 300deg / 0.1);">
-							<svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="oklch(65% 0.2 300deg)" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 01-2.25 2.25M16.5 7.5V18a2.25 2.25 0 002.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 002.25 2.25h13.5M6 7.5h3v3H6v-3z"/></svg>
+					<div class="glass rounded-3xl p-6">
+						<div class="flex items-center justify-between mb-4">
+							<div class="w-10 h-10 rounded-2xl flex items-center justify-center" style="background: oklch(76% 0.145 292 / 0.12);">
+								<svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="oklch(76% 0.145 292)" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 01-2.25 2.25M16.5 7.5V18a2.25 2.25 0 002.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 002.25 2.25h13.5M6 7.5h3v3H6v-3z"/></svg>
+							</div>
+							<span class="text-2xl font-bold gradient-text">0</span>
 						</div>
-						<span class="text-2xl font-bold gradient-text">0</span>
+						<h2 class="text-sm font-medium text-foreground/60">Новости</h2>
 					</div>
-					<h2 class="text-sm font-medium text-surface-dimmed">Новости</h2>
-				</div>
-				<div class="glass rounded-2xl p-6">
-					<div class="flex items-center justify-between mb-4">
-						<div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background: oklch(65% 0.2 300deg / 0.1);">
-							<svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="oklch(65% 0.2 300deg)" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25m18 0A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25m18 0V12a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 12V5.25"/></svg>
+					<div class="glass rounded-3xl p-6">
+						<div class="flex items-center justify-between mb-4">
+							<div class="w-10 h-10 rounded-2xl flex items-center justify-center" style="background: oklch(76% 0.145 292 / 0.12);">
+								<svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="oklch(76% 0.145 292)" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25m18 0A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25m18 0V12a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 12V5.25"/></svg>
+							</div>
+							<span class="text-2xl font-bold gradient-text">0</span>
 						</div>
-						<span class="text-2xl font-bold gradient-text">0</span>
+						<h2 class="text-sm font-medium text-foreground/60">Билды</h2>
 					</div>
-					<h2 class="text-sm font-medium text-surface-dimmed">Билды</h2>
 				</div>
-			</div>
 
-			<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-				<div class="glass-strong rounded-2xl p-6 card-hover">
-					<div class="flex items-center gap-4 mb-4">
-						<div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background: oklch(65% 0.2 300deg / 0.1);">
-							<svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="oklch(65% 0.2 300deg)" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15a4.5 4.5 0 004.5 4.5H18a3.75 3.75 0 001.332-7.257 3 3 0 00-3.758-3.848 5.25 5.25 0 00-10.233 2.33A4.502 4.502 0 002.25 15z"/></svg>
+				<div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+					<div class="glass rounded-3xl p-6 card-hover">
+						<div class="flex items-center gap-4 mb-4">
+							<div class="w-10 h-10 rounded-2xl flex items-center justify-center" style="background: oklch(76% 0.145 292 / 0.12);">
+								<svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="oklch(76% 0.145 292)" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15a4.5 4.5 0 004.5 4.5H18a3.75 3.75 0 001.332-7.257 3 3 0 00-3.758-3.848 5.25 5.25 0 00-10.233 2.33A4.502 4.502 0 002.25 15z"/></svg>
+							</div>
+							<div>
+								<h2 class="text-lg font-semibold">Серверы</h2>
+								<p class="text-xs text-foreground/60">Управление Minecraft серверами</p>
+							</div>
 						</div>
-						<div>
-							<h2 class="text-lg font-semibold">Серверы</h2>
-							<p class="text-xs text-surface-dimmed">Управление Minecraft серверами</p>
-						</div>
+						<button class="btn-primary w-full py-3">
+							<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+							Добавить сервер
+						</button>
 					</div>
-					<button class="btn-glow w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium bg-accent text-white hover:bg-accent-hover transition-all duration-200">
-						<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
-						Добавить сервер
-					</button>
-				</div>
-				<div class="glass-strong rounded-2xl p-6 card-hover">
-					<div class="flex items-center gap-4 mb-4">
-						<div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background: oklch(65% 0.2 300deg / 0.1);">
-							<svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="oklch(65% 0.2 300deg)" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 01-2.25 2.25M16.5 7.5V18a2.25 2.25 0 002.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 002.25 2.25h13.5M6 7.5h3v3H6v-3z"/></svg>
+					<div class="glass rounded-3xl p-6 card-hover">
+						<div class="flex items-center gap-4 mb-4">
+							<div class="w-10 h-10 rounded-2xl flex items-center justify-center" style="background: oklch(76% 0.145 292 / 0.12);">
+								<svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="oklch(76% 0.145 292)" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 01-2.25 2.25M16.5 7.5V18a2.25 2.25 0 002.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 002.25 2.25h13.5M6 7.5h3v3H6v-3z"/></svg>
+							</div>
+							<div>
+								<h2 class="text-lg font-semibold">Новости</h2>
+								<p class="text-xs text-foreground/60">Управление новостями проекта</p>
+							</div>
 						</div>
-						<div>
-							<h2 class="text-lg font-semibold">Новости</h2>
-							<p class="text-xs text-surface-dimmed">Управление новостями проекта</p>
-						</div>
+						<button class="btn-primary w-full py-3">
+							<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+							Добавить новость
+						</button>
 					</div>
-					<button class="btn-glow w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium bg-accent text-white hover:bg-accent-hover transition-all duration-200">
-						<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
-						Добавить новость
-					</button>
-				</div>
-				<div class="glass-strong rounded-2xl p-6 card-hover">
-					<div class="flex items-center gap-4 mb-4">
-						<div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background: oklch(65% 0.2 300deg / 0.1);">
-							<svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="oklch(65% 0.2 300deg)" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25m18 0A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25m18 0V12a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 12V5.25"/></svg>
+					<div class="glass rounded-3xl p-6 card-hover">
+						<div class="flex items-center gap-4 mb-4">
+							<div class="w-10 h-10 rounded-2xl flex items-center justify-center" style="background: oklch(76% 0.145 292 / 0.12);">
+								<svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="oklch(76% 0.145 292)" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25m18 0A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25m18 0V12a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 12V5.25"/></svg>
+							</div>
+							<div>
+								<h2 class="text-lg font-semibold">Билды</h2>
+								<p class="text-xs text-foreground/60">Управление сборками лаунчера</p>
+							</div>
 						</div>
-						<div>
-							<h2 class="text-lg font-semibold">Билды</h2>
-							<p class="text-xs text-surface-dimmed">Управление сборками лаунчера</p>
-						</div>
+						<button class="btn-primary w-full py-3">
+							<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+							Добавить билд
+						</button>
 					</div>
-					<button class="btn-glow w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium bg-accent text-white hover:bg-accent-hover transition-all duration-200">
-						<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
-						Добавить билд
-					</button>
 				</div>
 			</div>
 		</div>

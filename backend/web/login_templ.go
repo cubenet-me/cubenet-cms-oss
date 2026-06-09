@@ -41,19 +41,19 @@ func loginPage(data BaseData, err string) templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"flex-1 flex items-center justify-center px-4 py-12\"><div class=\"glass-strong rounded-2xl w-full max-w-sm p-8\"><div class=\"text-center mb-8\"><h1 class=\"text-2xl font-bold gradient-text mb-1\">Вход</h1><p class=\"text-sm text-surface-dimmed\">Войдите в панель управления</p></div>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"relative flex-1 flex items-center justify-center px-4 py-12 overflow-hidden\"><div class=\"orb top-[-10%] left-[-5%] w-[400px] h-[400px] bg-violet-300/12\" style=\"box-shadow: 0 0 140px 60px rgba(167, 139, 250, 0.04);\"></div><div class=\"orb bottom-[-10%] right-[-5%] w-[400px] h-[400px] bg-violet-300/10\" style=\"box-shadow: 0 0 140px 60px rgba(167, 139, 250, 0.03);\"></div><div class=\"relative z-10 glass-strong rounded-3xl w-full max-w-sm p-8\"><div class=\"text-center mb-8\"><h1 class=\"text-2xl font-bold gradient-text mb-1\">Вход</h1><p class=\"text-sm text-foreground/60\">Войдите в панель управления</p></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			if err != "" {
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<div class=\"flex items-center gap-3 px-4 py-3 rounded-xl mb-6 text-sm\" style=\"background: oklch(30% 0.1 20deg / 0.3); border: 1px solid oklch(50% 0.15 20deg / 0.3);\"><svg class=\"w-5 h-5 shrink-0\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"oklch(70% 0.15 20deg)\" stroke-width=\"2\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M12 9v3.75m-9.303 2.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z\"></path></svg> <span>")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<div class=\"flex items-center gap-3 px-4 py-3 rounded-2xl mb-6 text-sm\" style=\"background: oklch(57.7% 0.245 27.325 / 0.15); border: 1px solid oklch(57.7% 0.245 27.325 / 0.3);\"><svg class=\"w-5 h-5 shrink-0\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"oklch(57.7% 0.245 27.325)\" stroke-width=\"2\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M12 9v3.75m-9.303 2.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z\"></path></svg> <span>")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
 				var templ_7745c5c3_Var3 string
 				templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(err)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/login.templ`, Line: 15, Col: 17}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `web/login.templ`, Line: 17, Col: 17}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 				if templ_7745c5c3_Err != nil {
@@ -64,7 +64,7 @@ func loginPage(data BaseData, err string) templ.Component {
 					return templ_7745c5c3_Err
 				}
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "<form hx-post=\"/auth/login\" hx-target=\"body\" hx-swap=\"outerHTML\" class=\"space-y-5\"><div><label class=\"block text-sm font-medium text-surface-dimmed mb-1.5\" for=\"username\">Имя пользователя</label> <input class=\"input-modern\" type=\"text\" id=\"username\" name=\"username\" required placeholder=\"Введите логин\"></div><div><label class=\"block text-sm font-medium text-surface-dimmed mb-1.5\" for=\"password\">Пароль</label> <input class=\"input-modern\" type=\"password\" id=\"password\" name=\"password\" required placeholder=\"Введите пароль\"></div><button type=\"submit\" class=\"btn-glow w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium bg-accent text-white hover:bg-accent-hover transition-all duration-200\"><svg class=\"w-4 h-4\" fill=\"none\" viewBox=\"0 0 24 24\" stroke=\"currentColor\" stroke-width=\"2\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1\"></path></svg> Войти</button></form><p class=\"text-sm text-center mt-6 text-surface-dimmed\">Нет аккаунта? <a href=\"/register\" class=\"text-accent hover:underline transition-colors font-medium\">Зарегистрироваться</a></p></div></div>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "<form hx-post=\"/auth/login\" hx-target=\"body\" hx-swap=\"outerHTML\" class=\"space-y-5\"><div><label class=\"block text-sm font-medium text-foreground/60 mb-1.5\" for=\"username\">Имя пользователя</label> <input class=\"input-modern\" type=\"text\" id=\"username\" name=\"username\" required placeholder=\"Введите логин\"></div><div><label class=\"block text-sm font-medium text-foreground/60 mb-1.5\" for=\"password\">Пароль</label> <input class=\"input-modern\" type=\"password\" id=\"password\" name=\"password\" required placeholder=\"Введите пароль\"></div><button type=\"submit\" class=\"btn-primary w-full py-3.5\"><svg class=\"w-4 h-4\" fill=\"none\" viewBox=\"0 0 24 24\" stroke=\"currentColor\" stroke-width=\"2\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1\"></path></svg> Войти</button></form><p class=\"text-sm text-center mt-6 text-foreground/60\">Нет аккаунта? <a href=\"/register\" class=\"text-primary hover:underline transition-colors font-medium\">Зарегистрироваться</a></p></div></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

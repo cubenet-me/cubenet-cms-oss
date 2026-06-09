@@ -8,79 +8,80 @@
     font-family: system-ui, -apple-system, sans-serif;
   }
   body {
-    @apply bg-base text-white antialiased min-h-screen flex flex-col;
+    @apply text-foreground antialiased min-h-screen flex flex-col;
+    background:
+      radial-gradient(circle at 12% -12%, rgba(167, 139, 250, 0.16), transparent 34rem),
+      radial-gradient(circle at 88% 8%, rgba(196, 181, 253, 0.12), transparent 32rem),
+      radial-gradient(circle at 50% 108%, rgba(167, 139, 250, 0.10), transparent 38rem),
+      #030207;
   }
   ::selection {
-    background: oklch(65% 0.2 300deg / 0.3);
-  }
-  ::-webkit-scrollbar {
-    width: 8px;
-  }
-  ::-webkit-scrollbar-track {
-    background: oklch(18% 0.04 280deg);
-  }
-  ::-webkit-scrollbar-thumb {
-    background: oklch(30% 0.04 280deg);
-    border-radius: 4px;
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    background: oklch(40% 0.04 280deg);
+    background: oklch(76% 0.145 292 / 0.3);
   }
 }
 
 @layer components {
   .gradient-text {
     @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(135deg, oklch(65% 0.2 300deg), oklch(70% 0.2 330deg));
+    background-image: linear-gradient(135deg, oklch(76% 0.145 292), oklch(80% 0.12 310));
   }
-  .gradient-text-glow {
+  .gradient-text-subtle {
     @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(135deg, oklch(65% 0.2 300deg), oklch(75% 0.25 330deg), oklch(65% 0.2 300deg));
-    filter: drop-shadow(0 0 30px oklch(65% 0.2 300deg / 0.3));
+    background-image: linear-gradient(to right, rgb(255 255 255), rgb(255 255 255 / 0.4));
   }
   .glass {
-    background: oklch(24% 0.04 280deg / 0.7);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid oklch(30% 0.04 280deg / 0.5);
-  }
-  .glass-strong {
-    background: oklch(24% 0.04 280deg / 0.85);
+    border: 1px solid rgb(255 255 255 / 0.1);
+    background: rgb(255 255 255 / 0.045);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border: 1px solid oklch(30% 0.04 280deg / 0.6);
+  }
+  .glass-strong {
+    border: 1px solid rgb(255 255 255 / 0.1);
+    background: rgb(255 255 255 / 0.07);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
   }
   .card-hover {
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
   .card-hover:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 40px oklch(0% 0 0deg / 0.3), 0 0 0 1px oklch(65% 0.2 300deg / 0.1);
+    border-color: rgb(167 139 250 / 0.24);
+    background: rgb(255 255 255 / 0.06);
+    transform: translateY(-2px);
+    box-shadow: 0 18px 60px rgb(0 0 0 / 0.18);
   }
-  .btn-glow {
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-2xl text-sm font-semibold text-primary-foreground transition-all duration-200;
+    background: oklch(76% 0.145 292);
   }
-  .btn-glow:hover {
-    box-shadow: 0 0 24px oklch(65% 0.2 300deg / 0.4);
+  .btn-primary:hover {
+    background: oklch(80% 0.14 292);
+    box-shadow: 0 18px 55px rgb(167 139 250 / 0.28);
+    transform: scale(1.01);
+  }
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-2xl text-sm font-semibold text-foreground transition-all duration-200;
+    border: 1px solid rgb(255 255 255 / 0.1);
+    background: rgb(255 255 255 / 0.05);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+  .btn-secondary:hover {
+    background: rgb(255 255 255 / 0.1);
     transform: translateY(-1px);
   }
   .input-modern {
-    @apply w-full px-4 py-2.5 rounded-xl text-sm text-white transition-all duration-200 outline-none;
-    background: oklch(14% 0.03 280deg);
-    border: 1px solid oklch(30% 0.05 280deg);
-  }
-  .input-modern:focus {
-    border-color: oklch(65% 0.2 300deg);
-    box-shadow: 0 0 0 3px oklch(65% 0.2 300deg / 0.15), 0 0 20px oklch(65% 0.2 300deg / 0.05);
+    @apply w-full px-4 py-3.5 rounded-2xl text-sm text-foreground transition-all duration-200 outline-none;
+    border: 1px solid rgb(255 255 255 / 0.1);
+    background: rgb(255 255 255 / 0.06);
+    color-scheme: dark;
   }
   .input-modern::placeholder {
-    color: oklch(40% 0.03 280deg);
+    color: rgb(255 255 255 / 0.25);
   }
-  .hero-gradient {
-    background:
-      radial-gradient(ellipse 80% 60% at 50% 0%, oklch(65% 0.2 300deg / 0.08) 0%, transparent 60%),
-      radial-gradient(ellipse 60% 40% at 80% 20%, oklch(70% 0.2 330deg / 0.05) 0%, transparent 50%),
-      radial-gradient(ellipse 60% 40% at 20% 30%, oklch(60% 0.15 280deg / 0.05) 0%, transparent 50%);
+  .input-modern:focus {
+    border-color: oklch(76% 0.145 292 / 0.45);
+    background: rgb(255 255 255 / 0.075);
   }
   .status-dot {
     @apply inline-block w-2.5 h-2.5 rounded-full;
@@ -92,5 +93,8 @@
   .status-dot.offline {
     background: oklch(50% 0.1 20deg);
     box-shadow: 0 0 8px oklch(50% 0.1 20deg / 0.3);
+  }
+  .orb {
+    @apply absolute rounded-full pointer-events-none;
   }
 }
