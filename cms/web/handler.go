@@ -124,6 +124,10 @@ func (h *Handler) Static(w http.ResponseWriter, r *http.Request) {
 	http.StripPrefix("/static/", staticHandler()).ServeHTTP(w, r)
 }
 
+func (h *Handler) Assets(w http.ResponseWriter, r *http.Request) {
+	http.StripPrefix("/assets/", http.FileServer(http.Dir("./assets"))).ServeHTTP(w, r)
+}
+
 func baseData(pc *plugin.Context) BaseData {
 	return BaseData{
 		Title:    title(pc.Template),

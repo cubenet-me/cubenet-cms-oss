@@ -93,6 +93,7 @@ func main() {
 
 	// Web (Templ + htmx)
 	r.Get("/static/*", webH.Static)
+	r.Get("/assets/*", webH.Assets)
 	r.Get("/", webH.Home)
 	r.Get("/login", webH.LoginPage)
 	r.Post("/auth/login", webH.Login)

@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-//go:embed static/htmx.min.js static/output.css static/servers.js
+//go:embed static/htmx.min.js static/output.css static/servers.js static/navbar.js
 var staticFS embed.FS
 
 func staticHandler() http.Handler {
