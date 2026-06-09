@@ -158,7 +158,7 @@ func footer() templ.Component {
 			templ_7745c5c3_Var5 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "<footer class=\"footer-section\"><div class=\"max-w-[1200px] mx-auto\"><div style=\"height:1px;background:linear-gradient(90deg,transparent,rgba(124,92,255,0.3),rgba(95,214,255,0.3),transparent);\"></div><div class=\"flex flex-col sm:flex-row justify-between items-start gap-4 pt-6 pb-2 text-xs text-muted\"><div class=\"max-w-md leading-relaxed\"><span style=\"color:#ff7c7c;font-weight:600;\">NOT OFFICIAL MINECRAFT PRODUCT.</span> NOT APPROVED BY OR ASSOCIATED WITH MOJANG SYNERGIES AB.<br>Minecraft is a trademark of Mojang Synergies AB.</div><div class=\"text-right leading-relaxed shrink-0\"><a href=\"https://github.com/cubenet-me/cubenet-cms-oss\" class=\"footer-link font-semibold text-sm\">CubeNet CMS OSS</a><br><span style=\"color:rgba(210,213,231,0.5);\">CubeNet CMS License v1.0</span></div></div></div></footer>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "<footer class=\"footer-section\"><div class=\"footer-shell\"><div class=\"footer-divider\"></div><div class=\"footer-content\"><div class=\"footer-legal\"><span class=\"footer-badge\">Unofficial</span><p>NOT OFFICIAL MINECRAFT PRODUCT. NOT APPROVED BY OR ASSOCIATED WITH MOJANG SYNERGIES AB.</p><p>Minecraft is a trademark of Mojang Synergies AB.</p></div><div class=\"footer-meta\"><a href=\"https://github.com/cubenet-me/cubenet-cms-oss\" class=\"footer-product\">CubeNet CMS OSS</a> <span>CubeNet CMS License v1.0</span></div></div></div></footer>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

@@ -4,7 +4,7 @@ templ homePage(data BaseData) {
 	@base(data) {
 		<section class="hero-section">
 			<div class="hero-content">
-				<div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass mb-5 text-sm text-muted">
+				<div class="hero-kicker">
 					<span class="status-dot"><span class="outer"></span><span class="inner"></span></span>
 					Open Source CMS для Minecraft
 				</div>
@@ -24,11 +24,36 @@ templ homePage(data BaseData) {
 					</a>
 				</div>
 			</div>
-			<div class="flex justify-center items-center min-h-[590px] pointer-events-none">
-				<div class="w-[400px] h-[400px] rounded-3xl glass flex items-center justify-center text-muted text-sm">
-					<div class="text-center p-8">
-						<svg class="w-24 h-24 mx-auto mb-4 opacity-40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15a4.5 4.5 0 004.5 4.5H18a3.75 3.75 0 001.332-7.257 3 3 0 00-3.758-3.848 5.25 5.25 0 00-10.233 2.33A4.502 4.502 0 002.25 15z"/></svg>
-						<p>Minecraft Server</p>
+			<div class="hero-visual" aria-hidden="true">
+				<div class="hero-panel glass">
+					<div class="hero-panel-top">
+						<span></span>
+						<span></span>
+						<span></span>
+					</div>
+					<div class="hero-panel-grid">
+						<div class="hero-stat">
+							<span>Online</span>
+							<strong>98%</strong>
+						</div>
+						<div class="hero-stat">
+							<span>Players</span>
+							<strong>1.2k</strong>
+						</div>
+						<div class="hero-chart">
+							<span style="height:42%;"></span>
+							<span style="height:68%;"></span>
+							<span style="height:54%;"></span>
+							<span style="height:82%;"></span>
+							<span style="height:64%;"></span>
+						</div>
+						<div class="hero-server">
+							<div>
+								<span class="server-card-badge">1.20.4</span>
+								<strong>Survival Realm</strong>
+							</div>
+							<div class="status-dot"><span class="outer"></span><span class="inner"></span></div>
+						</div>
 					</div>
 				</div>
 			</div>
