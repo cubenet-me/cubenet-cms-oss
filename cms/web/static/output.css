@@ -2354,13 +2354,18 @@ h1, h2, h3, h4, h5, h6 {
     display: none;
   }
 
+  .admin-sidebar-indicator svg {
+    width: 24px;
+    height: 24px;
+  }
+
   .admin-sidebar-indicator {
     position: fixed;
-    left: 1px;
+    left: 10px;
     top: 50%;
     transform: translateY(-50%);
     z-index: 51;
-    color: rgba(255,255,255,0.15);
+    color: rgba(255,255,255,0.2);
     pointer-events: none;
     transition: opacity 0.2s ease-out;
   }
