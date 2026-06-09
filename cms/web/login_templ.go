@@ -41,7 +41,7 @@ func loginPage(data BaseData, err string) templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"flex-1 flex items-center justify-center px-4 py-[60px]\"><div class=\"glass-container w-full max-w-sm\"><div class=\"text-center mb-6\"><div class=\"flex items-center justify-center gap-2 mb-3\"><svg width=\"32\" height=\"32\" viewBox=\"0 0 40 40\" fill=\"none\"><rect width=\"40\" height=\"40\" rx=\"8\" fill=\"#030207\"></rect><path d=\"M12 14h16v4H12zM12 20h12v3H12zM12 25h14v2H12z\" fill=\"rgba(167,139,250,0.9)\"></path></svg></div><h1 class=\"text-2xl font-black\">Вход</h1><p class=\"text-sm\" style=\"color: oklch(0.72 0.035 292);\">Войдите в панель управления</p></div>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"flex-1 flex items-center justify-center px-4 py-[60px]\"><div class=\"glass-container w-full max-w-sm\"><div class=\"text-center mb-6\"><div class=\"flex items-center justify-center gap-2 mb-3\"><img class=\"w-8 h-8\" src=\"/assets/icon.webp\" alt=\"CubeNet\"></div><h1 class=\"text-2xl font-black\">Вход</h1><p class=\"text-sm\" style=\"color: oklch(0.72 0.035 292);\">Войдите в панель управления</p></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

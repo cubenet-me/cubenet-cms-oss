@@ -5,12 +5,42 @@ namespace CubenetLauncher.Bootstrapper;
 
 public partial class BootstrapperWindow : Window
 {
+    private readonly EnvConfig _config;
+
     public BootstrapperWindow()
     {
         InitializeComponent();
 
-        Logger.Info("Bootstrapper started");
+        _config = LoadConfig();
+        Logger.Info($"Bootstrapper started — app: {_config.AppName}, ver: {_config.AppVersion}");
+        Logger.Info($"Install dir: {_config.GetInstallDir()}");
+        Logger.Info($"Launcher path: {_config.GetLauncherPath()}");
+
+        Title = $"{_config.AppName} Bootstrapper";
         _ = RunAsync();
+    }
+
+    private static EnvConfig LoadConfig()
+    {
+        var candidates = new[]
+        {
+            Path.Combine(AppContext.BaseDirectory, ".env"),
+            Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "..", ".env"),
+            Path.Combine(AppContext.BaseDirectory, "..", "..", "..", ".env"),
+        };
+
+        foreach (var path in candidates)
+        {
+            var full = Path.GetFullPath(path);
+            if (File.Exists(full))
+            {
+                Logger.Info($"Loading config from {full}");
+                return EnvConfig.Load(full);
+            }
+        }
+
+        Logger.Warn(".env not found, using defaults");
+        return new EnvConfig();
     }
 
     private async Task RunAsync()
@@ -32,15 +62,10 @@ public partial class BootstrapperWindow : Window
             await Task.Delay(500);
             ProgressBar.Value = 100;
 
+            var launcherPath = _config.GetLauncherPath();
+            Logger.Info($"Target launcher path: {launcherPath}");
+
             StatusText.Text = "Запуск...";
-            Logger.Info("Launching CubenetLauncher");
-
-            var launcherPath = Path.Combine(
-                AppContext.BaseDirectory,
-                "CubenetLauncher");
-
-            if (OperatingSystem.IsWindows())
-                launcherPath += ".exe";
 
             if (File.Exists(launcherPath))
             {
@@ -50,6 +75,7 @@ public partial class BootstrapperWindow : Window
                     {
                         FileName = launcherPath,
                         UseShellExecute = true,
+                        WorkingDirectory = Path.GetDirectoryName(launcherPath),
                     }
                 }.Start();
                 Logger.Info("Launcher process started");
@@ -57,11 +83,15 @@ public partial class BootstrapperWindow : Window
             else
             {
                 Logger.Warn($"Launcher not found at {launcherPath}");
+                StatusText.Text = "Лаунчер не найден";
+                await Task.Delay(2000);
             }
         }
         catch (Exception ex)
         {
             Logger.Error($"Bootstrapper failed: {ex}");
+            StatusText.Text = "Ошибка";
+            await Task.Delay(2000);
         }
 
         Close();
