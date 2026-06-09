@@ -860,7 +860,7 @@
   transition: margin-left 0.2s ease-out;
 }
 
-/* Desktop: sidebar hidden behind 10px trigger, slides out on hover */
+/* Desktop: sidebar hidden behind narrow trigger strip, slides out on hover */
 @media (min-width: 1024px) {
   .admin-sidebar-trigger {
     position: fixed;
@@ -891,9 +891,14 @@
     @apply w-full min-w-0 flex-1 overflow-x-auto px-8 py-10;
   }
   .admin-hamburger {
-    @apply fixed top-4 left-4 z-[60] flex items-center justify-center w-10 h-10 rounded-xl border border-white/10 transition-colors;
+    @apply fixed top-4 left-4 z-[60] flex items-center justify-center w-10 h-10 rounded-xl border border-white/10 transition-colors opacity-0 pointer-events-none;
     background: rgba(0,0,0,0.85);
     color: rgba(255,255,255,0.7);
+  }
+  .admin-shell:has(.admin-sidebar-trigger:hover) .admin-hamburger,
+  .admin-shell:has(.admin-sidebar-trigger.is-open) .admin-hamburger {
+    opacity: 1;
+    pointer-events: auto;
   }
   .admin-hamburger:hover {
     background: rgba(255,255,255,0.1);
