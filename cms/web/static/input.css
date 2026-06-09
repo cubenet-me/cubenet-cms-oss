@@ -872,24 +872,6 @@
     overflow: hidden;
     transition: width 0.2s ease-out;
   }
-  .admin-sidebar-trigger::after {
-    content: '';
-    position: absolute;
-    left: 3px;
-    top: 50%;
-    margin-top: -4px;
-    width: 4px;
-    height: 4px;
-    border-right: 1.5px solid rgba(255,255,255,0.2);
-    border-bottom: 1.5px solid rgba(255,255,255,0.2);
-    transform: rotate(-45deg);
-    pointer-events: none;
-    transition: opacity 0.2s ease-out;
-  }
-  .admin-sidebar-trigger:hover::after,
-  .admin-sidebar-trigger.is-open::after {
-    opacity: 0;
-  }
   .admin-sidebar-trigger:hover {
     width: 16rem;
   }
@@ -910,6 +892,20 @@
   }
   .admin-hamburger {
     @apply hidden;
+  }
+  .admin-sidebar-indicator {
+    position: fixed;
+    left: 1px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 51;
+    color: rgba(255,255,255,0.15);
+    pointer-events: none;
+    transition: opacity 0.2s ease-out;
+  }
+  .admin-sidebar-trigger:hover ~ .admin-sidebar-indicator,
+  .admin-sidebar-trigger.is-open ~ .admin-sidebar-indicator {
+    opacity: 0;
   }
   .admin-sidebar-backdrop {
     @apply fixed inset-0 z-[45] transition-opacity duration-300;
